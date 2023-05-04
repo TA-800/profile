@@ -14,12 +14,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     useEffect(() => {
         document.addEventListener("scroll", () => {
             // If user has scrolled down by 50px or more, convert navRef data shrink attribute to true
-            navRef.current?.setAttribute("data-shrink", `${window.scrollY >= 50}`);
+            navRef.current!.setAttribute("data-shrink", `${window.scrollY >= 50}`);
         });
     }, []);
 
     return (
         <html lang="en">
+            <head>
+                {/* Title: TA-800 Profile */}
+                <title>TA-800 Profile</title>
+                {/* Meta tags */}
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <meta name="description" content="Taher Ali's portfolio." />
+            </head>
             <body
                 className={
                     jetBrainsMono.className +

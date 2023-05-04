@@ -1,7 +1,8 @@
 "use client";
 
 import { Inter } from "next/font/google";
-import { motion, MotionConfig } from "framer-motion";
+import { motion, MotionConfig, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,16 +13,10 @@ export default function Home() {
         <main>
             <div className="flex flex-col gap-20 justify-center items-center h-screen -mt-28 lg:-mt-24">
                 <hgroup className="flex flex-col gap-2">
-                    {headerWords.map((word) => (
-                        <p
-                            className={
-                                inter.className +
-                                ` lg:text-8xl md:text-6xl text-4xl font-extrabold text-center text-gray-300 tracking-tight`
-                            }>
-                            {word}
-                        </p>
+                    {headerWords.map((word, index) => (
+                        <AnimatedHeader text={word} delay={index * 0.25} />
                     ))}
-                    <p className="text-center">Want to bring an idea to life? I could help you with that.</p>
+                    <p className="text-center">Want to bring a website to life? I could help you with that.</p>
                 </hgroup>
                 <button className="bg-blue-700 py-2 px-4 w-fit rounded-sm text-gray-100">Lets Talk!</button>
             </div>
@@ -130,6 +125,7 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
                 {Array.from({ length: 3 }).map((_, index) => (
                     <motion.ul
                         key={index}
+                        aria-hidden={index > 1 ? "false" : "true"}
                         initial={{ x: "0%" }}
                         animate={{ x: "calc(-100% - var(--gap))" }}
                         className={`border- border-blue-500
@@ -137,7 +133,7 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
                         {Array.from({ length: 2 }).map((_, index) => (
                             <li
                                 key={index}
-                                className="flex flex-row items-center gap-6 shrink-0 text-5xl font-black text-gray-300">
+                                className="flex flex-row items-center gap-6 shrink-0 text-5xl font-black text-gray-300 select-none">
                                 {title}
                                 {children}
                             </li>
@@ -151,4 +147,46 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
 
 function Section({ children }: { children: React.ReactNode }) {
     return <section className="min-h-screen">{children}</section>;
+}
+
+function AnimatedHeader({ text, delay }: { text: string; delay?: number }) {
+    const wordItem = {
+        hidden: {
+            y: 140,
+            opacity: 0,
+            "text-shadow": "0px 0px 15px rgba(255, 255, 255, 0)",
+        },
+        visible: {
+            y: 0,
+            opacity: 100,
+            "text-shadow": "0px 0px 15px rgba(255, 255, 255, 0.2)",
+        },
+    };
+
+    return (
+        <div className={`flex flex-row overflow-hidden px-2 justify-center`}>
+            <motion.div
+                className={
+                    inter.className +
+                    ` lg:text-8xl md:text-6xl xs:text-4xl text-3xl font-extrabold text-transparent tracking-tight
+                    bg-clip-text bg-gradient-to-r from-indigo-200 via-blue-400 to-indigo-200
+                    flex shrink-0`
+                }
+                variants={wordItem}
+                initial="hidden"
+                animate="visible"
+                transition={{
+                    duration: 1 + (delay ? delay * 1.5 : 0),
+                    delay: delay ?? 0,
+                    type: "ease",
+                    ease: "easeOut",
+                    "text-shadow": {
+                        duration: 1.5,
+                        delay: delay ? delay + 0.75 : 0.75,
+                    },
+                }}>
+                {text}
+            </motion.div>
+        </div>
+    );
 }
