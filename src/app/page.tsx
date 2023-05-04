@@ -6,17 +6,21 @@ import { motion, MotionConfig } from "framer-motion";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+    const headerWords = ["FULL-STACK", "WEB DEVELOPER"];
+
     return (
         <main>
-            <div className="flex flex-col gap-20 justify-center items-center h-screen -mt-28">
+            <div className="flex flex-col gap-20 justify-center items-center h-screen -mt-28 lg:-mt-24">
                 <hgroup className="flex flex-col gap-2">
-                    <p
-                        className={
-                            inter.className +
-                            ` lg:text-6xl md:text-5xl text-3xl font-extrabold text-center text-gray-300 tracking-tight`
-                        }>
-                        Full-Stack Web Developer
-                    </p>
+                    {headerWords.map((word) => (
+                        <p
+                            className={
+                                inter.className +
+                                ` lg:text-8xl md:text-6xl text-4xl font-extrabold text-center text-gray-300 tracking-tight`
+                            }>
+                            {word}
+                        </p>
+                    ))}
                     <p className="text-center">Want to bring an idea to life? I could help you with that.</p>
                 </hgroup>
                 <button className="bg-blue-700 py-2 px-4 w-fit rounded-sm text-gray-100">Lets Talk!</button>
@@ -121,19 +125,19 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
                 delay: headerDelay,
             }}>
             <div
-                className={`border-2 border-red-500
+                className={`border- border-red-500
                          flex gap-[--gap] overflow-hidden`}>
                 {Array.from({ length: 3 }).map((_, index) => (
                     <motion.ul
                         key={index}
                         initial={{ x: "0%" }}
                         animate={{ x: "calc(-100% - var(--gap))" }}
-                        className={`border-2 border-blue-500
+                        className={`border- border-blue-500
                             flex shrink-0 justify-around min-w-full gap-[--gap]`}>
                         {Array.from({ length: 2 }).map((_, index) => (
                             <li
                                 key={index}
-                                className="flex flex-row items-center gap-4 shrink-0 text-5xl font-black text-gray-300">
+                                className="flex flex-row items-center gap-6 shrink-0 text-5xl font-black text-gray-300">
                                 {title}
                                 {children}
                             </li>

@@ -11,5 +11,12 @@
 }
 
 :root {
-    --gap: 2rem;
+    --gap: 3rem;
+}
+
+/* Media query, on mobile, make it 7rem */
+@media (max-width: 640px) {
+    :root {
+        --gap: 7rem;
+    }
 }
