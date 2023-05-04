@@ -39,14 +39,44 @@ export default function Home() {
                 </MarqueeHeader>
                 <br />
                 <p>
-                    Culpa labore dolor amet ullamco velit magna proident cillum irure ut aliquip quis ut sint. Exercitation
-                    incididunt veniam qui tempor dolor tempor. Esse voluptate dolore voluptate enim. Amet esse consectetur ipsum
-                    magna anim pariatur consequat aliqua in ea nulla.
+                    Hello! My name is
+                    <Highlight bgColor="magenta" txtColor="cyan" space="left">
+                        Taher Ali
+                    </Highlight>
+                    , and I am an aspiring full-stack web developer currently studying in my second year at
+                    <Highlight bgColor="goldenrod" txtColor="lightgreen" space="left">
+                        Wilfrid Laurier University
+                    </Highlight>
+                    .
                 </p>
                 <br />
                 <p>
-                    Cillum cillum sint qui elit cillum aliqua. Pariatur aliqua proident aliqua exercitation ullamco tempor cillum.
-                    Nostrud elit aliqua nisi deserunt. Velit commodo amet qui nulla duis ex culpa.
+                    I started my journey into web development almost a year ago, and I have been exploring the exciting world of
+                    React for the past 5-6 months. Although I have experience with both frontend and backend development, my
+                    passion lies in creating beautiful and intuitive user interfaces.
+                </p>
+                <br />
+                <p>
+                    My interest in programming began when I took
+                    <Highlight bgColor="firebrick" txtColor="darkseagreen" space="both">
+                        CS50 Introduction to Computer Science
+                    </Highlight>
+                    and then continued with
+                    <Highlight bgColor="firebrick" txtColor="darkseagreen" space="left">
+                        CS50 Web Programming
+                    </Highlight>
+                    . I have also dabbled in game development using Unity, and I enjoy using my skills to create fun and silly
+                    projects in my spare time.
+                </p>
+                <br />
+                <p>
+                    When I'm not coding, I enjoy listening to music, watching anime, and playing video games. As a creative
+                    person, I believe these activities help me to stay inspired and motivated in my work.
+                </p>
+                <br />
+                <p>
+                    Thank you for taking the time to get to know me a little better. I look forward to sharing my passion for web
+                    development with you!
                 </p>
             </Section>
             <Section>
@@ -67,15 +97,12 @@ export default function Home() {
                 </MarqueeHeader>
                 <br />
                 <p>
-                    Culpa labore dolor amet ullamco velit magna proident cillum irure ut aliquip quis ut sint. Exercitation
-                    incididunt veniam qui tempor dolor tempor. Esse voluptate dolore voluptate enim. Amet esse consectetur ipsum
-                    magna anim pariatur consequat aliqua in ea nulla.
+                    As a web developer, I love to explore the possibilities that different software and frameworks offer to build
+                    a variety of projects. I'm constantly on the lookout for new and creative ways to use these tools to create
+                    beautiful and functional web applications. Dive into some of my favorite tools that I've become proficient in,
+                    and the exciting projects I've built with them.
                 </p>
                 <br />
-                <p>
-                    Cillum cillum sint qui elit cillum aliqua. Pariatur aliqua proident aliqua exercitation ullamco tempor cillum.
-                    Nostrud elit aliqua nisi deserunt. Velit commodo amet qui nulla duis ex culpa.
-                </p>
             </Section>
             <Section>
                 <MarqueeHeader title="Contact Me" headerDelay={Math.random() * 1.5}>
@@ -188,5 +215,34 @@ function AnimatedHeader({ text, delay }: { text: string; delay?: number }) {
                 {text}
             </motion.div>
         </div>
+    );
+}
+
+function Highlight({
+    bgColor,
+    txtColor,
+    space,
+    children,
+}: {
+    bgColor: string;
+    txtColor: string;
+    space: "none" | "left" | "right" | "both";
+    children: React.ReactNode;
+}) {
+    return (
+        <>
+            {space === "left" || space === "both" ? " " : ""}
+            <span
+                style={{
+                    color: `${txtColor}`,
+                    backgroundColor: bgColor,
+                    borderBottom: `2px solid ${txtColor}`,
+                    borderRadius: "4px",
+                    padding: "2px 4px",
+                }}>
+                {children}
+            </span>
+            {space === "right" || space === "both" ? " " : ""}
+        </>
     );
 }

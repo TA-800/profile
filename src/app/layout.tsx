@@ -73,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </NavItem>
                 </NavBar>
                 {children}
+                <Footer />
             </body>
         </html>
     );
@@ -98,4 +99,12 @@ const NavBar = forwardRef<HTMLUListElement, { children: React.ReactNode }>(funct
 
 function NavItem({ className, children }: { className?: string; children: React.ReactNode }) {
     return <li className={className}>{children}</li>;
+}
+
+function Footer() {
+    return (
+        <footer className="flex flex-col items-center justify-center p-2">
+            <span className="text-xs opacity-50">© 2023 Taher Ali. All rights reserved.</span>
+        </footer>
+    );
 }
