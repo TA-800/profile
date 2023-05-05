@@ -115,29 +115,37 @@ export default function Home() {
                 </p>
                 <br />
                 <SubHeader title="Project Carousel" />
-
                 <br />
+
                 <div className="flex justify-center items-center">
                     <CardCarousel />
                 </div>
                 <br />
-                <br />
                 {/* Check on GitHub buttons */}
                 <div className="flex flex-col gap-4 whitespace-nowrap">
-                    <span>Check out all my projects!</span>
-                    <button className="btn btn-primary">
+                    <span className="ml-auto">View all my projects.</span>
+                    <button className="btn btn-primary ml-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f3f4f6">
                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                         </svg>
                         GitHub Profile
                     </button>
-                    <button className="btn btn-secondary">
+                    <button className="btn btn-secondary ml-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f3f4f6">
                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                         </svg>
                         This on GitHub
                     </button>
                 </div>
+                <br />
+                <SubHeader title="Next in line" />
+                <br />
+                <p>
+                    One never stops learning. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum cupiditate
+                    consequatur ullam quas illo deserunt iusto deleniti molestiae minus ipsum alias eligendi, quos reiciendis
+                    itaque facere in maxime, praesentium non. Some of the other things I'm interested in learning are: Docker,
+                    CI/CD, and more.
+                </p>
             </Section>
             <Section>
                 <MarqueeHeader title="Contact Me" headerDelay={Math.random() * 1.5}>
@@ -309,13 +317,28 @@ function CardCarousel() {
 
     return (
         <div className="relative flex lg:flex-row flex-col justify-center items-center gap-3 px-4 py-16 lg:py-10 lg:w-full w-fit">
-            <Card imgSrc={eruditionPic} title="Erudition" isactive={activeCard === 1} onClick={() => setActiveCard(1)}>
+            <Card
+                imgSrc={eruditionPic}
+                link="https://erudition.up.railway.app/"
+                title="Erudition"
+                isactive={activeCard === 1}
+                onClick={() => setActiveCard(1)}>
                 Web app for students to manage study materials and assignments
             </Card>
-            <Card imgSrc={rtcappPic} title="RTC Chatapp" isactive={activeCard === 2} onClick={() => setActiveCard(2)}>
+            <Card
+                imgSrc={rtcappPic}
+                link="https://rtcomms.vercel.app/"
+                title="RTC Chatapp"
+                isactive={activeCard === 2}
+                onClick={() => setActiveCard(2)}>
                 Real-time chat web app built with React and Supabase
             </Card>
-            <Card imgSrc={mousemagnetPic} title="Mouse Magnet" isactive={activeCard === 3} onClick={() => setActiveCard(3)}>
+            <Card
+                imgSrc={mousemagnetPic}
+                link="https://magnetic-mouse.vercel.app/"
+                title="Mouse Magnet"
+                isactive={activeCard === 3}
+                onClick={() => setActiveCard(3)}>
                 Magnetic mouse and buttons that follow the cursor pleasantly
             </Card>
             <Card imgSrc={wordlePic} title="Wordle Help" isactive={activeCard === 4} onClick={() => setActiveCard(4)}>
@@ -324,12 +347,13 @@ function CardCarousel() {
             <Card imgSrc={mousemagnetPic} title="Discord Bot" isactive={activeCard === 5} onClick={() => setActiveCard(5)}>
                 A Discord bot with many random features
             </Card>
+            {/* Heropattern background */}
             <div
                 className={`absolute top-0 left-0 w-full h-full -z-10 rounded-sm bg-black/25
                              border-b-2 border-b-white/25
                              border-t-4 border-t-black/25`}
                 style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
                 }}
             />
         </div>
@@ -340,12 +364,14 @@ function Card({
     imgSrc,
     title,
     isactive,
+    link,
     onClick,
     children,
 }: {
     imgSrc: string | StaticImageData;
     title: string;
     isactive: boolean;
+    link?: string;
     onClick?: () => void;
     children: React.ReactNode;
 }) {
@@ -382,7 +408,7 @@ function Card({
                     borderRadius: "inherit",
                 }}
             />
-            {/* White hover mouse element */}
+            {/* White hover mouse element. Reference: https://www.youtube.com/watch?v=uWfZ2bZuvpo */}
             <motion.div
                 className={`absolute -inset-[2px] rounded-sm
                             hover:opacity-60 group-data-[isactive=true]:hover:opacity-100 opacity-0
@@ -415,6 +441,42 @@ function Card({
                                      grid-template-rows ${isactive ? "0.5s" : "0s"} ease ${isactive ? "0.5s" : "0s"}`,
                     }}>
                     <div className="overflow-hidden text-center">{children}</div>
+                </div>
+                {/* Reveal GitHub button on click. */}
+                <div
+                    className="absolute lg:bottom-3 bottom-2 w-full"
+                    style={{
+                        display: "grid",
+                        opacity: isactive ? 1 : 0,
+                        gridTemplateRows: isactive ? "1fr" : "0fr",
+                        // Add transition with small delay if card is being activated, else instantly remove it
+                        transition: `opacity ${isactive ? "0.75s" : "0s"} ease ${isactive ? "0.75s" : "0s"},
+                                     grid-template-rows ${isactive ? "0.5s" : "0s"} ease ${isactive ? "0.5s" : "0s"}`,
+                    }}>
+                    <div className="overflow-hidden p-2 flex flex-row gap-2">
+                        {link && (
+                            <button className="btn btn-primary !rounded-full lg:!p-2 !p-1">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="w-6 h-6">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+                                    />
+                                </svg>
+                            </button>
+                        )}
+                        <button className="btn btn-secondary !rounded-full lg:!p-2 !p-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f3f4f6">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </figcaption>
         </div>
