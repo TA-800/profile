@@ -60,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             <Image
                                 src={ninjaPic}
                                 alt="Ninja Icon"
-                                className="w-12 group-data-[shrink=true]:scale-75 transition duration-300"
+                                className="w-12 group-data-[shrink=true]:scale-75 group-data-[shrink=true]:opacity-60 transition duration-300"
                             />
                         </div>
                     </NavItem>

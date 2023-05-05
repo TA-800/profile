@@ -19,7 +19,7 @@ export default function Home() {
 
     return (
         <main>
-            <div className="flex flex-col gap-20 justify-center items-center h-screen -mt-28 lg:-mt-24">
+            <div className="flex flex-col gap-20 justify-center items-center h-screen -mt-28 lg:-mt-24 mb-[35vh]">
                 <hgroup className="flex flex-col gap-2">
                     {headerWords.map((word, index) => (
                         <AnimatedHeader key={word} text={word} delay={index * 0.25} />
@@ -84,36 +84,41 @@ export default function Home() {
                 </p>
                 <br />
                 <p>
-                    When I'm not coding, I enjoy listening to music, watching anime, making 2D animations with Flash / Animate,
-                    and playing video games and volleyball 🏐. These activities help me to stay inspired and motivated in my work.
+                    When I&apos;m not coding, I enjoy listening to music, watching anime, making 2D animations with Flash /
+                    Animate, and playing video games and volleyball 🏐. These activities help me to stay inspired and motivated in
+                    my work.
                 </p>
                 <br />
                 <p>
                     Thank you for taking the time to get to know me a little better. I look forward to sharing my passion for web
                     development with you!
                 </p>
-                <Image
-                    src={vbreceivePic}
-                    alt="VB Receive"
-                    className="lg:bottom-0 -bottom-10 md:-bottom-16 left-0 lg:opacity-10 opacity-20 md:scale-100 scale-105"
-                    style={{
-                        position: "absolute",
-                        objectFit: "contain",
-                        objectPosition: "center",
-                        zIndex: -1,
-                    }}
-                />
-                <Image
-                    src={joystickPic}
-                    alt="Joystick"
-                    className="lg:bottom-0 -bottom-12 right-0 lg:opacity-[0.025] opacity-10 lg:block hidden scale-75 -rotate-12"
-                    style={{
-                        position: "absolute",
-                        objectFit: "contain",
-                        objectPosition: "center",
-                        zIndex: -1,
-                    }}
-                />
+                {/* Positioner of container */}
+                <div className="flex justify-center">
+                    {/* Images container */}
+                    <div className="relative sm:h-96 sm:w-full h-64 w-96 flex-shrink-0 border-">
+                        <Image
+                            src={vbreceivePic}
+                            alt="VB Receive"
+                            className="absolute bottom-0 left-0 opacity-10 transition-all"
+                            style={{
+                                objectFit: "contain",
+                                objectPosition: "center",
+                                zIndex: -1,
+                            }}
+                        />
+                        <Image
+                            src={joystickPic}
+                            alt="Joystick"
+                            className="absolute -bottom-16 -right-32 opacity-5 lg:block hidden scale-50 -rotate-12"
+                            style={{
+                                objectFit: "contain",
+                                objectPosition: "center",
+                                zIndex: -1,
+                            }}
+                        />
+                    </div>
+                </div>
             </Section>
             <Section>
                 <MarqueeHeader title="Experience" headerDelay={Math.random() * 1.5}>
@@ -134,9 +139,9 @@ export default function Home() {
                 <br />
                 <p>
                     As a web developer, I love to explore the possibilities that different software and frameworks offer to build
-                    a variety of projects. I'm constantly on the lookout for new and creative ways to use these tools to create
-                    beautiful and functional web applications. Dive into some of my favorite tools that I've become proficient in,
-                    and the exciting projects I've built with them.
+                    a variety of projects. I&apos;m constantly on the lookout for new and creative ways to use these tools to
+                    create beautiful and functional web applications. Dive into some of my favorite tools that I&apos;ve become
+                    proficient in, and the exciting projects I&apos;ve built with them.
                 </p>
                 <br />
                 <SubHeader title="Tools of the Trade" />
@@ -175,8 +180,8 @@ export default function Home() {
                 <p>
                     One never stops learning. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum cupiditate
                     consequatur ullam quas illo deserunt iusto deleniti molestiae minus ipsum alias eligendi, quos reiciendis
-                    itaque facere in maxime, praesentium non. Some of the other things I'm interested in learning are: Docker,
-                    CI/CD, and more.
+                    itaque facere in maxime, praesentium non. Some of the other things I&apos;m interested in learning are:
+                    Docker, CI/CD, and more.
                 </p>
             </Section>
             <Section>
@@ -305,15 +310,19 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
     );
 }
 
-const Section = forwardRef<HTMLDivElement, { className?: string; children: React.ReactNode }>(
-    ({ className, children }: { className?: string; children: React.ReactNode }, ref) => {
-        return (
-            <section ref={ref} className={"min-h-screen mb-12 " + (className ?? "")}>
-                {children}
-            </section>
-        );
-    }
-);
+type SectionProps = {
+    className?: string;
+    children: React.ReactNode;
+};
+const Section = forwardRef<HTMLDivElement, SectionProps>(function Section({ className, children }, ref) {
+    return (
+        <section ref={ref} className={"mb-[18vh] " + (className ?? "")}>
+            {children}
+        </section>
+    );
+});
+
+Section.displayName = "Section";
 
 function SubHeader({ title }: { title: string }) {
     return <p className={inter.className + ` text-3xl font-extrabold tracking-wide`}>{title}</p>;
