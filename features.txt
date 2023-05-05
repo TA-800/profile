@@ -5,6 +5,11 @@
 9. background video ideas (loop with parallax)
     1. Intro: VS Code coding => YT Tutorial => Figma => Typing localhost on url => React symbol
     2. About Me: Anime + Games + Volleyball + Anim timelapse
+10. attribution required (Copy this link and paste it in a visible place, close to where you’re using the image. If that’s not possible, place it at the footer of your website, blog or newsletter, or in the credits section)
+    1. abstract bg: <a href="https://www.freepik.com/free-vector/sports-abstract-geometric-shapes-style_12072372.htm#page=5&query=volleyball&position=23&from_view=search&track=sph">Image by starline</a> on Freepik
+    2. vb: Image by <a href="https://www.freepik.com/free-vector/hand-drawn-volleyball-silhouette_26412322.htm#query=volleyball%20player&position=37&from_view=search&track=ais">Freepik</a>
+    3. ninja: Image by <a href="https://www.freepik.com/free-vector/linear-flat-ninja-logo-template_15478197.htm#page=3&query=ninja&position=21&from_view=search&track=sph">Freepik</a>
+    4. joystick: <a href="https://www.freepik.com/free-vector/joystick-game-sport-technology_10549680.htm#query=game&position=4&from_view=search&track=sph">Image by catalyststuff</a> on Freepik
 
 done:
 5. Resizing header navbar on scroll

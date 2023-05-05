@@ -3,10 +3,13 @@
 import "./globals.css";
 import { JetBrains_Mono } from "next/font/google";
 import { forwardRef, useEffect, useRef } from "react";
+import ninjaPic from "../../public/ninja.png";
+import Image from "next/image";
 
 const jetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+    // For navbar shrink effect
     const navRef = useRef<HTMLUListElement>(null);
 
     useEffect(() => {
@@ -33,22 +36,32 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                      overflow-x-hidden`
                 }>
                 <NavBar ref={navRef}>
-                    {/* Name */}
+                    {/* Name and Ninja Icon */}
                     <NavItem>
-                        <div className="flex flex-col">
-                            {/* T. A. */}
-                            <h1 className="text-xl font-bold">T. A.</h1>
-                            {/* TA-800 */}
-                            <span
-                                className={`w-fit grid grid-rows-[1fr] group-data-[shrink=true]:grid-rows-[0fr] transition-all duration-300 group-data-[shrink=false]:duration-700`}>
-                                <span className="overflow-hidden text-sm opacity-75">TA-800</span>
-                            </span>
-                            {/* TheWeakNinja */}
-                            <span
-                                className={`w-fit lg:grid grid-rows-[1fr] group-data-[shrink=true]:grid-rows-[0fr] transition-all duration-700 group-data-[shrink=false]:duration-300
-                                            hidden`}>
-                                <span className="overflow-hidden text-xs opacity-50">TheWeakNinja</span>
-                            </span>
+                        {/* Container for name + ninja */}
+                        <div className="flex flex-row items-center gap-2 group-data-[shrink=true]:gap-0 transition-all duration-300">
+                            {/* Name */}
+                            <div className="flex flex-col">
+                                {/* T. A. */}
+                                <h1 className="text-xl font-bold">T. A.</h1>
+                                {/* TA-800 */}
+                                <span
+                                    className={`w-fit grid grid-rows-[1fr] group-data-[shrink=true]:grid-rows-[0fr] transition-all duration-300 group-data-[shrink=false]:duration-700`}>
+                                    <span className="overflow-hidden text-sm opacity-75">TA-800</span>
+                                </span>
+                                {/* TheWeakNinja */}
+                                <span
+                                    className={`w-fit lg:grid grid-rows-[1fr] group-data-[shrink=true]:grid-rows-[0fr] transition-all duration-700 group-data-[shrink=false]:duration-300
+                                                hidden`}>
+                                    <span className="overflow-hidden text-xs opacity-50">TheWeakNinja</span>
+                                </span>
+                            </div>
+                            {/* Ninja Icon */}
+                            <Image
+                                src={ninjaPic}
+                                alt="Ninja Icon"
+                                className="w-12 group-data-[shrink=true]:scale-75 transition duration-300"
+                            />
                         </div>
                     </NavItem>
                     {/* Menu icon SVG */}
