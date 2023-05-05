@@ -21,7 +21,7 @@ export default function Home() {
                     {headerWords.map((word, index) => (
                         <AnimatedHeader key={word} text={word} delay={index * 0.25} />
                     ))}
-                    <p className="text-center">Want to bring a website idea to life? I could help you with that.</p>
+                    <p className="text-center">Want to bring a website to life? I could help you with that.</p>
                 </hgroup>
                 <button className="btn btn-primary">Lets Talk!</button>
             </div>
@@ -107,14 +107,15 @@ export default function Home() {
                     and the exciting projects I've built with them.
                 </p>
                 <br />
-                <p className={inter.className + ` text-3xl font-extrabold tracking-wide`}>TOOLS OF THE TRADE</p>
+                <SubHeader title="Tools of the Trade" />
                 <br />
                 <p>
                     All skills, languages, frameworks I know go here. Eius ad mollitia assumenda amet doloribus vitae fuga
                     molestias quis enim sequi! Ipsum magnam repudiandae ex consectetur earum?
                 </p>
                 <br />
-                <p className={inter.className + ` text-3xl font-extrabold tracking-wide`}>PROJECT CAROUSEL</p>
+                <SubHeader title="Project Carousel" />
+
                 <br />
                 <div className="flex justify-center items-center">
                     <CardCarousel />
@@ -156,21 +157,30 @@ export default function Home() {
                 </MarqueeHeader>
                 <br />
                 <p>
+                    Cillum cillum sint qui elit cillum aliqua. Pariatur aliqua proident aliqua exercitation ullamco tempor cillum.
+                    Nostrud elit aliqua nisi deserunt. Velit commodo amet qui nulla duis ex culpa.
+                </p>
+                <br />
+                <SubHeader title="My Socials" />
+                <br />
+                <p>
                     Culpa labore dolor amet ullamco velit magna proident cillum irure ut aliquip quis ut sint. Exercitation
                     incididunt veniam qui tempor dolor tempor. Esse voluptate dolore voluptate enim. Amet esse consectetur ipsum
-                    magna anim pariatur consequat aliqua in ea nulla. If you just wanna say hi, feel free to hit me up on{" "}
+                    magna anim pariatur consequat aliqua in ea nulla. If you just wanna say hi, feel free to hit me up on
                     <Highlight space="left" bgColor="blue" txtColor="lightblue">
                         Discord
                     </Highlight>
                     .
                 </p>
                 <br />
-                <p>
-                    Cillum cillum sint qui elit cillum aliqua. Pariatur aliqua proident aliqua exercitation ullamco tempor cillum.
-                    Nostrud elit aliqua nisi deserunt. Velit commodo amet qui nulla duis ex culpa.
-                </p>
-                <br />
                 <p>My Socials and you can find me on Gmail, GitHub, LinkedIn, Discord.</p>
+                <br />
+                <SubHeader title="Contact Form" />
+                <br />
+                <p>
+                    Here is a form you can fill up and submit quickly to contact me and I will get back to you as soon as
+                    possible!
+                </p>
             </Section>
         </main>
     );
@@ -259,6 +269,10 @@ function Section({ children }: { children: React.ReactNode }) {
     return <section className="min-h-screen mb-12">{children}</section>;
 }
 
+function SubHeader({ title }: { title: string }) {
+    return <p className={inter.className + ` text-3xl font-extrabold tracking-wide`}>{title}</p>;
+}
+
 function Highlight({
     bgColor,
     txtColor,
@@ -311,9 +325,12 @@ function CardCarousel() {
                 A Discord bot with many random features
             </Card>
             <div
-                className={`absolute top-0 left-0 w-full h-full bg-black/20 -z-10 rounded-sm
+                className={`absolute top-0 left-0 w-full h-full -z-10 rounded-sm bg-black/25
                              border-b-2 border-b-white/25
                              border-t-4 border-t-black/25`}
+                style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                }}
             />
         </div>
     );
