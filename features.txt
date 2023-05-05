@@ -2,6 +2,9 @@
 4. Text fade in animation (similar to demo project)
 6. daisyUI dark theme + mono / cyberpunk font for overall UI style
 8. carousel for cards
+9. background video ideas (loop with parallax)
+    1. Intro: VS Code coding => YT Tutorial => Figma => Typing localhost on url => React symbol
+    2. About Me: Anime + Games + Volleyball + Anim timelapse
 
 done:
 5. Resizing header navbar on scroll

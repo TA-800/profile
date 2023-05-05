@@ -5,13 +5,16 @@
 @layer components {
     /* Base button style */
     .btn {
-        @apply relative flex flex-row gap-2 py-2 px-4 w-fit rounded-sm active:shadow-none top-0 -left-0 active:top-[2px] active:-left-[2px]
+        @apply flex flex-row gap-2 py-2 px-4 w-fit rounded-sm active:shadow-none active:-translate-x-[2px] active:translate-y-[2px]
             transition-all duration-100 ease-in-out;
     }
-
     /* Modifier */
     .btn-primary {
         @apply bg-blue-700 hover:bg-blue-800 text-gray-100 shadow-[-4px_4px_0px_black] border-2 border-blue-400/30;
+    }
+    /* Modifier */
+    .btn-secondary {
+        @apply bg-pink-700 hover:bg-pink-800 text-gray-100 shadow-[-4px_4px_0px_black] border-2 border-pink-400/70;
     }
 }
 

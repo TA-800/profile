@@ -1,13 +1,14 @@
 "use client";
 
-import { Inter } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import { motion, MotionConfig } from "framer-motion";
 import Image, { StaticImageData } from "next/image";
 import eruditionPic from "../../public/erudition.png";
 import mousemagnetPic from "../../public/mousemagnet.png";
 import rtcappPic from "../../public/rtcapp.png";
+import { useState } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Open_Sans({ subsets: ["latin"] });
 
 export default function Home() {
     const headerWords = ["FULL-STACK", "WEB DEVELOPER"];
@@ -23,7 +24,6 @@ export default function Home() {
                 </hgroup>
                 <button className="btn btn-primary">Lets Talk!</button>
             </div>
-            <br />
             <Section>
                 <MarqueeHeader title="About Me" headerDelay={0}>
                     <svg
@@ -111,24 +111,22 @@ export default function Home() {
                     on mobile
                 </p>
                 <br />
-                <div className="flex flex-row gap-2">
-                    <Card imgSrc={eruditionPic} title="Erudition">
-                        Web app for students to manage study materials and assignments
-                    </Card>
-                    <Card imgSrc={rtcappPic} title="RTC Webapp">
-                        Real-time chat web app built with React and Supabase
-                    </Card>
-                    <Card imgSrc={mousemagnetPic} title="Mouse Magnet">
-                        Magnetic mouse and buttons that follow the cursor pleasantly
-                    </Card>
-                    <div>
-                        <button className="btn btn-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f3f4f6">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                            </svg>
-                            View my GitHub!
-                        </button>
-                    </div>
+                <CardCarousel />
+                <br />
+                {/* Check on GitHub buttons */}
+                <div className="flex flex-col gap-4 whitespace-nowrap">
+                    <button className="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f3f4f6">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                        GitHub Profile
+                    </button>
+                    <button className="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f3f4f6">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                        This on GitHub
+                    </button>
                 </div>
             </Section>
             <Section>
@@ -151,15 +149,64 @@ export default function Home() {
                 <p>
                     Culpa labore dolor amet ullamco velit magna proident cillum irure ut aliquip quis ut sint. Exercitation
                     incididunt veniam qui tempor dolor tempor. Esse voluptate dolore voluptate enim. Amet esse consectetur ipsum
-                    magna anim pariatur consequat aliqua in ea nulla.
+                    magna anim pariatur consequat aliqua in ea nulla. If you just wanna say hi, feel free to hit me up on{" "}
+                    <Highlight space="left" bgColor="blue" txtColor="lightblue">
+                        Discord
+                    </Highlight>
+                    .
                 </p>
                 <br />
                 <p>
                     Cillum cillum sint qui elit cillum aliqua. Pariatur aliqua proident aliqua exercitation ullamco tempor cillum.
                     Nostrud elit aliqua nisi deserunt. Velit commodo amet qui nulla duis ex culpa.
                 </p>
+                <br />
+                <p>My Socials and you can find me on Gmail, GitHub, LinkedIn, Discord.</p>
             </Section>
         </main>
+    );
+}
+
+function AnimatedHeader({ text, delay }: { text: string; delay?: number }) {
+    const wordItem = {
+        hidden: {
+            y: "100%",
+            color: "rgba(255, 255, 255, 1)",
+        },
+        visible: {
+            y: 0,
+            color: "rgba(255, 255, 255, 0)",
+        },
+    };
+
+    return (
+        <div className={`flex flex-row overflow-hidden px-2 justify-center`}>
+            <motion.div
+                className={
+                    inter.className +
+                    ` xl:text-9xl lg:text-8xl md:text-7xl xs:text-4xl text-3xl font-extrabold tracking-tight
+                    bg-clip-text bg-gradient-to-r from-indigo-200 via-blue-600 to-indigo-200 
+                    flex shrink-0 pr-2`
+                }
+                style={{
+                    WebkitTextStroke: "1px rgba(255, 255, 255, 0.5)",
+                }}
+                variants={wordItem}
+                initial="hidden"
+                animate="visible"
+                transition={{
+                    duration: 1 + (delay ? delay * 1.5 : 0),
+                    delay: delay ?? 0,
+                    type: "spring",
+                    bounce: 0.3,
+                    color: {
+                        duration: 1.5 + (delay ? delay * 1.5 : 0),
+                        delay: delay ?? 0,
+                    },
+                }}>
+                {text}
+            </motion.div>
+        </div>
     );
 }
 
@@ -200,49 +247,7 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
 }
 
 function Section({ children }: { children: React.ReactNode }) {
-    return <section className="min-h-screen">{children}</section>;
-}
-
-function AnimatedHeader({ text, delay }: { text: string; delay?: number }) {
-    const wordItem = {
-        hidden: {
-            y: "100%",
-            opacity: 0,
-            "text-shadow": "0px 0px 15px rgba(255, 255, 255, 0)",
-        },
-        visible: {
-            y: 0,
-            opacity: 100,
-            "text-shadow": "0px 0px 15px rgba(255, 255, 255, 0.2)",
-        },
-    };
-
-    return (
-        <div className={`flex flex-row overflow-hidden px-2 justify-center`}>
-            <motion.div
-                className={
-                    inter.className +
-                    ` lg:text-8xl md:text-6xl xs:text-4xl text-3xl font-extrabold text-transparent tracking-tight
-                    bg-clip-text bg-gradient-to-r from-indigo-200 via-blue-500 to-indigo-200
-                    flex shrink-0`
-                }
-                variants={wordItem}
-                initial="hidden"
-                animate="visible"
-                transition={{
-                    duration: 1 + (delay ? delay * 1.5 : 0),
-                    delay: delay ?? 0,
-                    type: "ease",
-                    ease: "easeOut",
-                    "text-shadow": {
-                        duration: 1.5,
-                        delay: delay ? delay + 0.75 : 0.75,
-                    },
-                }}>
-                {text}
-            </motion.div>
-        </div>
-    );
+    return <section className="min-h-screen mb-12">{children}</section>;
 }
 
 function Highlight({
@@ -274,9 +279,49 @@ function Highlight({
     );
 }
 
-function Card({ imgSrc, title, children }: { imgSrc: string | StaticImageData; title: string; children: React.ReactNode }) {
+function CardCarousel() {
+    // This parent component will hold information about which card is active
+    // and will pass that information to the children
+    const [activeCard, setActiveCard] = useState(0);
+
     return (
-        <div className="h-96 w-96 relative rounded-lg border-2 border-white/25">
+        <div className="flex lg:flex-row flex-col justify-center items-center gap-2">
+            <Card imgSrc={eruditionPic} title="Erudition" isActive={activeCard === 0} onClick={() => setActiveCard(0)}>
+                Web app for students to manage study materials and assignments
+            </Card>
+            <Card imgSrc={rtcappPic} title="RTC Webapp" isActive={activeCard === 1} onClick={() => setActiveCard(1)}>
+                Real-time chat web app built with React and Supabase
+            </Card>
+            <Card imgSrc={mousemagnetPic} title="Mouse Magnet" isActive={activeCard === 2} onClick={() => setActiveCard(2)}>
+                Magnetic mouse and buttons that follow the cursor pleasantly
+            </Card>
+        </div>
+    );
+}
+
+function Card({
+    imgSrc,
+    title,
+    isActive,
+    onClick,
+    children,
+}: {
+    imgSrc: string | StaticImageData;
+    title: string;
+    isActive: boolean;
+    onClick?: () => void;
+    children: React.ReactNode;
+}) {
+    return (
+        // Reference for flex basis and carousel / cards: https://youtu.be/JD4ws4cY1ro?t=96
+        <div
+            className={`group h-96
+                        w-64 xs:w-72 sm:w-96
+                        data-[isActive=true]:basis-64 xs:data-[isActive=true]:basis-72 sm:data-[isActive=true]:basis-96
+                        data-[isActive=false]:basis-9
+                        relative rounded-lg border-2 border-white/25 transition-all ease-out duration-500`}
+            data-isActive={isActive}
+            onClick={onClick}>
             <Image
                 src={imgSrc}
                 alt={title}
@@ -290,12 +335,21 @@ function Card({ imgSrc, title, children }: { imgSrc: string | StaticImageData; t
                 }}
             />
             {/* Card image overlay */}
-            <div className="absolute w-full h-full bg-black/75 -z-[1] rounded-lg" />
+            <div className="absolute w-full h-full group-data-[isActive=true]:bg-black/70 group-data-[isActive=false]:bg-black/90 -z-[1] transition-all rounded-lg" />
             {/* Card text */}
-            <figcaption className="flex flex-col items-center justify-center w-full h-full">
-                <h3 className={inter.className + " text-2xl font-extrabold tracking-wider text-gray-300"}>{title}</h3>
-                <p className="text-center">{children}</p>
-            </figcaption>
+            <motion.figcaption layout className="flex flex-col items-center justify-center w-full h-full p-2">
+                <motion.h3 className={inter.className + " text-2xl font-extrabold tracking-wider text-gray-300"}>
+                    {title}
+                </motion.h3>
+                {isActive && (
+                    <motion.span
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="text-center">
+                        {children}
+                    </motion.span>
+                )}
+            </motion.figcaption>
             {/* GitHub Icon */}
             {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
