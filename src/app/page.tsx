@@ -1,8 +1,11 @@
 "use client";
 
 import { Inter } from "next/font/google";
-import { motion, MotionConfig, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, MotionConfig } from "framer-motion";
+import Image, { StaticImageData } from "next/image";
+import eruditionPic from "../../public/erudition.png";
+import mousemagnetPic from "../../public/mousemagnet.png";
+import rtcappPic from "../../public/rtcapp.png";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,9 +19,9 @@ export default function Home() {
                     {headerWords.map((word, index) => (
                         <AnimatedHeader text={word} delay={index * 0.25} />
                     ))}
-                    <p className="text-center">Want to bring a website to life? I could help you with that.</p>
+                    <p className="text-center">Want to bring a website idea to life? I could help you with that.</p>
                 </hgroup>
-                <button className="bg-blue-700 py-2 px-4 w-fit rounded-sm text-gray-100">Lets Talk!</button>
+                <button className="btn btn-primary">Lets Talk!</button>
             </div>
             <br />
             <Section>
@@ -44,7 +47,7 @@ export default function Home() {
                         Taher Ali
                     </Highlight>
                     , and I am an aspiring full-stack web developer currently studying in my second year at
-                    <Highlight bgColor="goldenrod" txtColor="lightgreen" space="left">
+                    <Highlight bgColor="peru" txtColor="yellow" space="left">
                         Wilfrid Laurier University
                     </Highlight>
                     .
@@ -70,8 +73,8 @@ export default function Home() {
                 </p>
                 <br />
                 <p>
-                    When I'm not coding, I enjoy listening to music, watching anime, and playing video games. As a creative
-                    person, I believe these activities help me to stay inspired and motivated in my work.
+                    When I'm not coding, I enjoy listening to music, watching anime, making 2D animations with Flash / Animate,
+                    and playing video games and volleyball 🏐. These activities help me to stay inspired and motivated in my work.
                 </p>
                 <br />
                 <p>
@@ -103,6 +106,30 @@ export default function Home() {
                     and the exciting projects I've built with them.
                 </p>
                 <br />
+                <p>
+                    1. Put skills - tools/frameworks + other - first, then make carousel responsive - interchange width and height
+                    on mobile
+                </p>
+                <br />
+                <div className="flex flex-row gap-2">
+                    <Card imgSrc={eruditionPic} title="Erudition">
+                        Web app for students to manage study materials and assignments
+                    </Card>
+                    <Card imgSrc={rtcappPic} title="RTC Webapp">
+                        Real-time chat web app built with React and Supabase
+                    </Card>
+                    <Card imgSrc={mousemagnetPic} title="Mouse Magnet">
+                        Magnetic mouse and buttons that follow the cursor pleasantly
+                    </Card>
+                    <div>
+                        <button className="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f3f4f6">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                            View my GitHub!
+                        </button>
+                    </div>
+                </div>
             </Section>
             <Section>
                 <MarqueeHeader title="Contact Me" headerDelay={Math.random() * 1.5}>
@@ -179,7 +206,7 @@ function Section({ children }: { children: React.ReactNode }) {
 function AnimatedHeader({ text, delay }: { text: string; delay?: number }) {
     const wordItem = {
         hidden: {
-            y: 140,
+            y: "100%",
             opacity: 0,
             "text-shadow": "0px 0px 15px rgba(255, 255, 255, 0)",
         },
@@ -196,7 +223,7 @@ function AnimatedHeader({ text, delay }: { text: string; delay?: number }) {
                 className={
                     inter.className +
                     ` lg:text-8xl md:text-6xl xs:text-4xl text-3xl font-extrabold text-transparent tracking-tight
-                    bg-clip-text bg-gradient-to-r from-indigo-200 via-blue-400 to-indigo-200
+                    bg-clip-text bg-gradient-to-r from-indigo-200 via-blue-500 to-indigo-200
                     flex shrink-0`
                 }
                 variants={wordItem}
@@ -238,11 +265,41 @@ function Highlight({
                     backgroundColor: bgColor,
                     borderBottom: `2px solid ${txtColor}`,
                     borderRadius: "4px",
-                    padding: "2px 4px",
+                    padding: "1px 4px",
                 }}>
                 {children}
             </span>
             {space === "right" || space === "both" ? " " : ""}
         </>
+    );
+}
+
+function Card({ imgSrc, title, children }: { imgSrc: string | StaticImageData; title: string; children: React.ReactNode }) {
+    return (
+        <div className="h-96 w-96 relative rounded-lg border-2 border-white/25">
+            <Image
+                src={imgSrc}
+                alt={title}
+                style={{
+                    position: "absolute",
+                    objectFit: "cover",
+                    height: "100%",
+                    width: "100%",
+                    zIndex: -2,
+                    borderRadius: "inherit",
+                }}
+            />
+            {/* Card image overlay */}
+            <div className="absolute w-full h-full bg-black/75 -z-[1] rounded-lg" />
+            {/* Card text */}
+            <figcaption className="flex flex-col items-center justify-center w-full h-full">
+                <h3 className={inter.className + " text-2xl font-extrabold tracking-wider text-gray-300"}>{title}</h3>
+                <p className="text-center">{children}</p>
+            </figcaption>
+            {/* GitHub Icon */}
+            {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg> */}
+        </div>
     );
 }

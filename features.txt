@@ -1,9 +1,12 @@
-1. Mouse follower + magnetic buttons
 2. Facebook drop down style
 4. Text fade in animation (similar to demo project)
 6. daisyUI dark theme + mono / cyberpunk font for overall UI style
+8. carousel for cards
 
 done:
 5. Resizing header navbar on scroll
 3. Marquee for each section header
 7. color the main h1 like GitHub
+
+not happening:
+1. Mouse follower + magnetic buttons (still unstable)

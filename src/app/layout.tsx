@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 className={
                     jetBrainsMono.className +
                     ` bg-gray-800 text-gray-400 px-6 md:px-8 lg:px-16
-                     mt-28 lg:mt-32 tracking-tight
+                     mt-28 lg:mt-32 tracking-tight leading-relaxed
                      overflow-x-hidden`
                 }>
                 <NavBar ref={navRef}>
@@ -104,7 +104,7 @@ function NavItem({ className, children }: { className?: string; children: React.
 function Footer() {
     return (
         <footer className="flex flex-col items-center justify-center p-2">
-            <span className="text-xs opacity-50">© 2023 Taher Ali. All rights reserved.</span>
+            <span className="text-xs opacity-50">© 2023 Taher Ali. Portfolio Version 1.</span>
         </footer>
     );
 }
