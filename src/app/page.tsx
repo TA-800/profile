@@ -1,7 +1,7 @@
 "use client";
 
 import { Open_Sans } from "next/font/google";
-import { motion, MotionConfig } from "framer-motion";
+import { motion, MotionConfig, useMotionTemplate, useMotionValue } from "framer-motion";
 import Image, { StaticImageData } from "next/image";
 import eruditionPic from "../../public/erudition.png";
 import mousemagnetPic from "../../public/mousemagnet.png";
@@ -349,6 +349,15 @@ function Card({
     onClick?: () => void;
     children: React.ReactNode;
 }) {
+    let mouseX = useMotionValue(0);
+    let mouseY = useMotionValue(0);
+
+    const handleMouseMove = ({ clientX, clientY, currentTarget }: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const { left, top } = currentTarget!.getBoundingClientRect();
+        mouseX.set(clientX - left);
+        mouseY.set(clientY - top);
+    };
+
     return (
         // Reference for flex basis and carousel / cards: https://youtu.be/JD4ws4cY1ro?t=96
         <div
@@ -356,10 +365,10 @@ function Card({
                         w-64 xs:w-72 sm:w-96
                         data-[isactive=true]:basis-64 xs:data-[isactive=true]:basis-72 sm:data-[isactive=true]:basis-96
                         data-[isactive=false]:basis-9
-                        data-[isactive=true]:border-white/20
-                        relative rounded-sm border-2 border-white/5 hover:border-white/20 shadow-2xl select-none
+                        relative rounded-sm border-transparent border-2 shadow-2xl select-none
                         transition-all ease-out duration-500`}
             data-isactive={isactive}
+            onMouseMove={handleMouseMove}
             onClick={onClick}>
             <Image
                 src={imgSrc}
@@ -373,6 +382,15 @@ function Card({
                     borderRadius: "inherit",
                 }}
             />
+            {/* White hover mouse element */}
+            <motion.div
+                className={`absolute -inset-[2px] rounded-sm
+                            hover:opacity-60 group-data-[isactive=true]:hover:opacity-100 opacity-0
+                            transition duration-300`}
+                style={{
+                    background: useMotionTemplate`radial-gradient(250px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.1), transparent 80%)`,
+                }}
+            />
             {/* Card image overlay */}
             <div className="absolute w-full h-full group-data-[isactive=true]:bg-black/75 group-data-[isactive=false]:bg-black/90 -z-[1] transition-all rounded-sm" />
             {/* Card text */}
@@ -380,7 +398,7 @@ function Card({
                 <h3
                     className={
                         inter.className +
-                        ` text-center text-2xl tracking-wider text-gray-300 group-hover:opacity-100 ${
+                        ` text-center text-2xl text-gray-300 group-hover:opacity-100 ${
                             isactive ? "opacity-100 font-bold" : "opacity-75 font-semibold"
                         } transition-all duration-300`
                     }>
