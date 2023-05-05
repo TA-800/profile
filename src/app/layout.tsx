@@ -35,19 +35,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <NavBar ref={navRef}>
                     {/* Name */}
                     <NavItem>
-                        {/* T. A. */}
                         <div className="flex flex-col">
-                            <h1 className="text-lg font-bold">T. A.</h1>
+                            {/* T. A. */}
+                            <h1 className="text-xl font-bold">T. A.</h1>
                             {/* TA-800 */}
                             <span
-                                className={`w-fit h-[14px] flex items-center group-data-[shrink=true]:h-0 overflow-hidden transition-all duration-700`}>
-                                <span className="text-sm opacity-75">TA-800</span>
+                                className={`w-fit grid grid-rows-[1fr] group-data-[shrink=true]:grid-rows-[0fr] transition-all duration-300 group-data-[shrink=false]:duration-700`}>
+                                <span className="overflow-hidden text-sm opacity-75">TA-800</span>
                             </span>
                             {/* TheWeakNinja */}
                             <span
-                                className={`w-fit h-[14px] lg:flex items-center group-data-[shrink=true]:h-0 overflow-hidden transition-all duration-300
+                                className={`w-fit lg:grid grid-rows-[1fr] group-data-[shrink=true]:grid-rows-[0fr] transition-all duration-700 group-data-[shrink=false]:duration-300
                                             hidden`}>
-                                <span className="text-xs opacity-50">TheWeakNinja</span>
+                                <span className="overflow-hidden text-xs opacity-50">TheWeakNinja</span>
                             </span>
                         </div>
                     </NavItem>
@@ -102,7 +102,7 @@ function NavItem({ className, children }: { className?: string; children: React.
 function Footer() {
     return (
         <footer className="flex flex-col items-center justify-center p-2">
-            <span className="text-xs opacity-50">© 2023 Taher Ali. Portfolio Version 1.</span>
+            <span className="text-xs opacity-50 whitespace-nowrap">© 2023 Taher Ali. Portfolio Version 1.</span>
         </footer>
     );
 }

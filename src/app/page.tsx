@@ -19,7 +19,7 @@ export default function Home() {
             <div className="flex flex-col gap-20 justify-center items-center h-screen -mt-28 lg:-mt-24">
                 <hgroup className="flex flex-col gap-2">
                     {headerWords.map((word, index) => (
-                        <AnimatedHeader text={word} delay={index * 0.25} />
+                        <AnimatedHeader key={word} text={word} delay={index * 0.25} />
                     ))}
                     <p className="text-center">Want to bring a website idea to life? I could help you with that.</p>
                 </hgroup>
@@ -107,15 +107,23 @@ export default function Home() {
                     and the exciting projects I've built with them.
                 </p>
                 <br />
+                <p className={inter.className + ` text-3xl font-extrabold tracking-wide`}>TOOLS OF THE TRADE</p>
+                <br />
                 <p>
-                    1. Put skills - tools/frameworks + other - first, then make carousel responsive - interchange width and height
-                    on mobile
+                    All skills, languages, frameworks I know go here. Eius ad mollitia assumenda amet doloribus vitae fuga
+                    molestias quis enim sequi! Ipsum magnam repudiandae ex consectetur earum?
                 </p>
                 <br />
-                <CardCarousel />
+                <p className={inter.className + ` text-3xl font-extrabold tracking-wide`}>PROJECT CAROUSEL</p>
+                <br />
+                <div className="flex justify-center items-center">
+                    <CardCarousel />
+                </div>
+                <br />
                 <br />
                 {/* Check on GitHub buttons */}
                 <div className="flex flex-col gap-4 whitespace-nowrap">
+                    <span>Check out all my projects!</span>
                     <button className="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f3f4f6">
                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
@@ -286,22 +294,27 @@ function CardCarousel() {
     const [activeCard, setActiveCard] = useState(0);
 
     return (
-        <div className="flex lg:flex-row flex-col justify-center items-center gap-2">
-            <Card imgSrc={eruditionPic} title="Erudition" isActive={activeCard === 1} onClick={() => setActiveCard(1)}>
+        <div className="relative flex lg:flex-row flex-col justify-center items-center gap-3 px-4 py-16 lg:py-10 lg:w-full w-fit">
+            <Card imgSrc={eruditionPic} title="Erudition" isactive={activeCard === 1} onClick={() => setActiveCard(1)}>
                 Web app for students to manage study materials and assignments
             </Card>
-            <Card imgSrc={rtcappPic} title="RTC Chatapp" isActive={activeCard === 2} onClick={() => setActiveCard(2)}>
+            <Card imgSrc={rtcappPic} title="RTC Chatapp" isactive={activeCard === 2} onClick={() => setActiveCard(2)}>
                 Real-time chat web app built with React and Supabase
             </Card>
-            <Card imgSrc={mousemagnetPic} title="Mouse Magnet" isActive={activeCard === 3} onClick={() => setActiveCard(3)}>
+            <Card imgSrc={mousemagnetPic} title="Mouse Magnet" isactive={activeCard === 3} onClick={() => setActiveCard(3)}>
                 Magnetic mouse and buttons that follow the cursor pleasantly
             </Card>
-            <Card imgSrc={wordlePic} title="Wordle Help" isActive={activeCard === 4} onClick={() => setActiveCard(4)}>
+            <Card imgSrc={wordlePic} title="Wordle Help" isactive={activeCard === 4} onClick={() => setActiveCard(4)}>
                 An assistant to help you solve Wordle puzzles
             </Card>
-            <Card imgSrc={mousemagnetPic} title="Discord Bot" isActive={activeCard === 5} onClick={() => setActiveCard(5)}>
+            <Card imgSrc={mousemagnetPic} title="Discord Bot" isactive={activeCard === 5} onClick={() => setActiveCard(5)}>
                 A Discord bot with many random features
             </Card>
+            <div
+                className={`absolute top-0 left-0 w-full h-full bg-black/20 -z-10 rounded-sm
+                             border-b-2 border-b-white/25
+                             border-t-4 border-t-black/25`}
+            />
         </div>
     );
 }
@@ -309,13 +322,13 @@ function CardCarousel() {
 function Card({
     imgSrc,
     title,
-    isActive,
+    isactive,
     onClick,
     children,
 }: {
     imgSrc: string | StaticImageData;
     title: string;
-    isActive: boolean;
+    isactive: boolean;
     onClick?: () => void;
     children: React.ReactNode;
 }) {
@@ -324,10 +337,12 @@ function Card({
         <div
             className={`group h-96
                         w-64 xs:w-72 sm:w-96
-                        data-[isActive=true]:basis-64 xs:data-[isActive=true]:basis-72 sm:data-[isActive=true]:basis-96
-                        data-[isActive=false]:basis-9
-                        relative rounded-lg border-2 border-white/25 transition-all ease-out duration-500`}
-            data-isActive={isActive}
+                        data-[isactive=true]:basis-64 xs:data-[isactive=true]:basis-72 sm:data-[isactive=true]:basis-96
+                        data-[isactive=false]:basis-9
+                        data-[isactive=true]:border-white/20
+                        relative rounded-sm border-2 border-white/5 hover:border-white/20 shadow-2xl select-none
+                        transition-all ease-out duration-500`}
+            data-isactive={isactive}
             onClick={onClick}>
             <Image
                 src={imgSrc}
@@ -342,17 +357,27 @@ function Card({
                 }}
             />
             {/* Card image overlay */}
-            <div className="absolute w-full h-full group-data-[isActive=true]:bg-black/70 group-data-[isActive=false]:bg-black/90 -z-[1] transition-all rounded-lg" />
+            <div className="absolute w-full h-full group-data-[isactive=true]:bg-black/75 group-data-[isactive=false]:bg-black/90 -z-[1] transition-all rounded-sm" />
             {/* Card text */}
             <figcaption className="flex flex-col w-full h-full justify-center items-center p-2">
-                <h3 className={inter.className + ` text-center text-2xl font-extrabold tracking-wider text-gray-300`}>{title}</h3>
+                <h3
+                    className={
+                        inter.className +
+                        ` text-center text-2xl tracking-wider text-gray-300 group-hover:opacity-100 ${
+                            isactive ? "opacity-100 font-bold" : "opacity-75 font-semibold"
+                        } transition-all duration-300`
+                    }>
+                    {title}
+                </h3>
                 {/* Reveal subtext on click. Reference: https://www.youtube.com/watch?v=B_n4YONte5A */}
                 <div
                     style={{
                         display: "grid",
-                        gridTemplateRows: isActive ? "1fr" : "0fr",
+                        opacity: isactive ? 1 : 0,
+                        gridTemplateRows: isactive ? "1fr" : "0fr",
                         // Add transition with small delay if card is being activated, else instantly remove it
-                        transition: `grid-template-rows ${isActive ? "0.5s" : "0s"} ease ${isActive ? "0.5s" : "0s"}`,
+                        transition: `opacity ${isactive ? "0.75s" : "0s"} ease ${isactive ? "0.5s" : "0s"},
+                                     grid-template-rows ${isactive ? "0.5s" : "0s"} ease ${isactive ? "0.5s" : "0s"}`,
                     }}>
                     <div className="overflow-hidden text-center">{children}</div>
                 </div>
