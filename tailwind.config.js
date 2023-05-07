@@ -1,4 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+
+// For dynamic utility
+const plugin = require("tailwindcss/plugin");
+
 module.exports = {
     content: [
         "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -27,5 +31,26 @@ module.exports = {
             // => @media (min-width: 1536px)
         },
     },
-    plugins: [],
+    plugins: [
+        plugin(function ({ matchUtilities, theme }) {
+            matchUtilities(
+                {
+                    debug: (value) => ({
+                        // Should produce outline outline-blue-500 with width being the value
+                        outline: `${value} solid ${theme("colors.blue.500")}`,
+                    }),
+                },
+                {
+                    // Values accepted by debug - should be same as outline-width
+                    values: {
+                        1: "1px",
+                        2: "2px",
+                        3: "3px",
+                        4: "4px",
+                        8: "8px",
+                    },
+                }
+            );
+        }),
+    ],
 };

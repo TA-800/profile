@@ -10,6 +10,8 @@
     2. vb: Image by <a href="https://www.freepik.com/free-vector/hand-drawn-volleyball-silhouette_26412322.htm#query=volleyball%20player&position=37&from_view=search&track=ais">Freepik</a>
     3. ninja: Image by <a href="https://www.freepik.com/free-vector/linear-flat-ninja-logo-template_15478197.htm#page=3&query=ninja&position=21&from_view=search&track=sph">Freepik</a>
     4. joystick: <a href="https://www.freepik.com/free-vector/joystick-game-sport-technology_10549680.htm#query=game&position=4&from_view=search&track=sph">Image by catalyststuff</a> on Freepik
+    5. laptop: <a href="https://www.freepik.com/free-vector/code-typing-concept-illustration_10259340.htm#query=typing&position=0&from_view=search&track=sph">Image by storyset</a> on Freepik
+    6. dev icons: https://devicon.dev/
 
 done:
 5. Resizing header navbar on scroll
