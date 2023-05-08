@@ -2,9 +2,13 @@
 
 import "./globals.css";
 import { Roboto_Mono } from "next/font/google";
-import { forwardRef, useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import ninjaPic from "../../public/ninja.png";
 import Image from "next/image";
+
+// Headless UI Menu
+import { Menu } from "@headlessui/react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const robotoMono = Roboto_Mono({ subsets: ["latin"] });
 
@@ -65,21 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </NavItem>
                     {/* Menu icon SVG */}
                     <NavItem className="ml-auto">
-                        <button className={`bg-gray-800 rounded-sm py-2 px-3 hover:bg-gray-700 transition`}>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-6 h-6">
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                                />
-                            </svg>
-                        </button>
+                        <MenuDropdown />
                     </NavItem>
                 </NavBar>
                 {children}
@@ -109,6 +99,163 @@ const NavBar = forwardRef<HTMLUListElement, { children: React.ReactNode }>(funct
 
 function NavItem({ className, children }: { className?: string; children: React.ReactNode }) {
     return <li className={className}>{children}</li>;
+}
+
+function MenuDropdown() {
+    // Menu states = "experience", "contact"
+    const [menuState, setMenuState] = useState<"experience" | "contact" | "none">("none");
+
+    function resetMenuToMain() {
+        setMenuState("none");
+    }
+
+    return (
+        <Menu as="div" className="relative">
+            {({ open }: { open: boolean }) => (
+                <>
+                    <Menu.Button>
+                        <div className="bg-gray-800 rounded-sm p-3">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6">
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                                />
+                            </svg>
+                        </div>
+                    </Menu.Button>
+
+                    <AnimatePresence>
+                        {open && (
+                            <motion.div
+                                initial={{
+                                    opacity: 0,
+                                    y: -20,
+                                    height: 0,
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                    height: menuState === "none" ? "150px" : "132px",
+                                }}
+                                exit={{
+                                    opacity: 0.25,
+                                    y: -10,
+                                    height: 0,
+                                }}
+                                className="absolute top-full right-1/2 w-[136px] z-50 bg-gray-900 overflow-hidden">
+                                {menuState === "none" && (
+                                    <Menu.Items as={motion.div} static>
+                                        <StylizedMenuItem>About Me</StylizedMenuItem>
+                                        <StylizedMenuItem
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                setMenuState("experience");
+                                            }}>
+                                            Experience
+                                        </StylizedMenuItem>
+                                        <StylizedMenuItem
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                setMenuState("contact");
+                                            }}>
+                                            Contact Me
+                                        </StylizedMenuItem>
+                                    </Menu.Items>
+                                )}
+                                {menuState === "experience" && (
+                                    <Menu.Items as={motion.div} static>
+                                        <StylizedMenuItem onClick={resetMenuToMain}>Skills</StylizedMenuItem>
+                                        <StylizedMenuItem onClick={resetMenuToMain}>Projects</StylizedMenuItem>
+                                        <StylizedMenuItem back resetMenuToMain={resetMenuToMain} />
+                                    </Menu.Items>
+                                )}
+                                {menuState === "contact" && (
+                                    <Menu.Items as={motion.div} static>
+                                        <StylizedMenuItem onClick={resetMenuToMain}>My Socials</StylizedMenuItem>
+                                        <StylizedMenuItem onClick={resetMenuToMain}>Email Form</StylizedMenuItem>
+                                        <StylizedMenuItem back resetMenuToMain={resetMenuToMain} />
+                                    </Menu.Items>
+                                )}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </>
+            )}
+        </Menu>
+    );
+}
+
+// StylizedMenuItems props = it can either accept children, onClick or only back (boolean) prop, but not both (className can be used both ways)
+type StylizedMenuItemProps =
+    | {
+          children: React.ReactNode;
+          className?: string;
+          onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+          back?: never;
+          resetMenuToMain?: never;
+      }
+    | {
+          back: true;
+          resetMenuToMain: () => void;
+          children?: string;
+          className?: never;
+          onClick?: never;
+      };
+
+function StylizedMenuItem(props: StylizedMenuItemProps) {
+    // Function to allow enter and space key to simulate a click on the button (for the menu items that bring up submenus)
+    function simulateClickOnKeydown(event: React.KeyboardEvent<HTMLButtonElement>) {
+        console.log("Hi");
+        console.log(event.key);
+    }
+
+    if (props.back) {
+        return (
+            <Menu.Item>
+                {({ active }) => (
+                    <button
+                        onKeyDownCapture={() => console.log("Hi")}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            props.resetMenuToMain();
+                        }}
+                        className={
+                            `w-full flex justify-end px-2 py-1 ${active ? "bg-gray-700" : "bg-gray-900"} ` + props.className
+                        }>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        </svg>
+                    </button>
+                )}
+            </Menu.Item>
+        );
+    }
+
+    return (
+        <Menu.Item>
+            {({ active }) => (
+                <button
+                    onKeyDown={simulateClickOnKeydown}
+                    onClick={props.onClick}
+                    className={`w-full text-center py-3 px-5 ${active ? "bg-gray-700" : "bg-gray-900"} ` + props.className}>
+                    {props.children}
+                </button>
+            )}
+        </Menu.Item>
+    );
 }
 
 function Footer() {

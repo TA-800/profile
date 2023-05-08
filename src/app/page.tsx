@@ -16,7 +16,7 @@ import discordIconPic from "../../public/discord-mark-blue.png";
 
 // Title Font
 import { Open_Sans } from "next/font/google";
-const inter = Open_Sans({ subsets: ["latin"] });
+const openSans = Open_Sans({ subsets: ["latin"] });
 
 export default function Home() {
     const [skillsExpanded, setSkillsExpanded] = useState(false);
@@ -352,7 +352,7 @@ function AnimatedHeader({ text, delay }: { text: string; delay?: number }) {
         <div className={`flex flex-row overflow-hidden px-2 justify-center`}>
             <motion.div
                 className={
-                    inter.className +
+                    openSans.className +
                     ` xl:text-9xl lg:text-8xl md:text-7xl xs:text-4xl text-3xl font-extrabold tracking-tight
                     bg-clip-text bg-gradient-to-r from-indigo-200 via-blue-600 to-indigo-200 
                     flex shrink-0 pr-2`
@@ -390,8 +390,11 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
                 delay: headerDelay,
             }}>
             <div
-                className={`pb-4 border-b-2 border-gray-900/50
-                         flex gap-[--gap] overflow-hidden`}>
+                className={
+                    openSans.className +
+                    ` pb-4 border-b-2 border-b-white/5
+                         flex gap-[--gap] overflow-hidden`
+                }>
                 {Array.from({ length: 3 }).map((_, index) => (
                     <motion.ul
                         key={index}
@@ -427,7 +430,7 @@ const Section = forwardRef<HTMLDivElement, ComponentProps<"section">>(function S
 Section.displayName = "Section";
 
 function SubHeader({ title }: { title: string }) {
-    return <p className={inter.className + ` text-3xl font-extrabold tracking-wide`}>{title}</p>;
+    return <p className={openSans.className + ` text-3xl font-extrabold`}>{title}</p>;
 }
 
 function Highlight({
@@ -571,7 +574,7 @@ function Card({
             <figcaption className="flex flex-col w-full h-full justify-center items-center p-2">
                 <h3
                     className={
-                        inter.className +
+                        openSans.className +
                         ` text-center text-2xl text-gray-300 group-hover:opacity-100 ${
                             isactive ? "opacity-100 font-bold" : "opacity-75 font-semibold"
                         } transition-all duration-300`
@@ -885,7 +888,7 @@ function SocialGrid() {
     // Positioner of container
     return (
         <div className="flex flex-col w-full items-center border-y-4 border-y-white/5">
-            <div className="flex flex-row flex-wrap justify-center items-center gap-6 p-6 w-fit">
+            <div className="flex flex-row flex-wrap justify-center items-center lg:gap-6 gap-6 p-6 w-fit">
                 <SocialCard name="TA-800" link="https://github.com/TA-800">
                     <svg viewBox="0 0 128 128">
                         <g fill="#181616">
