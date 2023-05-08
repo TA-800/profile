@@ -12,6 +12,7 @@ import wordlePic from "../../public/wordle.png";
 import vbreceivePic from "../../public/vb_receive.png";
 import joystickPic from "../../public/joystick.png";
 import codeTypingPic from "../../public/codeTyping.png";
+import discordIconPic from "../../public/discord-mark-blue.png";
 
 // Title Font
 import { Open_Sans } from "next/font/google";
@@ -21,6 +22,8 @@ export default function Home() {
     const [skillsExpanded, setSkillsExpanded] = useState(false);
     const headerWords = ["FULL-STACK", "WEB DEVELOPER"];
     const aboutMeRef = useRef<HTMLDivElement>(null);
+    const experienceRef = useRef<HTMLDivElement>(null);
+    const contactRef = useRef<HTMLDivElement>(null);
 
     return (
         <main>
@@ -31,13 +34,19 @@ export default function Home() {
                     ))}
                     <p className="text-center">Want to bring a website to life? I could help you with that.</p>
                 </hgroup>
-                <button className="btn btn-primary">
+                <Button
+                    onClick={() => {
+                        window.scrollTo({
+                            top: contactRef.current!.offsetTop - (window.innerWidth > 1024 ? 96 : 80),
+                            behavior: "smooth",
+                        });
+                    }}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                         <path d="M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 00-1.032-.211 50.89 50.89 0 00-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 002.433 3.984L7.28 21.53A.75.75 0 016 21v-4.03a48.527 48.527 0 01-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979z" />
                         <path d="M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 001.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0015.75 7.5z" />
                     </svg>
-                    Lets Talk!
-                </button>
+                    Let's Talk!
+                </Button>
             </div>
             {/* About Me */}
             <Section ref={aboutMeRef} className="relative">
@@ -56,6 +65,33 @@ export default function Home() {
                         />
                     </svg>
                 </MarqueeHeader>
+                <br />
+                <Button
+                    secondary
+                    className={`z-10 group
+                                sticky lg:top-28 top-24`}
+                    onClick={() => {
+                        // Skip to experience section, top nav is not in the way (h is 96px (on lg) and 80px (rest))
+                        window.scrollTo({
+                            top: experienceRef.current!.offsetTop - (window.innerWidth > 1024 ? 96 : 80),
+                            behavior: "smooth",
+                        });
+                    }}>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6">
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5"
+                        />
+                    </svg>
+                    <span className="hidden group-hover:block">Skip</span>
+                </Button>
                 <br />
                 <p>
                     Hello! My name is
@@ -84,8 +120,8 @@ export default function Home() {
                     <Highlight bgColor="firebrick" txtColor="darkseagreen" space="left">
                         CS50 Web Programming
                     </Highlight>
-                    . I have also dabbled in game development using Unity, and I enjoy using my skills to create fun and silly
-                    projects in my spare time.
+                    . I have also dabbled in game development using Unity and C#, and I enjoy using my skills to create fun and
+                    silly projects in my spare time.
                 </p>
                 <br />
                 <p>
@@ -98,6 +134,7 @@ export default function Home() {
                     Thank you for taking the time to get to know me a little better. I look forward to sharing my passion for web
                     development with you!
                 </p>
+
                 {/* Positioner of container */}
                 <div className="flex justify-center">
                     {/* Images container */}
@@ -126,7 +163,7 @@ export default function Home() {
                 </div>
             </Section>
             {/* Experience */}
-            <Section>
+            <Section ref={experienceRef}>
                 <MarqueeHeader title="Experience" headerDelay={Math.random() * 1.5}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -146,13 +183,11 @@ export default function Home() {
                 <p>
                     As a web developer, I love to explore the possibilities that different software and frameworks offer to build
                     a variety of projects. I&apos;m constantly on the lookout for new and creative ways to use these tools to
-                    create beautiful and functional web applications. Dive into some of my favorite tools that I&apos;ve become
+                    create beautiful and functional web applications. Dive into this section of tools that I&apos;ve become
                     proficient in, and the exciting projects I&apos;ve built with them.
                 </p>
                 <br />
                 <SubHeader title="Tools of the Trade" />
-                <br />
-                <p>Here are some of the skills and languages I&apos;ve learned through web development and project building:</p>
                 <br />
                 {/* Positioner of Skill-Grid */}
                 <div className="flex justify-center">
@@ -160,7 +195,7 @@ export default function Home() {
                 </div>
                 <br />
                 {/* Expand skills button */}
-                <button className="btn btn-primary" onClick={() => setSkillsExpanded(!skillsExpanded)}>
+                <Button onClick={() => setSkillsExpanded(!skillsExpanded)}>
                     {skillsExpanded ? (
                         <>
                             <svg
@@ -188,7 +223,7 @@ export default function Home() {
                             Show More
                         </>
                     )}
-                </button>
+                </Button>
                 <br />
                 <SubHeader title="Projects" />
 
@@ -202,22 +237,23 @@ export default function Home() {
                 <div className="flex lg:justify-start justify-center items-center">
                     <div className={`flex flex-col gap-4 whitespace-nowrap`}>
                         <span className="">View all my projects.</span>
-                        <button className="btn btn-primary">
+                        <Button
+                            onClick={() => {
+                                window.open("https://github.com/TA-800", "TA-800 Link");
+                            }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f3f4f6">
                                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                             </svg>
                             GitHub Profile
-                        </button>
-                        <button className="btn btn-secondary">
+                        </Button>
+                        <Button secondary>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f3f4f6">
                                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                             </svg>
                             This on GitHub
-                        </button>
+                        </Button>
                     </div>
                 </div>
-                <br />
-                <SubHeader title="Next in line" />
                 <br />
                 <p>
                     I'm always on the lookout for new web technologies to learn and master. Currently, I&apos;m diving into
@@ -248,7 +284,7 @@ export default function Home() {
                 </div>
             </Section>
             {/* Contact */}
-            <Section>
+            <Section ref={contactRef}>
                 <MarqueeHeader title="Contact Me" headerDelay={Math.random() * 1.5}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -282,7 +318,12 @@ export default function Home() {
                     .
                 </p>
                 <br />
-                <p>My Socials and you can find me on Gmail, GitHub, LinkedIn, Discord.</p>
+                <p>
+                    You can <span className="font-black uppercase underline">click</span> on the icons below to visit my social
+                    media profiles.
+                </p>
+                <br />
+                <SocialGrid />
                 <br />
                 <SubHeader title="Contact Form" />
                 <br />
@@ -349,7 +390,7 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
                 delay: headerDelay,
             }}>
             <div
-                className={`border- border-red-500
+                className={`pb-4 border-b-2 border-gray-900/50
                          flex gap-[--gap] overflow-hidden`}>
                 {Array.from({ length: 3 }).map((_, index) => (
                     <motion.ul
@@ -425,7 +466,8 @@ function CardCarousel() {
 
     return (
         <div
-            className={`relative flex lg:flex-row flex-col justify-center items-center gap-3 px-4 py-16 lg:py-10 w-full
+            className={`relative flex lg:flex-row flex-col justify-center items-center gap-3 py-16 lg:py-10
+            w-full
             border-y-4 border-y-white/5`}>
             <Card
                 imgSrc={eruditionPic}
@@ -433,7 +475,7 @@ function CardCarousel() {
                 title="Erudition"
                 isactive={activeCard === 1}
                 onClick={() => setActiveCard(1)}>
-                Web app for students to manage study materials and assignments
+                Web app for students to manage study materials and assignments, with Django backend.
             </Card>
             <Card
                 imgSrc={rtcappPic}
@@ -441,7 +483,7 @@ function CardCarousel() {
                 title="RTC Chatapp"
                 isactive={activeCard === 2}
                 onClick={() => setActiveCard(2)}>
-                Real-time chat web app built with React and Supabase
+                Real-time chat web app built with React and Supabase.
             </Card>
             <Card
                 imgSrc={mousemagnetPic}
@@ -449,13 +491,13 @@ function CardCarousel() {
                 title="Mouse Magnet"
                 isactive={activeCard === 3}
                 onClick={() => setActiveCard(3)}>
-                Magnetic mouse and buttons that follow the cursor pleasantly
+                Magnetic mouse and buttons that follow the cursor pleasantly.
             </Card>
             <Card imgSrc={wordlePic} title="Wordle Help" isactive={activeCard === 4} onClick={() => setActiveCard(4)}>
-                An assistant to help you solve Wordle puzzles
+                An Python bot to help you solve Wordle puzzles.
             </Card>
             <Card imgSrc={mousemagnetPic} title="Discord Bot" isactive={activeCard === 5} onClick={() => setActiveCard(5)}>
-                A Discord bot with many random features
+                A Discord bot with many random features - word game, fetch YT vids and memes, etc.
             </Card>
         </div>
     );
@@ -489,11 +531,12 @@ function Card({
     return (
         // Reference for flex basis and carousel / cards: https://youtu.be/JD4ws4cY1ro?t=96
         <div
-            className={`group h-96
-                        w-64 xs:w-72 sm:w-96
-                        data-[isactive=true]:basis-64 xs:data-[isactive=true]:basis-72 sm:data-[isactive=true]:basis-96
-                        data-[isactive=false]:basis-9
-                        relative rounded-sm border-transparent border-2 select-none
+            className={`group shrink-0
+                        lg:w-32 lg:h-96
+                        lg:data-[isactive=true]:w-96
+                        sm:w-96 xs:w-80 w-72 h-16
+                        data-[isactive=true]:h-96
+                        relative rounded-sm border-transparent border-2 select-none cursor-pointer
                         transition-all ease-out duration-500`}
             style={{
                 boxShadow: "-6px 8px 6px 0px rgba(0,0,0,0.25)",
@@ -590,9 +633,10 @@ function Card({
 
 function SkillGrid({ expanded }: { expanded: boolean }) {
     return (
+        // Positioner of container
         <div className="flex flex-col w-full items-center border-y-4 border-y-white/5">
             <div
-                // Three cards per row max (card width = 160px, gap = 24px, max width = 576px)
+                // Container: three cards per row max (card width = 160px, gap = 24px, max width = 576px)
                 className={`flex flex-row flex-wrap justify-center gap-6 ${expanded ? "pt-6" : "p-6"} max-w-xl`}>
                 <SkillCard name="HTML">
                     <svg viewBox="0 0 128 128">
@@ -721,7 +765,7 @@ function SkillGrid({ expanded }: { expanded: boolean }) {
                                 <path
                                     d="M63.7076 110.284C60.8481 113.885 55.0502 111.912 54.9813 107.314L53.9738 40.0627L99.1935 40.0627C107.384 40.0627 111.952 49.5228 106.859 55.9374L63.7076 110.284Z"
                                     fill="url(#paint1_linear)"
-                                    fill-opacity="0.2"
+                                    fillOpacity="0.2"
                                 />
                                 <path
                                     d="M45.317 2.07103C48.1765 -1.53037 53.9745 0.442937 54.0434 5.041L54.4849 72.2922H9.83113C1.64038 72.2922 -2.92775 62.8321 2.1655 56.4175L45.317 2.07103Z"
@@ -735,8 +779,8 @@ function SkillGrid({ expanded }: { expanded: boolean }) {
                                         x2="94.1635"
                                         y2="71.8295"
                                         gradientUnits="userSpaceOnUse">
-                                        <stop stop-color="#249361" />
-                                        <stop offset="1" stop-color="#3ECF8E" />
+                                        <stop stopColor="#249361" />
+                                        <stop offset="1" stopColor="#3ECF8E" />
                                     </linearGradient>
                                     <linearGradient
                                         id="paint1_linear"
@@ -746,7 +790,7 @@ function SkillGrid({ expanded }: { expanded: boolean }) {
                                         y2="65.0806"
                                         gradientUnits="userSpaceOnUse">
                                         <stop />
-                                        <stop offset="1" stop-opacity="0" />
+                                        <stop offset="1" stopOpacity="0" />
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -757,7 +801,7 @@ function SkillGrid({ expanded }: { expanded: boolean }) {
             {expanded && (
                 <div className="flex flex-row flex-wrap justify-center gap-3 py-6 max-w-xl">
                     {/* Give p element full width so that flex-wrap gives it its own entire column */}
-                    <p className="w-full text-sm opacity-50 mb-2">More skills.</p>
+                    <p className="w-full text-sm opacity-50 mb-2">More skills</p>
                     <SkillCard name="Unity" size="small">
                         <svg viewBox="0 0 128 128">
                             <path
@@ -828,11 +872,122 @@ function SkillCard({ name, size, children: icon }: { name: string; size?: "large
             }}>
             <div className={`${size === "large" ? "w-24 h-24" : "w-12 h-12"}`}>{icon}</div>
             <p
-                className={`group-hover:font-bold ${size === "large" ? " group-hover:tracking-wide " : ""}
+                className={`group-hover:font-bold tracking-tighter
                             ${size === "large" ? "" : " text-sm "}
                             transition-all duration-200`}>
                 {name}
             </p>
         </div>
+    );
+}
+
+function SocialGrid() {
+    // Positioner of container
+    return (
+        <div className="flex flex-col w-full items-center border-y-4 border-y-white/5">
+            <div className="flex flex-row flex-wrap justify-center items-center gap-6 p-6 w-fit">
+                <SocialCard name="TA-800" link="https://github.com/TA-800">
+                    <svg viewBox="0 0 128 128">
+                        <g fill="#181616">
+                            <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M64 5.103c-33.347 0-60.388 27.035-60.388 60.388 0 26.682 17.303 49.317 41.297 57.303 3.017.56 4.125-1.31 4.125-2.905 0-1.44-.056-6.197-.082-11.243-16.8 3.653-20.345-7.125-20.345-7.125-2.747-6.98-6.705-8.836-6.705-8.836-5.48-3.748.413-3.67.413-3.67 6.063.425 9.257 6.223 9.257 6.223 5.386 9.23 14.127 6.562 17.573 5.02.542-3.903 2.107-6.568 3.834-8.076-13.413-1.525-27.514-6.704-27.514-29.843 0-6.593 2.36-11.98 6.223-16.21-.628-1.52-2.695-7.662.584-15.98 0 0 5.07-1.623 16.61 6.19C53.7 35 58.867 34.327 64 34.304c5.13.023 10.3.694 15.127 2.033 11.526-7.813 16.59-6.19 16.59-6.19 3.287 8.317 1.22 14.46.593 15.98 3.872 4.23 6.215 9.617 6.215 16.21 0 23.194-14.127 28.3-27.574 29.796 2.167 1.874 4.097 5.55 4.097 11.183 0 8.08-.07 14.583-.07 16.572 0 1.607 1.088 3.49 4.148 2.897 23.98-7.994 41.263-30.622 41.263-57.294C124.388 32.14 97.35 5.104 64 5.104z"></path>
+                            <path d="M26.484 91.806c-.133.3-.605.39-1.035.185-.44-.196-.685-.605-.543-.906.13-.31.603-.395 1.04-.188.44.197.69.61.537.91zm2.446 2.729c-.287.267-.85.143-1.232-.28-.396-.42-.47-.983-.177-1.254.298-.266.844-.14 1.24.28.394.426.472.984.17 1.255zM31.312 98.012c-.37.258-.976.017-1.35-.52-.37-.538-.37-1.183.01-1.44.373-.258.97-.025 1.35.507.368.545.368 1.19-.01 1.452zm3.261 3.361c-.33.365-1.036.267-1.552-.23-.527-.487-.674-1.18-.343-1.544.336-.366 1.045-.264 1.564.23.527.486.686 1.18.333 1.543zm4.5 1.951c-.147.473-.825.688-1.51.486-.683-.207-1.13-.76-.99-1.238.14-.477.823-.7 1.512-.485.683.206 1.13.756.988 1.237zm4.943.361c.017.498-.563.91-1.28.92-.723.017-1.308-.387-1.315-.877 0-.503.568-.91 1.29-.924.717-.013 1.306.387 1.306.88zm4.598-.782c.086.485-.413.984-1.126 1.117-.7.13-1.35-.172-1.44-.653-.086-.498.422-.997 1.122-1.126.714-.123 1.354.17 1.444.663zm0 0"></path>
+                        </g>
+                    </svg>
+                </SocialCard>
+                <SocialCard name="Taher Ali" link="https://linkedin.com/in/ta800">
+                    <svg viewBox="0 0 128 128">
+                        <path
+                            fill="#0076b2"
+                            d="M116 3H12a8.91 8.91 0 00-9 8.8v104.42a8.91 8.91 0 009 8.78h104a8.93 8.93 0 009-8.81V11.77A8.93 8.93 0 00116 3z"></path>
+                        <path
+                            fill="#fff"
+                            d="M21.06 48.73h18.11V107H21.06zm9.06-29a10.5 10.5 0 11-10.5 10.49 10.5 10.5 0 0110.5-10.49M50.53 48.73h17.36v8h.24c2.42-4.58 8.32-9.41 17.13-9.41C103.6 47.28 107 59.35 107 75v32H88.89V78.65c0-6.75-.12-15.44-9.41-15.44s-10.87 7.36-10.87 15V107H50.53z"></path>
+                    </svg>
+                </SocialCard>
+                <SocialCard lastCharsSmall={10} name="taherali0905@gmail.com" link="mailto:taherali0905@gmail.com">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="96px" height="96px">
+                        <path fill="#4caf50" d="M45,16.2l-5,2.75l-5,4.75L35,40h7c1.657,0,3-1.343,3-3V16.2z" />
+                        <path fill="#1e88e5" d="M3,16.2l3.614,1.71L13,23.7V40H6c-1.657,0-3-1.343-3-3V16.2z" />
+                        <polygon fill="#e53935" points="35,11.2 24,19.45 13,11.2 12,17 13,23.7 24,31.95 35,23.7 36,17" />
+                        <path
+                            fill="#c62828"
+                            d="M3,12.298V16.2l10,7.5V11.2L9.876,8.859C9.132,8.301,8.228,8,7.298,8h0C4.924,8,3,9.924,3,12.298z"
+                        />
+                        <path
+                            fill="#fbc02d"
+                            d="M45,12.298V16.2l-10,7.5V11.2l3.124-2.341C38.868,8.301,39.772,8,40.702,8h0 C43.076,8,45,9.924,45,12.298z"
+                        />
+                    </svg>
+                </SocialCard>
+                <SocialCard lastCharsSmall={5} name="TheWeakNinja#3695" link="https://discord.com/">
+                    <Image src={discordIconPic} alt="Discord Icon" />
+                </SocialCard>
+            </div>
+        </div>
+    );
+}
+
+function SocialCard({
+    name,
+    link,
+    lastCharsSmall,
+    children: icon,
+}: {
+    name: string;
+    link: string;
+    lastCharsSmall?: number;
+    children: React.ReactNode;
+}) {
+    // Get lastCharsSmall number of characters from the end of the name and split it into two parts (start and end)
+    const main = lastCharsSmall ? name.slice(0, -lastCharsSmall) : name;
+    const end = lastCharsSmall ? name.slice(-lastCharsSmall) : "";
+
+    return (
+        <button
+            onClick={() => {
+                window.open(link, `${name} Link}`);
+            }}
+            className={`flex flex-col justify-center items-center gap-4
+                         h-40 w-48 bg-gray-700 border-2 border-gray-600
+                         hover:scale-105 hover:bg-gray-600 hover:border-gray-500
+                         group transition-all duration-300`}
+            style={{
+                boxShadow: "-4px 5px 0px 2px rgba(0,0,0,0.25)",
+            }}>
+            <div className="w-24 h-24 flex justify-center items-center">{icon}</div>
+            <p className="tracking-tighter group-hover:font-bold transition-all duration-200">
+                {main}
+                <span className="font-normal text-xs opacity-50">{end}</span>
+            </p>
+        </button>
+    );
+}
+
+// Button with classname btn btn-primary / secondary + artificial delay
+function Button({
+    children,
+    secondary,
+    className,
+    onClick,
+}: {
+    children: React.ReactNode;
+    secondary?: boolean;
+    className?: string;
+    onClick?: () => void;
+}) {
+    // Add artificial delay to button click to allow for animation
+    return (
+        <button
+            onClick={() => {
+                setTimeout(() => {
+                    onClick?.();
+                }, 125);
+            }}
+            className={`btn ${secondary ? "btn-secondary" : "btn-primary"} ${className}`}>
+            {children}
+        </button>
     );
 }

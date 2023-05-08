@@ -1,12 +1,12 @@
 "use client";
 
 import "./globals.css";
-import { JetBrains_Mono } from "next/font/google";
+import { Roboto_Mono } from "next/font/google";
 import { forwardRef, useEffect, useRef } from "react";
 import ninjaPic from "../../public/ninja.png";
 import Image from "next/image";
 
-const jetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });
+const robotoMono = Roboto_Mono({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     // For navbar shrink effect
@@ -28,7 +28,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <meta name="description" content="Taher Ali's portfolio." />
             </head>
-            <body className="bg-gray-800 text-gray-400 px-6 md:px-8 lg:px-16 mt-28 lg:mt-32 tracking-tight leading-relaxed overflow-x-hidden">
+            <body
+                className={
+                    robotoMono.className +
+                    ` bg-gray-800 text-gray-400
+                        px-6 md:px-8 lg:px-16 mt-28 lg:mt-32 tracking-tight leading-relaxed overflow-x-hidden`
+                }>
                 <NavBar ref={navRef}>
                     {/* Name and Ninja Icon */}
                     <NavItem>
