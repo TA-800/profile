@@ -1,7 +1,4 @@
-2. Facebook drop down style
 4. Text fade in animation (similar to demo project)
-6. daisyUI dark theme + mono / cyberpunk font for overall UI style
-8. carousel for cards
 9. background video ideas (loop with parallax)
     1. Intro: VS Code coding => YT Tutorial => Figma => Typing localhost on url => React symbol
     2. About Me: Anime + Games + Volleyball + Anim timelapse
@@ -12,11 +9,16 @@
     4. joystick: <a href="https://www.freepik.com/free-vector/joystick-game-sport-technology_10549680.htm#query=game&position=4&from_view=search&track=sph">Image by catalyststuff</a> on Freepik
     5. laptop: <a href="https://www.freepik.com/free-vector/code-typing-concept-illustration_10259340.htm#query=typing&position=0&from_view=search&track=sph">Image by storyset</a> on Freepik
     6. dev icons: https://devicon.dev/
+11. decrease spacing between sections
+12. decrease the attention given to marquee when reading paragraphs
 
 done:
+2. Facebook drop down style
+6. daisyUI dark theme + mono / cyberpunk font for overall UI style
 5. Resizing header navbar on scroll
 3. Marquee for each section header
 7. color the main h1 like GitHub
+8. carousel for cards
 
 not happening:
 1. Mouse follower + magnetic buttons (still unstable)

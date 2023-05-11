@@ -107,17 +107,13 @@ function MenuDropdown() {
     // Create a ref that can be used to check if menu is open
     const menuRef = useRef<HTMLDivElement>(null);
 
-    function resetMenuToMain() {
-        setMenuState("none");
-    }
-
     return (
         <Menu as="div" className="relative">
             {({ open }: { open: boolean }) => {
                 return (
                     <>
                         <Menu.Button>
-                            <div className="bg-gray-800 rounded-sm p-3">
+                            <div className="bg-gray-800 rounded-sm p-3 hover:bg-gray-700 hover:text-gray-300 transition-all duration-300">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -138,18 +134,22 @@ function MenuDropdown() {
                             {open && (
                                 // Entire Menu container
                                 <motion.div
+                                    key="menu-container"
                                     ref={menuRef}
                                     initial={{
+                                        outlineWidth: "0px",
                                         opacity: 0,
                                         y: -20,
                                         height: 0,
                                     }}
                                     animate={{
+                                        outlineWidth: "3px",
                                         opacity: 1,
                                         y: 0,
                                         height: menuState === "none" ? "200px" : "132px",
                                     }}
                                     exit={{
+                                        outlineWidth: "0px",
                                         opacity: 0.5,
                                         y: -5,
                                         height: 0,
@@ -160,9 +160,10 @@ function MenuDropdown() {
                                         mass: 0.5,
                                         damping: 13,
                                     }}
-                                    className={`absolute top-full right-0 w-[136px] z-50 bg-gray-900 overflow-clip rounded-md outline outline-2 outline-gray-600/50`}>
+                                    className={`absolute top-full right-0 w-[136px] z-50 bg-gray-900 overflow-clip rounded-sm outline outline-gray-600/50`}>
+                                    {/* <AnimatePresence> */}
                                     {menuState === "none" && (
-                                        <AnimatedMenu menuRef={menuRef}>
+                                        <AnimatedMenu menuRef={menuRef} key="none">
                                             <StylizedMenuItem>About Me</StylizedMenuItem>
                                             <StylizedMenuItem
                                                 onClick={(e) => {
@@ -182,19 +183,32 @@ function MenuDropdown() {
                                         </AnimatedMenu>
                                     )}
                                     {menuState === "experience" && (
-                                        <AnimatedMenu isSub menuRef={menuRef}>
-                                            <StylizedMenuItem onClick={resetMenuToMain}>Skills</StylizedMenuItem>
-                                            <StylizedMenuItem onClick={resetMenuToMain}>Projects</StylizedMenuItem>
-                                            <StylizedMenuItem back resetMenuToMain={resetMenuToMain} />
+                                        <AnimatedMenu menuRef={menuRef} key="experience" isSub>
+                                            <StylizedMenuItem onClick={(e) => setMenuState("none")}>Skills</StylizedMenuItem>
+                                            <StylizedMenuItem onClick={(e) => setMenuState("none")}>Projects</StylizedMenuItem>
+                                            <StylizedMenuItem
+                                                back
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setMenuState("none");
+                                                }}
+                                            />
                                         </AnimatedMenu>
                                     )}
                                     {menuState === "contact" && (
-                                        <AnimatedMenu isSub menuRef={menuRef}>
-                                            <StylizedMenuItem onClick={resetMenuToMain}>Socials</StylizedMenuItem>
-                                            <StylizedMenuItem onClick={resetMenuToMain}>Form</StylizedMenuItem>
-                                            <StylizedMenuItem back resetMenuToMain={resetMenuToMain} />
+                                        <AnimatedMenu menuRef={menuRef} key="contact" isSub>
+                                            <StylizedMenuItem onClick={(e) => setMenuState("none")}>Socials</StylizedMenuItem>
+                                            <StylizedMenuItem onClick={(e) => setMenuState("none")}>Form</StylizedMenuItem>
+                                            <StylizedMenuItem
+                                                back
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setMenuState("none");
+                                                }}
+                                            />
                                         </AnimatedMenu>
                                     )}
+                                    {/* </AnimatePresence> */}
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -205,7 +219,6 @@ function MenuDropdown() {
     );
 }
 
-// StylizedMenuItems props = it can either accept children, onClick or only back (boolean) prop, but not both (className can be used both ways)
 type StylizedMenuItemProps =
     | {
           children: React.ReactNode;
@@ -216,10 +229,9 @@ type StylizedMenuItemProps =
       }
     | {
           back: true;
-          resetMenuToMain: () => void;
           children?: string;
           className?: never;
-          onClick?: never;
+          onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
       };
 
 function StylizedMenuItem(props: StylizedMenuItemProps) {
@@ -228,11 +240,8 @@ function StylizedMenuItem(props: StylizedMenuItemProps) {
             <Menu.Item>
                 {({ active }) => (
                     <button
-                        onClick={(e) => {
-                            e.preventDefault();
-                            props.resetMenuToMain();
-                        }}
-                        className={`w-full px-2 py-1 ${active ? "bg-gray-700" : "bg-gray-900"} ` + props.className}>
+                        onClick={props.onClick}
+                        className={`w-full px-2 py-1 ${active ? "bg-gray-700" : "bg-gray-900"} ` + (props.className ?? "")}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -262,41 +271,49 @@ function StylizedMenuItem(props: StylizedMenuItemProps) {
 }
 
 function AnimatedMenu({
+    // menuOpen,
     isSub,
     menuRef,
     children,
 }: {
+    // menuOpen: boolean;
     isSub?: boolean;
     menuRef: React.RefObject<HTMLDivElement>;
     children: React.ReactNode;
 }) {
     const subVariant = {
         initial: {
-            // Animate from the right only if menu is open, else no animation
+            // Animate from the right only if menu is still open, else no animation
             x: menuRef.current ? "100%" : "0%",
         },
         animate: {
             x: "0%",
         },
         // exit: {
-        //     // Animate to the right only if menu is open, else no animation
-        //     x: menuRef.current ? "100%" : "0%",
+        //     // Animate to the right only if menu is still open, else no animation
+        //     x: menuOpen ? "100%" : "0%",
         // },
     };
 
     const mainVariant = {
         initial: {
-            // Animate from the left only if menu is open, else no animation
+            // Animate from the left only if menu is still open, else no animation
             x: menuRef.current ? "-100%" : "0%",
         },
         animate: {
             x: "0%",
         },
         // exit: {
-        //     // Animate to the left only if menu is open, else no animation
-        //     x: menuRef.current ? "-100%" : "0%",
+        //     // Animate to the left only if menu is still open, else no animation
+        //     x: menuOpen ? "-100%" : "0%",
         // },
     };
+
+    useEffect(() => {
+        return () => {
+            console.log("Unmounting");
+        };
+    }, []);
 
     return (
         <Menu.Items
@@ -310,6 +327,8 @@ function AnimatedMenu({
                 type: "spring",
                 mass: 0.4,
             }}
+            // Need absolute positioning to prevent glitchy animation due to layout shift (when new component is added to DOM, it shifts the layout)
+            // className={`absolute ${isSub ? "bg-gray-300" : "bg-black"}`}
             static>
             {children}
         </Menu.Items>

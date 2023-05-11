@@ -16,6 +16,11 @@
     .btn-secondary {
         @apply bg-pink-700 hover:bg-pink-800 text-gray-100 shadow-[-4px_4px_0px_black] border-2 border-pink-400/50;
     }
+
+    .inpt {
+        @apply bg-inherit p-2 border-2 border-white/25 rounded-sm transition-all duration-300
+        outline outline-2 outline-blue-500/0 focus:outline-blue-500/100;
+    }
 }
 
 /* Thin scrollbar for every scrollable */

@@ -1,7 +1,15 @@
 "use client";
 
-import { ComponentProps, forwardRef, useRef, useState } from "react";
-import { motion, MotionConfig, useMotionTemplate, useMotionValue } from "framer-motion";
+import { ComponentProps, forwardRef, use, useRef, useState } from "react";
+import {
+    AnimatePresence,
+    HTMLMotionProps,
+    motion,
+    MotionConfig,
+    useInView,
+    useMotionTemplate,
+    useMotionValue,
+} from "framer-motion";
 
 import Image, { StaticImageData } from "next/image";
 // All vector images (freepik)
@@ -27,12 +35,14 @@ export default function Home() {
 
     return (
         <main>
-            <div className="flex flex-col gap-20 justify-center items-center h-screen -mt-28 lg:-mt-24 sm:mb-[35vh] mb-[28vh]">
+            <div className="flex flex-col gap-20 justify-center items-center h-screen -mt-28 lg:-mt-24 sm:mb-[18vh] mb-[12vh]">
                 <hgroup className="flex flex-col gap-2">
                     {headerWords.map((word, index) => (
                         <AnimatedHeader key={word} text={word} delay={index * 0.25} />
                     ))}
-                    <p className="text-center">Want to bring a website to life? I could help you with that.</p>
+                    <AP className="text-center" delay={0.75}>
+                        Want to bring a website to life? I could help you with that.
+                    </AP>
                 </hgroup>
                 <Button
                     onClick={() => {
@@ -45,7 +55,7 @@ export default function Home() {
                         <path d="M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 00-1.032-.211 50.89 50.89 0 00-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 002.433 3.984L7.28 21.53A.75.75 0 016 21v-4.03a48.527 48.527 0 01-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979z" />
                         <path d="M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 001.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0015.75 7.5z" />
                     </svg>
-                    Let's Talk!
+                    Let&apos;s Talk!
                 </Button>
             </div>
             {/* About Me */}
@@ -69,7 +79,7 @@ export default function Home() {
                 <Button
                     secondary
                     className={`z-10 group
-                                sticky lg:top-28 top-24`}
+                                sticky lg:top-28 top-24 !px-2 !py-1`}
                     onClick={() => {
                         // Skip to experience section, top nav is not in the way (h is 96px (on lg) and 80px (rest))
                         window.scrollTo({
@@ -83,57 +93,49 @@ export default function Home() {
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
-                        className="w-6 h-6">
+                        className={`w-6 h-6
+                                    translate-x-1 group-hover:translate-x-0
+                                    transition-all duration-300`}>
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5"
                         />
                     </svg>
-                    <span className="hidden group-hover:block">Skip</span>
+                    <span className="w-0 group-hover:w-[46px] overflow-hidden transition-all duration-300">Skip</span>
                 </Button>
                 <br />
-                <p>
+                <AP>
                     Hello! My name is
-                    <Highlight bgColor="magenta" txtColor="cyan" space="left">
-                        Taher Ali
-                    </Highlight>
-                    , and I am an aspiring full-stack web developer currently studying in my second year at
-                    <Highlight bgColor="peru" txtColor="yellow" space="left">
-                        Wilfrid Laurier University
-                    </Highlight>
-                    .
-                </p>
+                    <Highlight space="left">Taher Ali</Highlight>, and I am an aspiring full-stack web developer currently
+                    studying in my second year at
+                    <Highlight space="left">Wilfrid Laurier University</Highlight>.
+                </AP>
                 <br />
-                <p>
+                <AP>
                     I started my journey into web development almost a year ago, and I have been exploring the exciting world of
                     React for the past 5-6 months. Although I have experience with both frontend and backend development, my
                     passion lies in creating beautiful and intuitive user interfaces.
-                </p>
+                </AP>
                 <br />
-                <p>
+                <AP>
                     My interest in programming began when I took
-                    <Highlight bgColor="firebrick" txtColor="darkseagreen" space="both">
-                        CS50 Introduction to Computer Science
-                    </Highlight>
+                    <Highlight space="both">CS50 Introduction to Computer Science</Highlight>
                     and then continued with
-                    <Highlight bgColor="firebrick" txtColor="darkseagreen" space="left">
-                        CS50 Web Programming
-                    </Highlight>
-                    . I have also dabbled in game development using Unity and C#, and I enjoy using my skills to create fun and
-                    silly projects in my spare time.
-                </p>
+                    <Highlight space="left">CS50 Web Programming</Highlight>. I have also dabbled in game development using Unity
+                    and C#, and I enjoy using my skills to create fun and silly projects in my spare time.
+                </AP>
                 <br />
-                <p>
+                <AP>
                     When I&apos;m not coding, I enjoy listening to music, watching anime, making 2D animations with Flash /
                     Animate, and playing video games and volleyball 🏐. These activities help me to stay inspired and motivated in
                     my work.
-                </p>
+                </AP>
                 <br />
-                <p>
+                <AP>
                     Thank you for taking the time to get to know me a little better. I look forward to sharing my passion for web
                     development with you!
-                </p>
+                </AP>
 
                 {/* Positioner of container */}
                 <div className="flex justify-center">
@@ -180,17 +182,17 @@ export default function Home() {
                     </svg>
                 </MarqueeHeader>
                 <br />
-                <p>
+                <AP>
                     As a web developer, I love to explore the possibilities that different software and frameworks offer to build
                     a variety of projects. I&apos;m constantly on the lookout for new and creative ways to use these tools to
                     create beautiful and functional web applications. Dive into this section of tools that I&apos;ve become
                     proficient in, and the exciting projects I&apos;ve built with them.
-                </p>
+                </AP>
                 <br />
                 <SubHeader title="Tools of the Trade" />
                 <br />
                 {/* Positioner of Skill-Grid */}
-                <div className="flex justify-center">
+                <div className="flex justify-center ">
                     <SkillGrid expanded={skillsExpanded} />
                 </div>
                 <br />
@@ -236,7 +238,7 @@ export default function Home() {
 
                 <div className="flex lg:justify-start justify-center items-center">
                     <div className={`flex flex-col gap-4 whitespace-nowrap`}>
-                        <span className="">View all my projects.</span>
+                        <AP className="">View all my projects.</AP>
                         <Button
                             onClick={() => {
                                 window.open("https://github.com/TA-800", "TA-800 Link");
@@ -255,17 +257,11 @@ export default function Home() {
                     </div>
                 </div>
                 <br />
-                <p>
-                    I'm always on the lookout for new web technologies to learn and master. Currently, I&apos;m diving into
-                    <Highlight bgColor="darkorange" txtColor="antiquewhite" space="left">
-                        Docker
-                    </Highlight>
-                    ,
-                    <Highlight bgColor="slategrey" txtColor="white" space="left">
-                        Prisma
-                    </Highlight>
-                    , and CI/CD best practices to streamline my development workflow and create more robust web applications.
-                </p>
+                <AP>
+                    I&apos;m always on the lookout for new web technologies to learn and master. Currently, I&apos;m diving into
+                    <Highlight space="left">Docker</Highlight>,<Highlight space="left">Prisma</Highlight>, and CI/CD best
+                    practices to streamline my development workflow and create more robust web applications.
+                </AP>
                 {/* Positioner of images-container */}
                 <div className="flex justify-center">
                     {/* Images container */}
@@ -301,38 +297,74 @@ export default function Home() {
                     </svg>
                 </MarqueeHeader>
                 <br />
-                <p>
-                    Cillum cillum sint qui elit cillum aliqua. Pariatur aliqua proident aliqua exercitation ullamco tempor cillum.
-                    Nostrud elit aliqua nisi deserunt. Velit commodo amet qui nulla duis ex culpa.
-                </p>
+                <AP>
+                    Do you have a project you want to collaborate on? Or maybe you just want to chat? Either way, I&apos;m always
+                    open to new opportunities and meeting new people. Feel free to reach out to me via any of my socials or
+                    through the contact form below.
+                </AP>
                 <br />
                 <SubHeader title="My Socials" />
                 <br />
-                <p>
-                    Culpa labore dolor amet ullamco velit magna proident cillum irure ut aliquip quis ut sint. Exercitation
-                    incididunt veniam qui tempor dolor tempor. Esse voluptate dolore voluptate enim. Amet esse consectetur ipsum
-                    magna anim pariatur consequat aliqua in ea nulla. If you just wanna say hi, feel free to hit me up on
-                    <Highlight space="left" bgColor="blue" txtColor="lightblue">
-                        Discord
-                    </Highlight>
-                    .
-                </p>
-                <br />
-                <p>
-                    You can <span className="font-black uppercase underline">click</span> on the icons below to visit my social
-                    media profiles.
-                </p>
+                <AP>
+                    Don&apos;t hesitate to reach out to me on any of my socials below for any work inquiries or project ideas. And
+                    if you just wanna say hi, feel free to hit me up on
+                    <Highlight space="left">Discord</Highlight>. You can{" "}
+                    <span className="font-black uppercase underline">click</span> on the icons below to visit my social media
+                    profiles.
+                </AP>
                 <br />
                 <SocialGrid />
                 <br />
                 <SubHeader title="Contact Form" />
                 <br />
-                <p>
-                    Here is a form you can fill up and submit quickly to contact me and I will get back to you as soon as
-                    possible!
-                </p>
+                <AP>
+                    Here is a form you can fill up and submit quickly to contact me and I will get back to you as soon as I can.
+                </AP>
+                <br />
+                <ContactForm />
             </Section>
         </main>
+    );
+}
+
+function ContactForm() {
+    return (
+        <div className="flex lg:flex-row flex-col lg:gap-2 gap-10 p-10 rounded-3xl shadow-2xl border-4 border-gray-600/50 bg-gray-700/50">
+            {/* Left side */}
+            <div className={openSans.className + ` grid place-content-center lg:w-1/2 w-full`}>
+                <p className="flex flex-col">
+                    <span className="lg:text-2xl text-md font-bold">Go ahead.</span>
+                    <span className={`lg:text-5xl xs:text-3xl text-2xl font-black text-gray-300`}>Tell me what you need.</span>
+                </p>
+            </div>
+            {/* Right side */}
+            <form className="grid grid-cols-1 grid-flow-row place-content-center gap-2 lg:w-1/2 w-full">
+                <Input type="text" name="name" id="name" placeholder="John Doe" />
+
+                <Input type="email" name="email" id="email" placeholder="johndoe2@gmail.com" />
+
+                <textarea className="inpt" name="message" id="message" placeholder="Hello there!" />
+
+                <div className="flex justify-end">
+                    <Button type="button">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6">
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                            />
+                        </svg>
+                        Submit
+                    </Button>
+                </div>
+            </form>
+        </div>
     );
 }
 
@@ -379,12 +411,63 @@ function AnimatedHeader({ text, delay }: { text: string; delay?: number }) {
     );
 }
 
+type AnimatedParagraphProps = {
+    marginBottom?: number;
+    yDuration?: number;
+    sDuration?: number;
+    delay?: number;
+};
+
+// Animated Paragraph (transitions into view from transparency)
+const AP = forwardRef<HTMLParagraphElement, HTMLMotionProps<"p"> & AnimatedParagraphProps>(
+    ({ yDuration, sDuration, marginBottom, delay, className, children, ...rest }, fref) => {
+        const ref = useRef(null);
+        const isInView = useInView(ref, {
+            once: true,
+            margin: `0px 0px ${marginBottom ?? -100}px 0px`,
+        });
+
+        const paragraphVariants = {
+            hidden: {
+                opacity: 0,
+                scale: 1.05,
+                y: 60,
+            },
+            visible: {
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                transition: {
+                    delay: delay ?? 0,
+                    y: { duration: yDuration ?? 0.9, ease: "easeOut" },
+                    opacity: { duration: 1.25, ease: "easeOut" },
+                    scale: { duration: sDuration ?? 0.35, ease: "easeOut" },
+                },
+            },
+        };
+
+        return (
+            <span ref={ref} className="overflow-hidden block">
+                <motion.p
+                    ref={fref}
+                    {...rest}
+                    className={className}
+                    variants={paragraphVariants}
+                    initial="hidden"
+                    animate={isInView ? "visible" : "hidden"}>
+                    {children}
+                </motion.p>
+            </span>
+        );
+    }
+);
+
 // Reference: https://ryanmulligan.dev/blog/css-marquee/
 function MarqueeHeader({ title, headerDelay, children }: { title: string; headerDelay: number; children?: React.ReactNode }) {
     return (
         <MotionConfig
             transition={{
-                duration: 8,
+                duration: 10,
                 repeat: Infinity,
                 ease: "linear",
                 delay: headerDelay,
@@ -393,7 +476,7 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
                 className={
                     openSans.className +
                     ` pb-4 border-b-2 border-b-white/5
-                         flex gap-[--gap] overflow-hidden`
+                         flex gap-[--gap] overflow-hidden tracking-wider`
                 }>
                 {Array.from({ length: 3 }).map((_, index) => (
                     <motion.ul
@@ -421,40 +504,25 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
 // Reference: Do your React functions compose?
 const Section = forwardRef<HTMLDivElement, ComponentProps<"section">>(function Section({ className, children, ...rest }, ref) {
     return (
-        <section ref={ref} className={"mb-[18vh] " + (className ?? "")} {...rest}>
+        <section ref={ref} {...rest} className={"mb-[9vh] " + (className ?? "")} {...rest}>
             {children}
         </section>
     );
 });
-
 Section.displayName = "Section";
 
 function SubHeader({ title }: { title: string }) {
     return <p className={openSans.className + ` text-3xl font-extrabold`}>{title}</p>;
 }
 
-function Highlight({
-    bgColor,
-    txtColor,
-    space,
-    children,
-}: {
-    bgColor: string;
-    txtColor: string;
-    space: "none" | "left" | "right" | "both";
-    children: React.ReactNode;
-}) {
+function Highlight({ space, children }: { space: "none" | "left" | "right" | "both"; children: React.ReactNode }) {
     return (
         <>
             {space === "left" || space === "both" ? " " : ""}
             <span
-                style={{
-                    color: `${txtColor}`,
-                    backgroundColor: bgColor,
-                    borderBottom: `2px solid ${txtColor}`,
-                    borderRadius: "4px",
-                    padding: "1px 4px",
-                }}>
+                className={`bg-gray-900 text-blue-300/90
+                            border-2 border-blue-300/20
+                            px-2 py-[1px] rounded-md`}>
                 {children}
             </span>
             {space === "right" || space === "both" ? " " : ""}
@@ -638,9 +706,7 @@ function SkillGrid({ expanded }: { expanded: boolean }) {
     return (
         // Positioner of container
         <div className="flex flex-col w-full items-center border-y-4 border-y-white/5">
-            <div
-                // Container: three cards per row max (card width = 160px, gap = 24px, max width = 576px)
-                className={`flex flex-row flex-wrap justify-center gap-6 ${expanded ? "pt-6" : "p-6"} max-w-xl`}>
+            <div className={`flex flex-row flex-wrap justify-center gap-6 ${expanded ? "pt-6" : "p-6"} max-w-xl`}>
                 <SkillCard name="HTML">
                     <svg viewBox="0 0 128 128">
                         <path fill="#E44D26" d="M19.037 113.876L9.032 1.661h109.936l-10.016 112.198-45.019 12.48z"></path>
@@ -866,6 +932,7 @@ function SkillCard({ name, size, children: icon }: { name: string; size?: "large
     // Container for icon and name
     return (
         <div
+            key={name}
             className={`flex flex-col justify-center items-center gap-4
                          ${size === "large" ? " h-40 w-40 " : " h-28 w-28 "} bg-gray-700 border-2 border-gray-600
                          hover:scale-105 hover:bg-gray-600 hover:border-gray-500
@@ -970,27 +1037,30 @@ function SocialCard({
 }
 
 // Button with classname btn btn-primary / secondary + artificial delay
-function Button({
-    children,
-    secondary,
-    className,
-    onClick,
-}: {
-    children: React.ReactNode;
+
+type ButtonProps = {
     secondary?: boolean;
-    className?: string;
-    onClick?: () => void;
-}) {
-    // Add artificial delay to button click to allow for animation
+};
+
+const Button = forwardRef<HTMLButtonElement, ComponentProps<"button"> & ButtonProps>(function Button(
+    { secondary, children, className, onClick, ...rest },
+    ref
+) {
     return (
         <button
-            onClick={() => {
+            ref={ref}
+            {...rest}
+            onClick={(e) => {
                 setTimeout(() => {
-                    onClick?.();
+                    onClick?.(e);
                 }, 125);
             }}
             className={`btn ${secondary ? "btn-secondary" : "btn-primary"} ${className}`}>
             {children}
         </button>
     );
-}
+});
+
+const Input = forwardRef<HTMLInputElement, ComponentProps<"input">>(function Input({ className, ...rest }, ref) {
+    return <input ref={ref} {...rest} className={`inpt ${className}`} />;
+});
