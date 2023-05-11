@@ -35,8 +35,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body
                 className={
                     robotoMono.className +
-                    ` bg-gray-800 text-gray-400
-                        px-6 md:px-8 lg:px-16 mt-28 lg:mt-32 tracking-tight leading-relaxed overflow-x-hidden`
+                    ` bg-gray-900 text-gray-400
+                        px-6 md:px-10 lg:px-32 mt-28 lg:mt-32 tracking-tight leading-relaxed overflow-x-hidden`
                 }>
                 <NavBar ref={navRef}>
                     {/* Name and Ninja Icon */}

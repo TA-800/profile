@@ -19,7 +19,7 @@
 
     .inpt {
         @apply bg-inherit p-2 border-2 border-white/25 rounded-sm transition-all duration-300
-        outline outline-2 outline-blue-500/0 focus:outline-blue-500/100;
+        outline outline-2 outline-blue-500/0 focus:outline-blue-500/100 placeholder:text-white/20;
     }
 }
 

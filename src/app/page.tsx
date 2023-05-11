@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentProps, forwardRef, use, useRef, useState } from "react";
+import { ComponentProps, forwardRef, useRef, useState } from "react";
 import {
     AnimatePresence,
     HTMLMotionProps,
@@ -105,6 +105,7 @@ export default function Home() {
                     <span className="w-0 group-hover:w-[46px] overflow-hidden transition-all duration-300">Skip</span>
                 </Button>
                 <br />
+                {/* Div to add padding to sides */}
                 <AP>
                     Hello! My name is
                     <Highlight space="left">Taher Ali</Highlight>, and I am an aspiring full-stack web developer currently
@@ -137,14 +138,14 @@ export default function Home() {
                     development with you!
                 </AP>
 
-                {/* Positioner of container */}
+                {/* Positioner of images container */}
                 <div className="flex justify-center">
                     {/* Images container */}
                     <div className="relative sm:h-96 sm:w-full h-64 w-96 flex-shrink-0 border-">
                         <Image
                             src={vbreceivePic}
                             alt="VB Receive"
-                            className="absolute bottom-0 left-0 opacity-10 transition-all"
+                            className="absolute bottom-0 left-0 opacity-5 transition-all invert"
                             style={{
                                 objectFit: "contain",
                                 objectPosition: "center",
@@ -327,15 +328,32 @@ export default function Home() {
     );
 }
 
-function ContactForm() {
+function ContactForm({ marginBottom }: { marginBottom?: number }) {
+    const ref = useRef(null);
+    const isInView = useInView(ref, {
+        once: true,
+        margin: `0px 0px ${marginBottom ?? -75}px 0px`,
+    });
+
     return (
-        <div className="flex lg:flex-row flex-col lg:gap-2 gap-10 p-10 rounded-3xl shadow-2xl border-4 border-gray-600/50 bg-gray-700/50">
+        <div
+            ref={ref}
+            className={`flex lg:flex-row flex-col lg:gap-2 gap-10 p-10 rounded-xl shadow-2xl border-4 border-gray-700/50 bg-gray-800 ${
+                isInView ? "bg-opacity-100" : "bg-opacity-0"
+            } transition-all duration-1000`}>
             {/* Left side */}
             <div className={openSans.className + ` grid place-content-center lg:w-1/2 w-full`}>
-                <p className="flex flex-col">
-                    <span className="lg:text-2xl text-md font-bold">Go ahead.</span>
-                    <span className={`lg:text-5xl xs:text-3xl text-2xl font-black text-gray-300`}>Tell me what you need.</span>
-                </p>
+                <div className="flex flex-col">
+                    <AP className="lg:text-2xl text-md font-bold">I'm all ears.</AP>
+                    <AP
+                        style={{
+                            WebkitTextStroke: "1px rgba(255, 255, 255, 0.5)",
+                        }}
+                        className={`lg:text-5xl xs:text-3xl text-2xl font-black text-white/0 lg:pb-[7px]
+                        bg-clip-text bg-gradient-to-r from-indigo-200 via-blue-500 to-indigo-200`}>
+                        What do you need?
+                    </AP>
+                </div>
             </div>
             {/* Right side */}
             <form className="grid grid-cols-1 grid-flow-row place-content-center gap-2 lg:w-1/2 w-full">
@@ -343,7 +361,13 @@ function ContactForm() {
 
                 <Input type="email" name="email" id="email" placeholder="johndoe2@gmail.com" />
 
-                <textarea className="inpt" name="message" id="message" placeholder="Hello there!" />
+                <textarea
+                    className="inpt"
+                    rows={5}
+                    name="message"
+                    id="message"
+                    placeholder="I want to discuss a work opportunity!"
+                />
 
                 <div className="flex justify-end">
                     <Button type="button">
@@ -416,11 +440,12 @@ type AnimatedParagraphProps = {
     yDuration?: number;
     sDuration?: number;
     delay?: number;
+    style?: React.CSSProperties;
 };
 
 // Animated Paragraph (transitions into view from transparency)
 const AP = forwardRef<HTMLParagraphElement, HTMLMotionProps<"p"> & AnimatedParagraphProps>(
-    ({ yDuration, sDuration, marginBottom, delay, className, children, ...rest }, fref) => {
+    ({ yDuration, sDuration, marginBottom, delay, style = {}, className, children, ...rest }, fref) => {
         const ref = useRef(null);
         const isInView = useInView(ref, {
             once: true,
@@ -447,11 +472,12 @@ const AP = forwardRef<HTMLParagraphElement, HTMLMotionProps<"p"> & AnimatedParag
         };
 
         return (
-            <span ref={ref} className="overflow-hidden block">
+            <span ref={ref} className={`overflow-hidden block`}>
                 <motion.p
                     ref={fref}
                     {...rest}
                     className={className}
+                    style={style}
                     variants={paragraphVariants}
                     initial="hidden"
                     animate={isInView ? "visible" : "hidden"}>
@@ -476,7 +502,7 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
                 className={
                     openSans.className +
                     ` pb-4 border-b-2 border-b-white/5
-                         flex gap-[--gap] overflow-hidden tracking-wider`
+                         flex gap-[--gap] overflow-hidden tracking-wider transition-opacity duration-300`
                 }>
                 {Array.from({ length: 3 }).map((_, index) => (
                     <motion.ul
@@ -511,8 +537,23 @@ const Section = forwardRef<HTMLDivElement, ComponentProps<"section">>(function S
 });
 Section.displayName = "Section";
 
-function SubHeader({ title }: { title: string }) {
-    return <p className={openSans.className + ` text-3xl font-extrabold`}>{title}</p>;
+function SubHeader({ title, marginBottom }: { title: string; marginBottom?: number }) {
+    const ref = useRef(null);
+    const isInView = useInView(ref, {
+        once: true,
+        margin: `0px 0px ${marginBottom ?? -75}px 0px`,
+    });
+
+    return (
+        <p
+            ref={ref}
+            className={
+                openSans.className +
+                ` text-3xl font-extrabold ${isInView ? "opacity-100" : "opacity-0"} transition-opacity duration-300`
+            }>
+            {title}
+        </p>
+    );
 }
 
 function Highlight({ space, children }: { space: "none" | "left" | "right" | "both"; children: React.ReactNode }) {
@@ -520,7 +561,7 @@ function Highlight({ space, children }: { space: "none" | "left" | "right" | "bo
         <>
             {space === "left" || space === "both" ? " " : ""}
             <span
-                className={`bg-gray-900 text-blue-300/90
+                className={`bg-gray-950 text-blue-300
                             border-2 border-blue-300/20
                             px-2 py-[1px] rounded-md`}>
                 {children}
@@ -704,18 +745,17 @@ function Card({
 
 function SkillGrid({ expanded }: { expanded: boolean }) {
     return (
-        // Positioner of container
-
         <MotionConfig
             transition={{
                 layout: {
                     type: "spring",
-                    bounce: 0.3,
+                    bounce: 0.2,
                     duration: 0.5,
                 },
-                duration: 0.3,
-                type: "ease",
+                duration: 0.25,
+                type: "easeOut",
             }}>
+            {/* Positioner of container */}
             <div className="flex flex-col w-full items-center border-y-4 border-y-white/5">
                 <motion.div className={`flex flex-row flex-wrap justify-center py-6 gap-6 max-w-xl`}>
                     <AnimatePresence>
@@ -959,13 +999,13 @@ function SkillCard({ name, size, children: icon }: { name: string; size?: "large
             layout="position"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.6, opacity: 0 }}
+            exit={{ scale: 0.8, opacity: 0 }}
             className={`flex flex-col justify-center items-center gap-4
-                         ${size === "large" ? " h-40 w-40 " : " h-28 w-28 "} bg-gray-700 border-2 border-gray-600
-                         hover:scale-105 hover:bg-gray-600 hover:border-gray-500
+                         ${size === "large" ? " h-40 w-40 " : " h-28 w-28 "} bg-gray-800 border-2 border-gray-700
+                         hover:text-gray-300 hover:border-gray-600
                          group`}
             style={{
-                boxShadow: "-4px 5px 0px 2px rgba(0,0,0,0.25)",
+                boxShadow: "-2px 4px 0px 1px rgba(0,0,0,0.25)",
             }}>
             <div className={`${size === "large" ? "w-24 h-24" : "w-12 h-12"}`}>{icon}</div>
             <p
@@ -1047,8 +1087,8 @@ function SocialCard({
                 window.open(link, `${name} Link}`);
             }}
             className={`flex flex-col justify-center items-center gap-4
-                         h-40 w-48 bg-gray-700 border-2 border-gray-600
-                         hover:scale-105 hover:bg-gray-600 hover:border-gray-500
+                         h-40 w-48 bg-gray-800 border-2 border-gray-700
+                         hover:text-gray-300 hover:border-gray-600 hover:scale-105
                          group transition-all duration-300`}
             style={{
                 boxShadow: "-4px 5px 0px 2px rgba(0,0,0,0.25)",
