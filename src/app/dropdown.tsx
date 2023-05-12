@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { forwardRef, useEffect, useRef, useState } from "react";
 
 export default function MenuDropDown() {
@@ -90,6 +90,7 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
     const menuWrapperVariant = {
         initial: {
             scale: 0,
+            height: mainMenu === true ? "200px" : "150px",
         },
         animate: {
             scale: 1,
@@ -97,6 +98,7 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
         },
         exit: {
             scale: 0,
+            height: mainMenu === true ? "200px" : "150px",
             transition: {
                 duration: 0.2,
             },
@@ -110,11 +112,16 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
             initial="initial"
             animate="animate"
             exit="exit"
+            transition={{
+                duration: 0.4,
+                type: "spring",
+            }}
             style={{
                 transformOrigin: "top right",
             }}
+            // Overflow clip works better than overflow hidden
             className={`absolute z-50 top-full mt-2 right-0
-                        bg-gray-800 w-32 overflow-hidden rounded-md border-2 border-gray-700
+                        bg-gray-800 w-32 overflow-clip rounded-md border-2 border-gray-700
                         `}>
             {children}
         </motion.div>
@@ -122,31 +129,28 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
 });
 
 function InnerWrapper({ fadeTo, children }: { fadeTo?: "left" | "right"; children: React.ReactNode }) {
-    // Default to right
     fadeTo = fadeTo ?? "right";
+    // Changed from initial / animate to style to allow graceful exit even mid animation
+    const xDisplacement = fadeTo === "left" ? -200 : 200;
+    const xCurrentInstant = useMotionValue(xDisplacement);
+    const xCurrent = useSpring(xCurrentInstant, {
+        damping: 15,
+        mass: 0.1,
+        stiffness: 200,
+    });
 
-    const innerWrapperVariant = {
-        initial: {
-            x: fadeTo === "left" ? "-200%" : "200%",
-        },
-        animate: {
-            x: "0%",
-        },
-        exit: {
-            x: fadeTo === "left" ? "-200%" : "200%",
-        },
-    };
+    useEffect(() => {
+        xCurrent.set(0);
+
+        return () => {
+            xCurrent.set(xDisplacement);
+        };
+    }, []);
 
     return (
         <motion.div
-            variants={innerWrapperVariant}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            transition={{
-                duration: 1,
-                type: "spring",
-                bounce: 0.3,
+            style={{
+                x: xCurrent,
             }}
             className="absolute">
             {children}
