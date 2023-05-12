@@ -31,6 +31,13 @@
     scrollbar-color: #374151 #1f2937;
 }
 
+/* https://stackoverflow.com/a/59785731/8557499 */
+/* Overflow hidden breaks sticky positioning, use clip to fix: https://stackoverflow.com/a/74462258/8557499 */
+body,
+html {
+    overflow-x: clip;
+}
+
 :root {
     --gap: 3rem;
 }

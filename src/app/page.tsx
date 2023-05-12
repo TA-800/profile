@@ -105,7 +105,6 @@ export default function Home() {
                     <span className="w-0 group-hover:w-[46px] overflow-hidden transition-all duration-300">Skip</span>
                 </Button>
                 <br />
-                {/* Div to add padding to sides */}
                 <AP>
                     Hello! My name is
                     <Highlight space="left">Taher Ali</Highlight>, and I am an aspiring full-stack web developer currently
@@ -344,7 +343,7 @@ function ContactForm({ marginBottom }: { marginBottom?: number }) {
             {/* Left side */}
             <div className={openSans.className + ` grid place-content-center lg:w-1/2 w-full`}>
                 <div className="flex flex-col">
-                    <AP className="lg:text-2xl text-md font-bold">I'm all ears.</AP>
+                    <AP className="lg:text-2xl text-md font-bold">I&apos;m all ears.</AP>
                     <AP
                         style={{
                             WebkitTextStroke: "1px rgba(255, 255, 255, 0.5)",
@@ -487,6 +486,7 @@ const AP = forwardRef<HTMLParagraphElement, HTMLMotionProps<"p"> & AnimatedParag
         );
     }
 );
+AP.displayName = "AP";
 
 // Reference: https://ryanmulligan.dev/blog/css-marquee/
 function MarqueeHeader({ title, headerDelay, children }: { title: string; headerDelay: number; children?: React.ReactNode }) {
