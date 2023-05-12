@@ -1,4 +1,4 @@
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, usePresence } from "framer-motion";
 import { forwardRef, useEffect, useRef, useState } from "react";
 
 export default function MenuDropDown() {
@@ -90,15 +90,16 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
     const menuWrapperVariant = {
         initial: {
             scale: 0,
-            height: mainMenu === true ? "200px" : "150px",
+            // 200px / 150px is height of all items + 20px padding
+            height: mainMenu === true ? "220px" : "170px",
         },
         animate: {
             scale: 1,
-            height: mainMenu === true ? "200px" : "150px",
+            height: mainMenu === true ? "220px" : "170px",
         },
         exit: {
             scale: 0,
-            height: mainMenu === true ? "200px" : "150px",
+            height: mainMenu === true ? "220px" : "170px",
             transition: {
                 duration: 0.2,
             },
@@ -121,7 +122,7 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
             }}
             // Overflow clip works better than overflow hidden
             className={`absolute z-50 top-full mt-2 right-0
-                        bg-gray-800 w-32 overflow-clip rounded-md border-2 border-gray-700
+                        bg-gray-800 w-36 overflow-clip rounded-md border-2 border-gray-700
                         `}>
             {children}
         </motion.div>
@@ -129,6 +130,9 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
 });
 
 function InnerWrapper({ fadeTo, children }: { fadeTo?: "left" | "right"; children: React.ReactNode }) {
+    // https://www.framer.com/motion/animate-presence/#usepresence
+    const [isPresent, safeToRemove] = usePresence();
+
     fadeTo = fadeTo ?? "right";
     // Changed from initial / animate to style to allow graceful exit even mid animation
     const xDisplacement = fadeTo === "left" ? -200 : 200;
@@ -138,21 +142,26 @@ function InnerWrapper({ fadeTo, children }: { fadeTo?: "left" | "right"; childre
         mass: 0.1,
         stiffness: 200,
     });
+    const pointerEvents = useTransform(xCurrent, (x) => (x === 0 ? "auto" : "none"));
 
     useEffect(() => {
-        xCurrent.set(0);
-
-        return () => {
-            xCurrent.set(xDisplacement);
-        };
-    }, []);
+        if (isPresent) {
+            xCurrentInstant.set(0);
+        } else {
+            xCurrentInstant.set(xDisplacement);
+            setTimeout(() => {
+                safeToRemove();
+            }, 300);
+        }
+    }, [isPresent]);
 
     return (
         <motion.div
             style={{
                 x: xCurrent,
+                pointerEvents,
             }}
-            className="absolute">
+            className="absolute p-2">
             {children}
         </motion.div>
     );
@@ -174,7 +183,9 @@ function MenuItem({ onClick, children, back }: MenuItemProps) {
     return (
         <button
             onClick={onClick}
-            className={`w-full ${back ? "h-[50px]" : "h-[50px]"} focus:bg-gray-700 focus:outline-none hover:bg-gray-700 `}>
+            className={`w-full rounded-md ${
+                back ? "h-[50px]" : "h-[50px]"
+            } focus:bg-gray-700 focus:outline-none hover:bg-gray-700 `}>
             {back && (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
