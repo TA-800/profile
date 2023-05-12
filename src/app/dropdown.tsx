@@ -9,12 +9,23 @@ export default function MenuDropDown() {
 
     const closeOnOutsideClick = (e: MouseEvent) => {
         if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-            // setIsOpen(false);
+            setIsOpen(false);
         }
     };
     const closeOnEscape = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
             setIsOpen(false);
+        }
+    };
+
+    const onSpaceOrEnter = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        // If space or enter key is pressed, open menu and trap focus on first menu item
+        if (e.key === " " || e.key === "Enter") {
+            // Need to wrap in setTimeout to make it the last thing to run in the event loop
+            setTimeout(() => {
+                const firstChild = dropdownRef.current?.firstElementChild?.firstElementChild as HTMLButtonElement;
+                firstChild?.focus();
+            }, 100);
         }
     };
 
@@ -33,6 +44,7 @@ export default function MenuDropDown() {
             {/* Menu trigger button */}
             <button
                 className="bg-gray-800 border-2 border-gray-700/25 rounded-sm p-2"
+                onKeyUp={onSpaceOrEnter}
                 onClick={() => {
                     setIsOpen(!isOpen);
                     // Reset menu section to main
@@ -87,43 +99,39 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
     { mainMenu, children },
     ref
 ) {
-    const menuWrapperVariant = {
-        initial: {
-            scale: 0,
-            // 200px / 150px is height of all items + 20px padding
-            height: mainMenu === true ? "220px" : "170px",
-        },
-        animate: {
-            scale: 1,
-            height: mainMenu === true ? "220px" : "170px",
-        },
-        exit: {
-            scale: 0,
-            height: mainMenu === true ? "220px" : "170px",
-            transition: {
-                duration: 0.2,
-            },
-        },
-    };
-
     return (
         <motion.div
             ref={ref}
-            variants={menuWrapperVariant}
-            initial="initial"
-            animate="animate"
-            exit="exit"
+            initial={{
+                scale: 0,
+                // 200px / 150px is height of all items + 20px padding
+                height: mainMenu === true ? "220px" : "170px",
+            }}
+            animate={{
+                scale: 1,
+                height: mainMenu === true ? "220px" : "170px",
+            }}
+            exit={{
+                scale: 0,
+                height: mainMenu === true ? "220px" : "170px",
+                transition: {
+                    duration: 0.2,
+                },
+            }}
             transition={{
                 duration: 0.4,
                 type: "spring",
+                height: {
+                    type: "spring",
+                    mass: 0.1,
+                },
             }}
             style={{
                 transformOrigin: "top right",
             }}
             // Overflow clip works better than overflow hidden
             className={`absolute z-50 top-full mt-2 right-0
-                        bg-gray-800 w-36 overflow-clip rounded-md border-2 border-gray-700
-                        `}>
+                        bg-gray-800 w-36 overflow-clip rounded-md border-2 border-gray-700`}>
             {children}
         </motion.div>
     );
@@ -145,9 +153,12 @@ function InnerWrapper({ fadeTo, children }: { fadeTo?: "left" | "right"; childre
     const pointerEvents = useTransform(xCurrent, (x) => (x === 0 ? "auto" : "none"));
 
     useEffect(() => {
+        // Set displacement to 0 as soon as menu is loaded into DOM for slide-in animation
         if (isPresent) {
             xCurrentInstant.set(0);
-        } else {
+        }
+        // As soon as menu *should* be removed from DOM, animate it out with xDisplacement and then remove it with safeToRemove
+        else {
             xCurrentInstant.set(xDisplacement);
             setTimeout(() => {
                 safeToRemove();
@@ -183,9 +194,9 @@ function MenuItem({ onClick, children, back }: MenuItemProps) {
     return (
         <button
             onClick={onClick}
-            className={`w-full rounded-md ${
-                back ? "h-[50px]" : "h-[50px]"
-            } focus:bg-gray-700 focus:outline-none hover:bg-gray-700 `}>
+            className={`w-full rounded-sm border-0 border-gray-600 ${back ? "h-[50px]" : "h-[50px]"} 
+                focus:bg-gray-700 focus:border-2 focus:outline-none
+                hover:bg-gray-700 hover:border-2`}>
             {back && (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
