@@ -2,7 +2,7 @@
 
 import "./globals.css";
 import { Roboto_Mono } from "next/font/google";
-import React, { forwardRef, useEffect, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import ninjaPic from "../../public/ninja.png";
 import Image from "next/image";
 

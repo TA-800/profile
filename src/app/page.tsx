@@ -1103,11 +1103,9 @@ function SocialCard({
 }
 
 // Button with classname btn btn-primary / secondary + artificial delay
-
 type ButtonProps = {
     secondary?: boolean;
 };
-
 const Button = forwardRef<HTMLButtonElement, ComponentProps<"button"> & ButtonProps>(function Button(
     { secondary, children, className, onClick, ...rest },
     ref

@@ -17,19 +17,26 @@ export default function MenuDropDown() {
             setIsOpen(false);
         }
     };
-    const onSpaceOrEnter = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-        // If space or enter key is pressed, open menu and trap focus on first menu item
-        if (e.key === " " || e.key === "Enter") {
-            // Need to wrap in setTimeout to make it the last thing to run in the event loop
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+            if (!isOpen) setIsOpen(true);
+            // Needs to be the last line of code executed in the event loop
             setTimeout(() => {
-                const firstChild = dropdownRef.current?.firstElementChild?.firstElementChild as HTMLButtonElement;
-                firstChild?.focus();
-            }, 100);
+                (dropdownRef.current!.firstElementChild!.firstElementChild as HTMLButtonElement).focus();
+            }, 0);
         }
     };
+
     useEffect(() => {
         document.addEventListener("click", closeOnOutsideClick);
         document.addEventListener("keydown", closeOnEscape);
+
+        if (!isOpen) {
+            setFocusedMenuItem("");
+        }
 
         return () => {
             document.removeEventListener("click", closeOnOutsideClick);
@@ -39,7 +46,6 @@ export default function MenuDropDown() {
 
     const giveFocus = (menuItem: string) => {
         setFocusedMenuItem(menuItem);
-        console.log("giveFocus called by " + menuItem);
     };
 
     return (
@@ -47,7 +53,7 @@ export default function MenuDropDown() {
             {/* Menu trigger button */}
             <button
                 className="bg-gray-800 border-2 border-gray-700/25 rounded-sm p-2"
-                onKeyUp={onSpaceOrEnter}
+                onKeyDown={handleKeyDown}
                 onClick={() => {
                     setIsOpen(!isOpen);
                     // Reset menu section to main
@@ -150,11 +156,11 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
                 scale: 0,
                 height: mainMenu === true ? "220px" : "170px",
                 transition: {
-                    duration: 0.2,
+                    duration: 0.3,
                 },
             }}
             transition={{
-                duration: 0.4,
+                duration: 0.6,
                 type: "spring",
                 height: {
                     type: "spring",
@@ -165,8 +171,8 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
                 transformOrigin: "top right",
             }}
             // Overflow clip works better than overflow hidden
-            className={`absolute z-50 top-full mt-2 right-0
-                        bg-gray-800 w-36 overflow-clip rounded-md border-2 border-gray-700`}>
+            className={`absolute z-50 top-full mt-2 right-0 shadow-2xl
+                        bg-gray-800 w-36 overflow-clip rounded-md border-[1px] border-gray-700`}>
             {children}
         </motion.div>
     );
@@ -181,11 +187,11 @@ function InnerWrapper({ fadeTo, children }: { fadeTo?: "left" | "right"; childre
     const xDisplacement = fadeTo === "left" ? -200 : 200;
     const xCurrentInstant = useMotionValue(xDisplacement);
     const xCurrent = useSpring(xCurrentInstant, {
-        damping: 15,
+        damping: 20,
         mass: 0.1,
         stiffness: 200,
     });
-    const pointerEvents = useTransform(xCurrent, (x) => (x === 0 ? "auto" : "none"));
+    const pointerEvents = useTransform(xCurrent, (x) => (x < 0.05 ? "auto" : "none"));
 
     useEffect(() => {
         // Set displacement to 0 as soon as menu is loaded into DOM for slide-in animation
@@ -235,8 +241,8 @@ function MenuItem({ isActive, onClick, giveFocus, children, back }: MenuItemProp
             onClick={onClick}
             onFocus={giveFocus}
             onMouseEnter={giveFocus}
-            className={`w-full rounded-sm focus:outline-none border-gray-600 ${back ? "h-[50px]" : "h-[50px]"} 
-                ${isActive ? "bg-gray-700 border-2" : "border-0"}`}>
+            className={`w-full rounded-sm focus:outline-none border-gray-600 h-[50px]
+                ${isActive ? "bg-gray-700 border-[1px]" : "border-0"}`}>
             {back && (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
