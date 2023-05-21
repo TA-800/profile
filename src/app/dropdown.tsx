@@ -2,25 +2,51 @@ import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, usePr
 import { forwardRef, useEffect, useRef, useState } from "react";
 
 export default function MenuDropDown() {
-    const [focusedMenuItem, setFocusedMenuItem] = useState<string>("");
-    const [firstLast, setFirstLast] = useState<{ isFirst: string; isLast: string }>({ isFirst: "About Me", isLast: "Credits" });
+    const [focusedMenuItem, _setFocusedMenuItem] = useState<string>("");
+    // useRef to read a future state value in listeners that cannot access updated state in future renders.
+    const focusedMenuRef = useRef(focusedMenuItem);
     const [isOpen, setIsOpen] = useState(false);
     const [openedWithKB, setOpenedWithKB] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const [menuSection, setMenuSection] = useState<"main" | "experience" | "contact">("main");
+    const [menuSection, _setMenuSection] = useState<"main" | "experience" | "contact">("main");
+
+    // https://stackoverflow.com/questions/55265255/react-usestate-hook-event-handler-using-initial-state
+    const setFocusedMenuItem = (menuItem: string) => {
+        focusedMenuRef.current = menuItem; // Update ref to future state value
+        _setFocusedMenuItem(menuItem);
+    };
+
+    const setMenuSection = (section: "main" | "experience" | "contact") => {
+        _setMenuSection(section);
+        setFocusedMenuItem("");
+    };
 
     const closeOnOutsideClick = (e: MouseEvent) => {
         if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
             setIsOpen(false);
         }
     };
-    const closeOnEscape = (e: KeyboardEvent) => {
+    const closeOrTrapFocus = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
             setIsOpen(false);
         }
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            // Listeners are trapped to the initial render, no access to updated state. https://stackoverflow.com/questions/55265255/react-usestate-hook-event-handler-using-initial-state
+            if (isOpen) {
+                console.log("Trap focus to menu");
+                console.log("Current ref value", focusedMenuRef.current);
+                // Prevent scrolling
+                e.preventDefault();
+                if (focusedMenuRef.current === "") {
+                    console.log("Trap focus to first item");
+                    // Set focus to first menu item
+                    (dropdownRef.current?.firstElementChild?.firstElementChild as HTMLElement)?.focus();
+                }
+            }
+        }
     };
 
-    // Open on arrow down, enter, or space
+    // Open on arrow down, enter, or space for menu trigger button
     const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
@@ -35,7 +61,7 @@ export default function MenuDropDown() {
 
     useEffect(() => {
         document.addEventListener("click", closeOnOutsideClick);
-        document.addEventListener("keydown", closeOnEscape);
+        document.addEventListener("keydown", closeOrTrapFocus);
 
         if (!isOpen) {
             setFocusedMenuItem("");
@@ -43,7 +69,7 @@ export default function MenuDropDown() {
 
         return () => {
             document.removeEventListener("click", closeOnOutsideClick);
-            document.removeEventListener("keydown", closeOnEscape);
+            document.removeEventListener("keydown", closeOrTrapFocus);
         };
     }, [isOpen]);
 
@@ -258,21 +284,29 @@ function MenuItem({ isActive, onClick, giveFocus, isFirst, isLast, children, bac
         if (isActive) {
             if (e.key === "ArrowDown" || e.key === "ArrowUp") {
                 // Prevent scrolling
-                e.preventDefault();
-                // Test
-                console.log("Arrow down or up");
+                // e.preventDefault(); Already done in parent component
                 // Set focus to next or previous sibling
                 if (e.key === "ArrowDown") {
-                    if (isLast) {
-                        (e.currentTarget.parentElement?.firstElementChild as HTMLElement)?.focus();
-                    } else {
-                        (e.currentTarget.nextSibling as HTMLElement)?.focus();
+                    if (isLast) (e.currentTarget.parentElement?.firstElementChild as HTMLElement)?.focus();
+                    else (e.currentTarget.nextSibling as HTMLElement)?.focus();
+                } else {
+                    if (isFirst) (e.currentTarget.parentElement?.lastElementChild as HTMLElement)?.focus();
+                    else (e.currentTarget.previousSibling as HTMLElement)?.focus();
+                }
+            }
+            // Else if tab, only implement cycling through menu items
+            else if (e.key === "Tab") {
+                // If shift is pressed
+                if (e.shiftKey) {
+                    if (isFirst) {
+                        // preventDefault to prevent tabbing anywhere else
+                        e.preventDefault();
+                        (e.currentTarget.parentElement?.lastElementChild as HTMLElement)?.focus();
                     }
                 } else {
-                    if (isFirst) {
-                        (e.currentTarget.parentElement?.lastElementChild as HTMLElement)?.focus();
-                    } else {
-                        (e.currentTarget.previousSibling as HTMLElement)?.focus();
+                    if (isLast) {
+                        e.preventDefault();
+                        (e.currentTarget.parentElement?.firstElementChild as HTMLElement)?.focus();
                     }
                 }
             }
@@ -281,7 +315,6 @@ function MenuItem({ isActive, onClick, giveFocus, isFirst, isLast, children, bac
 
     return (
         <button
-            tabIndex={0}
             onClick={onClick}
             // giveFocus sets the focusedMenuItem state in the parent component
             onFocus={giveFocus}
