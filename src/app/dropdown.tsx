@@ -3,7 +3,9 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 
 export default function MenuDropDown() {
     const [focusedMenuItem, setFocusedMenuItem] = useState<string>("");
+    const [firstLast, setFirstLast] = useState<{ isFirst: string; isLast: string }>({ isFirst: "About Me", isLast: "Credits" });
     const [isOpen, setIsOpen] = useState(false);
+    const [openedWithKB, setOpenedWithKB] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [menuSection, setMenuSection] = useState<"main" | "experience" | "contact">("main");
 
@@ -18,15 +20,16 @@ export default function MenuDropDown() {
         }
     };
 
+    // Open on arrow down, enter, or space
     const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
-            if (!isOpen) setIsOpen(true);
-            // Needs to be the last line of code executed in the event loop
-            setTimeout(() => {
-                (dropdownRef.current!.firstElementChild!.firstElementChild as HTMLButtonElement).focus();
-            }, 0);
+            if (!isOpen) {
+                // Call setIsOpen with a callback to ensure it is set to true before calling focus
+                setIsOpen(true);
+                setOpenedWithKB(true);
+            }
         }
     };
 
@@ -43,6 +46,13 @@ export default function MenuDropDown() {
             document.removeEventListener("keydown", closeOnEscape);
         };
     }, [isOpen]);
+
+    // Focus first menu item when opened with keyboard
+    useEffect(() => {
+        console.log("openedWithKB", openedWithKB);
+        if (openedWithKB) (dropdownRef.current?.firstElementChild?.firstElementChild as HTMLElement)?.focus();
+        if (!isOpen) setOpenedWithKB(false);
+    }, [openedWithKB, isOpen]);
 
     const giveFocus = (menuItem: string) => {
         setFocusedMenuItem(menuItem);
@@ -76,7 +86,10 @@ export default function MenuDropDown() {
                         <AnimatePresence>
                             {menuSection === "main" && (
                                 <InnerWrapper fadeTo="left" key="inner-wrapper-main">
-                                    <MenuItem isActive={focusedMenuItem === "About Me"} giveFocus={() => giveFocus("About Me")}>
+                                    <MenuItem
+                                        isFirst
+                                        isActive={focusedMenuItem === "About Me"}
+                                        giveFocus={() => giveFocus("About Me")}>
                                         About Me
                                     </MenuItem>
                                     <MenuItem
@@ -91,14 +104,20 @@ export default function MenuDropDown() {
                                         onClick={() => setMenuSection("contact")}>
                                         Contact
                                     </MenuItem>
-                                    <MenuItem isActive={focusedMenuItem === "Credits"} giveFocus={() => giveFocus("Credits")}>
+                                    <MenuItem
+                                        isLast
+                                        isActive={focusedMenuItem === "Credits"}
+                                        giveFocus={() => giveFocus("Credits")}>
                                         Credits
                                     </MenuItem>
                                 </InnerWrapper>
                             )}
                             {menuSection === "experience" && (
                                 <InnerWrapper key="inner-wrapper-experience">
-                                    <MenuItem isActive={focusedMenuItem === "Skills"} giveFocus={() => giveFocus("Skills")}>
+                                    <MenuItem
+                                        isFirst
+                                        isActive={focusedMenuItem === "Skills"}
+                                        giveFocus={() => giveFocus("Skills")}>
                                         Skills
                                     </MenuItem>
                                     <MenuItem isActive={focusedMenuItem === "Projects"} giveFocus={() => giveFocus("Projects")}>
@@ -109,12 +128,16 @@ export default function MenuDropDown() {
                                         giveFocus={() => giveFocus("back")}
                                         onClick={() => setMenuSection("main")}
                                         back
+                                        isLast
                                     />
                                 </InnerWrapper>
                             )}
                             {menuSection === "contact" && (
                                 <InnerWrapper key="inner-wrapper-contact">
-                                    <MenuItem isActive={focusedMenuItem === "Socials"} giveFocus={() => giveFocus("Socials")}>
+                                    <MenuItem
+                                        isFirst
+                                        isActive={focusedMenuItem === "Socials"}
+                                        giveFocus={() => giveFocus("Socials")}>
                                         Socials
                                     </MenuItem>
                                     <MenuItem isActive={focusedMenuItem === "Form"} giveFocus={() => giveFocus("Form")}>
@@ -125,6 +148,7 @@ export default function MenuDropDown() {
                                         giveFocus={() => giveFocus("back")}
                                         onClick={() => setMenuSection("main")}
                                         back
+                                        isLast
                                     />
                                 </InnerWrapper>
                             )}
@@ -219,40 +243,64 @@ function InnerWrapper({ fadeTo, children }: { fadeTo?: "left" | "right"; childre
     );
 }
 
-type MenuItemProps =
-    | {
-          back?: never;
-          children: React.ReactNode;
-          onClick?: () => void;
-          giveFocus?: () => void;
-          isActive: boolean;
-      }
-    | {
-          back: true;
-          children?: never;
-          onClick?: () => void;
-          giveFocus?: () => void;
-          isActive: boolean;
-      };
+type MenuItemProps = {
+    onClick?: () => void;
+    giveFocus?: () => void;
+    isActive: boolean;
+    isFirst?: boolean;
+    isLast?: boolean;
+} & ({ back?: never; children: React.ReactNode } | { back: true; children?: never });
 
-function MenuItem({ isActive, onClick, giveFocus, children, back }: MenuItemProps) {
+function MenuItem({ isActive, onClick, giveFocus, isFirst, isLast, children, back }: MenuItemProps) {
+    // Handle arrow up and down to navigate menu
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        // Arrow up or down to navigate menu, simulate pressing tab to achieve the same effect
+        if (isActive) {
+            if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                // Prevent scrolling
+                e.preventDefault();
+                // Test
+                console.log("Arrow down or up");
+                // Set focus to next or previous sibling
+                if (e.key === "ArrowDown") {
+                    if (isLast) {
+                        (e.currentTarget.parentElement?.firstElementChild as HTMLElement)?.focus();
+                    } else {
+                        (e.currentTarget.nextSibling as HTMLElement)?.focus();
+                    }
+                } else {
+                    if (isFirst) {
+                        (e.currentTarget.parentElement?.lastElementChild as HTMLElement)?.focus();
+                    } else {
+                        (e.currentTarget.previousSibling as HTMLElement)?.focus();
+                    }
+                }
+            }
+        }
+    };
+
     return (
         <button
+            tabIndex={0}
             onClick={onClick}
+            // giveFocus sets the focusedMenuItem state in the parent component
             onFocus={giveFocus}
             onMouseEnter={giveFocus}
+            onKeyDown={handleKeyDown}
             className={`w-full rounded-sm focus:outline-none border-gray-600 h-[50px]
                 ${isActive ? "bg-gray-700 border-[1px]" : "border-0"}`}>
             {back && (
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 ml-3">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
-                </svg>
+                <>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6 ml-3">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                    </svg>
+                </>
             )}
             {!back && children}
         </button>
