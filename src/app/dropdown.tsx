@@ -12,13 +12,14 @@ export default function MenuDropDown() {
 
     // https://stackoverflow.com/questions/55265255/react-usestate-hook-event-handler-using-initial-state
     const setFocusedMenuItem = (menuItem: string) => {
-        focusedMenuRef.current = menuItem; // Update ref to future state value
         _setFocusedMenuItem(menuItem);
+        focusedMenuRef.current = menuItem; // Update ref to future state value
     };
 
+    // Everytime menu section is changed, reset focused menu item to empty string
     const setMenuSection = (section: "main" | "experience" | "contact") => {
         _setMenuSection(section);
-        setFocusedMenuItem("");
+        _setFocusedMenuItem("");
     };
 
     const closeOnOutsideClick = (e: MouseEvent) => {
@@ -27,18 +28,17 @@ export default function MenuDropDown() {
         }
     };
     const closeOrTrapFocus = (e: KeyboardEvent) => {
-        if (e.key === "Escape") {
-            setIsOpen(false);
-        }
+        // Close on escape
+        if (e.key === "Escape") setIsOpen(false);
+
+        // Trap focus to menu when open on arrow down or up
         if (e.key === "ArrowDown" || e.key === "ArrowUp") {
             // Listeners are trapped to the initial render, no access to updated state. https://stackoverflow.com/questions/55265255/react-usestate-hook-event-handler-using-initial-state
             if (isOpen) {
-                console.log("Trap focus to menu");
                 console.log("Current ref value", focusedMenuRef.current);
                 // Prevent scrolling
                 e.preventDefault();
                 if (focusedMenuRef.current === "") {
-                    console.log("Trap focus to first item");
                     // Set focus to first menu item
                     (dropdownRef.current?.firstElementChild?.firstElementChild as HTMLElement)?.focus();
                 }
@@ -48,11 +48,10 @@ export default function MenuDropDown() {
 
     // Open on arrow down, enter, or space for menu trigger button
     const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-
         if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+
             if (!isOpen) {
-                // Call setIsOpen with a callback to ensure it is set to true before calling focus
                 setIsOpen(true);
                 setOpenedWithKB(true);
             }
@@ -63,10 +62,10 @@ export default function MenuDropDown() {
         document.addEventListener("click", closeOnOutsideClick);
         document.addEventListener("keydown", closeOrTrapFocus);
 
-        if (!isOpen) {
-            setFocusedMenuItem("");
-        }
+        // Reset focused menu item when menu is closed
+        if (!isOpen) setFocusedMenuItem("");
 
+        // Cleanup listeners
         return () => {
             document.removeEventListener("click", closeOnOutsideClick);
             document.removeEventListener("keydown", closeOrTrapFocus);
@@ -75,10 +74,14 @@ export default function MenuDropDown() {
 
     // Focus first menu item when opened with keyboard
     useEffect(() => {
-        console.log("openedWithKB", openedWithKB);
         if (openedWithKB) (dropdownRef.current?.firstElementChild?.firstElementChild as HTMLElement)?.focus();
         if (!isOpen) setOpenedWithKB(false);
     }, [openedWithKB, isOpen]);
+
+    // Debugging
+    useEffect(() => {
+        console.log("Focused menu item is", focusedMenuItem);
+    }, [focusedMenuItem]);
 
     const giveFocus = (menuItem: string) => {
         setFocusedMenuItem(menuItem);
