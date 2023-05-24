@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentProps, forwardRef, useRef, useState } from "react";
+import { ComponentProps, createRef, forwardRef, useRef, useState } from "react";
 import {
     AnimatePresence,
     HTMLMotionProps,
@@ -27,10 +27,20 @@ import { Open_Sans } from "next/font/google";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
+const sectionRefs = {
+    aboutMe: createRef<HTMLDivElement>(),
+    skills: createRef<HTMLDivElement>(),
+    projects: createRef<HTMLDivElement>(),
+    socials: createRef<HTMLDivElement>(),
+    form: createRef<HTMLDivElement>(),
+};
+
+export { sectionRefs };
+
 export default function Home() {
     const [skillsExpanded, setSkillsExpanded] = useState(false);
     const headerWords = ["FULL-STACK", "WEB DEVELOPER"];
-    const aboutMeRef = useRef<HTMLDivElement>(null);
+    const aboutMeRef = sectionRefs.aboutMe;
     const experienceRef = useRef<HTMLDivElement>(null);
     const contactRef = useRef<HTMLDivElement>(null);
 
@@ -190,7 +200,7 @@ export default function Home() {
                     proficient in, and the exciting projects I&apos;ve built with them.
                 </AP>
                 <br />
-                <SubHeader title="Tools of the Trade" />
+                <SubHeader ref={sectionRefs.skills} title="Tools of the Trade" />
                 <br />
                 {/* Positioner of Skill-Grid */}
                 <div className="flex justify-center ">
@@ -228,15 +238,13 @@ export default function Home() {
                     )}
                 </Button>
                 <br />
-                <SubHeader title="Projects" />
-
+                <SubHeader ref={sectionRefs.projects} title="Projects" />
                 <br />
                 <div className="flex justify-center items-center">
                     <CardCarousel />
                 </div>
                 {/* Check on GitHub buttons */}
                 <br />
-
                 <div className="flex lg:justify-start justify-center items-center">
                     <div className={`flex flex-col gap-4 whitespace-nowrap`}>
                         <AP className="">View all my projects.</AP>
@@ -304,7 +312,7 @@ export default function Home() {
                     through the contact form below.
                 </AP>
                 <br />
-                <SubHeader title="My Socials" />
+                <SubHeader ref={sectionRefs.socials} title="My Socials" />
                 <br />
                 <AP>
                     Don&apos;t hesitate to reach out to me on any of my socials below for any work inquiries or project ideas. And
@@ -316,7 +324,7 @@ export default function Home() {
                 <br />
                 <SocialGrid />
                 <br />
-                <SubHeader title="Contact Form" />
+                <SubHeader ref={sectionRefs.form} title="Contact Form" />
                 <br />
                 <AP>
                     Here is a form you can fill up and submit quickly to contact me and I will get back to you as soon as I can.
@@ -538,24 +546,27 @@ const Section = forwardRef<HTMLDivElement, ComponentProps<"section">>(function S
 });
 Section.displayName = "Section";
 
-function SubHeader({ title, marginBottom }: { title: string; marginBottom?: number }) {
-    const ref = useRef(null);
-    const isInView = useInView(ref, {
-        once: true,
-        margin: `0px 0px ${marginBottom ?? -75}px 0px`,
-    });
+const SubHeader = forwardRef<HTMLParagraphElement, ComponentProps<"p"> & { title: string; marginBottom?: number }>(
+    function SubHeader({ title, marginBottom, ...rest }, ref) {
+        const isInView = useInView(ref as React.RefObject<HTMLParagraphElement>, {
+            once: true,
+            margin: `0px 0px ${marginBottom ?? -75}px 0px`,
+        });
 
-    return (
-        <p
-            ref={ref}
-            className={
-                openSans.className +
-                ` text-3xl font-extrabold ${isInView ? "opacity-100" : "opacity-0"} transition-opacity duration-300`
-            }>
-            {title}
-        </p>
-    );
-}
+        return (
+            <p
+                ref={ref}
+                {...rest}
+                className={
+                    openSans.className +
+                    ` text-3xl font-extrabold ${isInView ? "opacity-100" : "opacity-0"} transition-opacity duration-300`
+                }>
+                {title}
+            </p>
+        );
+    }
+);
+SubHeader.displayName = "SubHeader";
 
 function Highlight({ space, children }: { space: "none" | "left" | "right" | "both"; children: React.ReactNode }) {
     return (

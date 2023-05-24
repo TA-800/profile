@@ -1,5 +1,6 @@
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, usePresence } from "framer-motion";
 import { forwardRef, useEffect, useRef, useState } from "react";
+import { sectionRefs } from "./page";
 
 export default function MenuDropDown() {
     const [focusedMenuItem, _setFocusedMenuItem] = useState<string>("");
@@ -10,12 +11,18 @@ export default function MenuDropDown() {
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [menuSection, _setMenuSection] = useState<"main" | "experience" | "contact">("main");
 
+    const scrollTo = (ref: React.RefObject<HTMLElement>) => {
+        window.scrollTo({
+            top: ref.current!.offsetTop - (window.innerWidth > 1024 ? 96 : 80),
+            behavior: "smooth",
+        });
+    };
+
     // https://stackoverflow.com/questions/55265255/react-usestate-hook-event-handler-using-initial-state
     const setFocusedMenuItem = (menuItem: string) => {
         _setFocusedMenuItem(menuItem);
         focusedMenuRef.current = menuItem; // Update ref to future state value
     };
-
     // Everytime menu section is changed, reset focused menu item to empty string
     const setMenuSection = (section: "main" | "experience" | "contact") => {
         _setMenuSection(section);
@@ -79,9 +86,9 @@ export default function MenuDropDown() {
     }, [openedWithKB, isOpen]);
 
     // Debugging
-    useEffect(() => {
-        console.log("Focused menu item is", focusedMenuItem);
-    }, [focusedMenuItem]);
+    // useEffect(() => {
+    //     console.log("Focused menu item is", focusedMenuItem);
+    // }, [focusedMenuItem]);
 
     const giveFocus = (menuItem: string) => {
         setFocusedMenuItem(menuItem);
@@ -118,7 +125,8 @@ export default function MenuDropDown() {
                                     <MenuItem
                                         isFirst
                                         isActive={focusedMenuItem === "About Me"}
-                                        giveFocus={() => giveFocus("About Me")}>
+                                        giveFocus={() => giveFocus("About Me")}
+                                        onClick={() => scrollTo(sectionRefs.aboutMe)}>
                                         About Me
                                     </MenuItem>
                                     <MenuItem
@@ -146,10 +154,14 @@ export default function MenuDropDown() {
                                     <MenuItem
                                         isFirst
                                         isActive={focusedMenuItem === "Skills"}
-                                        giveFocus={() => giveFocus("Skills")}>
+                                        giveFocus={() => giveFocus("Skills")}
+                                        onClick={() => scrollTo(sectionRefs.skills)}>
                                         Skills
                                     </MenuItem>
-                                    <MenuItem isActive={focusedMenuItem === "Projects"} giveFocus={() => giveFocus("Projects")}>
+                                    <MenuItem
+                                        isActive={focusedMenuItem === "Projects"}
+                                        giveFocus={() => giveFocus("Projects")}
+                                        onClick={() => scrollTo(sectionRefs.projects)}>
                                         Projects
                                     </MenuItem>
                                     <MenuItem
@@ -166,10 +178,14 @@ export default function MenuDropDown() {
                                     <MenuItem
                                         isFirst
                                         isActive={focusedMenuItem === "Socials"}
-                                        giveFocus={() => giveFocus("Socials")}>
+                                        giveFocus={() => giveFocus("Socials")}
+                                        onClick={() => scrollTo(sectionRefs.socials)}>
                                         Socials
                                     </MenuItem>
-                                    <MenuItem isActive={focusedMenuItem === "Form"} giveFocus={() => giveFocus("Form")}>
+                                    <MenuItem
+                                        isActive={focusedMenuItem === "Form"}
+                                        giveFocus={() => giveFocus("Form")}
+                                        onClick={() => scrollTo(sectionRefs.form)}>
                                         Form
                                     </MenuItem>
                                     <MenuItem
