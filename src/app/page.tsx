@@ -1,6 +1,7 @@
 "use client";
 
-import { ComponentProps, createRef, forwardRef, useRef, useState } from "react";
+import { ComponentProps, useContext, forwardRef, useRef, useState } from "react";
+import { SectionRefs } from "./context";
 import {
     AnimatePresence,
     HTMLMotionProps,
@@ -27,17 +28,8 @@ import { Open_Sans } from "next/font/google";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
-const sectionRefs = {
-    aboutMe: createRef<HTMLDivElement>(),
-    skills: createRef<HTMLDivElement>(),
-    projects: createRef<HTMLDivElement>(),
-    socials: createRef<HTMLDivElement>(),
-    form: createRef<HTMLDivElement>(),
-};
-
-export { sectionRefs };
-
 export default function Home() {
+    const sectionRefs = useContext(SectionRefs);
     const [skillsExpanded, setSkillsExpanded] = useState(false);
     const headerWords = ["FULL-STACK", "WEB DEVELOPER"];
     const aboutMeRef = sectionRefs.aboutMe;
@@ -47,14 +39,14 @@ export default function Home() {
     return (
         <main>
             <div className="flex flex-col gap-20 justify-center items-center h-screen -mt-28 lg:-mt-24 sm:mb-[18vh] mb-[12vh]">
-                <hgroup className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2">
                     {headerWords.map((word, index) => (
                         <AnimatedHeader key={word} text={word} delay={index * 0.25} />
                     ))}
                     <AP className="text-center" delay={0.75}>
                         Want to bring a website to life? I could help you with that.
                     </AP>
-                </hgroup>
+                </div>
                 <Button
                     onClick={() => {
                         window.scrollTo({
@@ -365,9 +357,9 @@ function ContactForm({ marginBottom }: { marginBottom?: number }) {
             </div>
             {/* Right side */}
             <form className="grid grid-cols-1 grid-flow-row place-content-center gap-2 lg:w-1/2 w-full">
-                <Input type="text" name="name" id="name" placeholder="John Doe" />
+                <input className="inpt" type="text" name="name" id="name" placeholder="John Doe" />
 
-                <Input type="email" name="email" id="email" placeholder="johndoe2@gmail.com" />
+                <input className="inpt" type="email" name="email" id="email" placeholder="johndoe2@gmail.com" />
 
                 <textarea
                     className="inpt"
@@ -480,7 +472,7 @@ const AP = forwardRef<HTMLParagraphElement, HTMLMotionProps<"p"> & AnimatedParag
         };
 
         return (
-            <span ref={ref} className={`overflow-hidden block`}>
+            <div ref={ref} className={`overflow-hidden block`}>
                 <motion.p
                     ref={fref}
                     {...rest}
@@ -491,7 +483,7 @@ const AP = forwardRef<HTMLParagraphElement, HTMLMotionProps<"p"> & AnimatedParag
                     animate={isInView ? "visible" : "hidden"}>
                     {children}
                 </motion.p>
-            </span>
+            </div>
         );
     }
 );
@@ -692,7 +684,7 @@ function Card({
             {/* Card image overlay */}
             <div className="absolute w-full h-full group-data-[isactive=true]:bg-black/75 group-data-[isactive=false]:bg-black/90 -z-[1] transition-all rounded-sm" />
             {/* Card text */}
-            <figcaption className="flex flex-col w-full h-full justify-center items-center p-2">
+            <div className="flex flex-col w-full h-full justify-center items-center p-2">
                 <h3
                     className={
                         openSans.className +
@@ -750,7 +742,7 @@ function Card({
                         </button>
                     </div>
                 </div>
-            </figcaption>
+            </div>
         </div>
     );
 }
@@ -1105,11 +1097,12 @@ function SocialCard({
             style={{
                 boxShadow: "-4px 5px 0px 2px rgba(0,0,0,0.25)",
             }}>
-            <div className="w-24 h-24 flex justify-center items-center">{icon}</div>
-            <p className="tracking-tighter group-hover:font-bold transition-all duration-200">
+            {/* change div -> span because button cannot contain block elements */}
+            <span className="w-24 h-24 flex justify-center items-center">{icon}</span>
+            <span className="tracking-tighter group-hover:font-bold transition-all duration-200">
                 {main}
                 <span className="font-normal text-xs opacity-50">{end}</span>
-            </p>
+            </span>
         </button>
     );
 }
@@ -1135,8 +1128,4 @@ const Button = forwardRef<HTMLButtonElement, ComponentProps<"button"> & ButtonPr
             {children}
         </button>
     );
-});
-
-const Input = forwardRef<HTMLInputElement, ComponentProps<"input">>(function Input({ className, ...rest }, ref) {
-    return <input ref={ref} {...rest} className={`inpt ${className}`} />;
 });

@@ -1,6 +1,6 @@
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, usePresence } from "framer-motion";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import { sectionRefs } from "./page";
+import { motion, AnimatePresence, useMotionValue, useSpring, usePresence } from "framer-motion";
+import { forwardRef, useEffect, useRef, useState, useContext } from "react";
+import { SectionRefs } from "./context";
 
 export default function MenuDropDown() {
     const [focusedMenuItem, _setFocusedMenuItem] = useState<string>("");
@@ -11,6 +11,7 @@ export default function MenuDropDown() {
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [menuSection, _setMenuSection] = useState<"main" | "experience" | "contact">("main");
 
+    const sectionRefs = useContext(SectionRefs);
     const scrollTo = (ref: React.RefObject<HTMLElement>) => {
         window.scrollTo({
             top: ref.current!.offsetTop - (window.innerWidth > 1024 ? 96 : 80),
@@ -26,7 +27,7 @@ export default function MenuDropDown() {
     // Everytime menu section is changed, reset focused menu item to empty string
     const setMenuSection = (section: "main" | "experience" | "contact") => {
         _setMenuSection(section);
-        _setFocusedMenuItem("");
+        setFocusedMenuItem("");
     };
 
     const closeOnOutsideClick = (e: MouseEvent) => {
@@ -42,12 +43,17 @@ export default function MenuDropDown() {
         if (e.key === "ArrowDown" || e.key === "ArrowUp") {
             // Listeners are trapped to the initial render, no access to updated state. https://stackoverflow.com/questions/55265255/react-usestate-hook-event-handler-using-initial-state
             if (isOpen) {
-                console.log("Current ref value", focusedMenuRef.current);
                 // Prevent scrolling
                 e.preventDefault();
+                // // Only do the work when focusedMenuItem is empty, other work being handled by handleKeyDown in MenuItem component
                 if (focusedMenuRef.current === "") {
-                    // Set focus to first menu item
-                    (dropdownRef.current?.firstElementChild?.firstElementChild as HTMLElement)?.focus();
+                    // Just focus on first menu item
+                    const transformStyle = window
+                        .getComputedStyle(dropdownRef.current?.firstElementChild as HTMLElement)
+                        .getPropertyValue("transform");
+                    const isAnimating = transformStyle !== "none";
+                    // Don't focus if menu is being animated
+                    if (!isAnimating) (dropdownRef.current?.firstElementChild?.firstElementChild as HTMLElement)?.focus();
                 }
             }
         }
@@ -65,6 +71,7 @@ export default function MenuDropDown() {
         }
     };
 
+    // Add listeners for closing on outside click, escape key, and trapping focus
     useEffect(() => {
         document.addEventListener("click", closeOnOutsideClick);
         document.addEventListener("keydown", closeOrTrapFocus);
@@ -84,11 +91,6 @@ export default function MenuDropDown() {
         if (openedWithKB) (dropdownRef.current?.firstElementChild?.firstElementChild as HTMLElement)?.focus();
         if (!isOpen) setOpenedWithKB(false);
     }, [openedWithKB, isOpen]);
-
-    // Debugging
-    // useEffect(() => {
-    //     console.log("Focused menu item is", focusedMenuItem);
-    // }, [focusedMenuItem]);
 
     const giveFocus = (menuItem: string) => {
         setFocusedMenuItem(menuItem);
@@ -121,7 +123,7 @@ export default function MenuDropDown() {
                     <MenuWrapper mainMenu={menuSection === "main"} ref={dropdownRef} key="menu-wrapper">
                         <AnimatePresence>
                             {menuSection === "main" && (
-                                <InnerWrapper fadeTo="left" key="inner-wrapper-main">
+                                <InnerWrapper id="inner-wrapper-main" fadeTo="left" key="inner-wrapper-main">
                                     <MenuItem
                                         isFirst
                                         isActive={focusedMenuItem === "About Me"}
@@ -211,6 +213,7 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
 ) {
     return (
         <motion.div
+            id="complete-menu-wrapper"
             ref={ref}
             initial={{
                 scale: 0,
@@ -247,7 +250,7 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
     );
 });
 
-function InnerWrapper({ fadeTo, children }: { fadeTo?: "left" | "right"; children: React.ReactNode }) {
+function InnerWrapper({ id, fadeTo, children }: { id?: string; fadeTo?: "left" | "right"; children: React.ReactNode }) {
     // https://www.framer.com/motion/animate-presence/#usepresence
     const [isPresent, safeToRemove] = usePresence();
 
@@ -255,12 +258,12 @@ function InnerWrapper({ fadeTo, children }: { fadeTo?: "left" | "right"; childre
     // Changed from initial / animate to style to allow graceful exit even mid animation
     const xDisplacement = fadeTo === "left" ? -200 : 200;
     const xCurrentInstant = useMotionValue(xDisplacement);
-    const xCurrent = useSpring(xCurrentInstant, {
+    const xCurrentSmooth = useSpring(xCurrentInstant, {
         damping: 20,
         mass: 0.1,
         stiffness: 200,
     });
-    const pointerEvents = useTransform(xCurrent, (x) => (x < 0.05 ? "auto" : "none"));
+    // const pointerEvents = useTransform(xCurrentSmooth, (x) => (x < 0.05 ? "auto" : "none"));
 
     useEffect(() => {
         // Set displacement to 0 as soon as menu is loaded into DOM for slide-in animation
@@ -278,9 +281,10 @@ function InnerWrapper({ fadeTo, children }: { fadeTo?: "left" | "right"; childre
 
     return (
         <motion.div
+            id={id}
             style={{
-                x: xCurrent,
-                pointerEvents,
+                x: xCurrentSmooth,
+                // pointerEvents,
             }}
             className="absolute p-2">
             {children}
@@ -304,13 +308,16 @@ function MenuItem({ isActive, onClick, giveFocus, isFirst, isLast, children, bac
             if (e.key === "ArrowDown" || e.key === "ArrowUp") {
                 // Prevent scrolling
                 // e.preventDefault(); Already done in parent component
+                // Don't do anything if being animated (parent's transform is none when not being animated)
+                if (e.currentTarget.parentElement!.style.transform !== "none") return;
+
                 // Set focus to next or previous sibling
                 if (e.key === "ArrowDown") {
                     if (isLast) (e.currentTarget.parentElement?.firstElementChild as HTMLElement)?.focus();
-                    else (e.currentTarget.nextSibling as HTMLElement)?.focus();
+                    else (e.currentTarget.nextElementSibling as HTMLElement)?.focus();
                 } else {
                     if (isFirst) (e.currentTarget.parentElement?.lastElementChild as HTMLElement)?.focus();
-                    else (e.currentTarget.previousSibling as HTMLElement)?.focus();
+                    else (e.currentTarget.previousElementSibling as HTMLElement)?.focus();
                 }
             }
             // Else if tab, only implement cycling through menu items
