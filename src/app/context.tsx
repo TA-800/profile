@@ -6,6 +6,7 @@ type sectionRefsType = {
     projects: React.MutableRefObject<HTMLDivElement | null>;
     socials: React.MutableRefObject<HTMLDivElement | null>;
     form: React.MutableRefObject<HTMLDivElement | null>;
+    credits: React.MutableRefObject<HTMLDivElement | null>;
 };
 
 export const SectionRefs = createContext<sectionRefsType>({
@@ -14,6 +15,7 @@ export const SectionRefs = createContext<sectionRefsType>({
     projects: { current: null },
     socials: { current: null },
     form: { current: null },
+    credits: { current: null },
 });
 
 /**

@@ -1,7 +1,7 @@
 "use client";
 
 import "./globals.css";
-import { Roboto_Mono } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import React, { forwardRef, useEffect, useRef } from "react";
 import ninjaPic from "../../public/ninja.png";
 import Image from "next/image";
@@ -9,7 +9,7 @@ import Image from "next/image";
 // Menu dropdown
 import MenuDropDown from "./dropdown";
 
-const robotoMono = Roboto_Mono({ subsets: ["latin"] });
+const openSans = Open_Sans({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     // For navbar shrink effect
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </head>
             <body
                 className={
-                    robotoMono.className +
+                    openSans.className +
                     ` bg-gray-900 text-gray-400
                         px-6 md:px-10 lg:px-32 mt-28 lg:mt-32 tracking-tight leading-relaxed`
                 }>
@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             {/* Name */}
                             <div className="flex flex-col">
                                 {/* T. A. */}
-                                <h1 className="text-xl font-bold">T. A.</h1>
+                                <span className="text-xl font-bold">T. A.</span>
                                 {/* TA-800 */}
                                 <span
                                     className={`w-fit grid grid-rows-[1fr] group-data-[shrink=true]:grid-rows-[0fr] transition-all duration-300 group-data-[shrink=false]:duration-700`}>

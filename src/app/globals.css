@@ -5,7 +5,7 @@
 @layer components {
     /* Base button style */
     .btn {
-        @apply flex flex-row gap-2 py-2 px-4 w-fit rounded-sm active:shadow-none active:-translate-x-[2px] active:translate-y-[2px]
+        @apply flex flex-row gap-2 py-2 px-4 w-fit tracking-tighter rounded-sm active:shadow-none active:-translate-x-[2px] active:translate-y-[2px]
             transition-all duration-100 ease-in-out;
     }
     /* Modifier */
@@ -36,6 +36,10 @@
 body,
 html {
     overflow-x: clip;
+}
+
+a {
+    @apply text-blue-500 hover:text-blue-600;
 }
 
 :root {

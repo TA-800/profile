@@ -25,8 +25,10 @@ import discordIconPic from "../../public/discord-mark-blue.png";
 
 // Title Font
 import { Open_Sans } from "next/font/google";
+import { Roboto_Mono } from "next/font/google";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
+const robotoMono = Roboto_Mono({ subsets: ["latin"] });
 
 export default function Home() {
     const sectionRefs = useContext(SectionRefs);
@@ -64,17 +66,11 @@ export default function Home() {
             {/* About Me */}
             <Section ref={aboutMeRef} className="relative">
                 <MarqueeHeader title="About Me" headerDelay={0}>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6 scale-[2]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 scale-[2]">
                         <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                            fillRule="evenodd"
+                            d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                            clipRule="evenodd"
                         />
                     </svg>
                 </MarqueeHeader>
@@ -170,17 +166,11 @@ export default function Home() {
             {/* Experience */}
             <Section ref={experienceRef}>
                 <MarqueeHeader title="Experience" headerDelay={Math.random() * 1.5}>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6 scale-[2]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 scale-[2]">
                         <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"
+                            fillRule="evenodd"
+                            d="M3 6a3 3 0 013-3h12a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm4.5 7.5a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0v-2.25a.75.75 0 01.75-.75zm3.75-1.5a.75.75 0 00-1.5 0v4.5a.75.75 0 001.5 0V12zm2.25-3a.75.75 0 01.75.75v6.75a.75.75 0 01-1.5 0V9.75A.75.75 0 0113.5 9zm3.75-1.5a.75.75 0 00-1.5 0v9a.75.75 0 001.5 0v-9z"
+                            clipRule="evenodd"
                         />
                     </svg>
                 </MarqueeHeader>
@@ -283,18 +273,9 @@ export default function Home() {
             {/* Contact */}
             <Section ref={contactRef}>
                 <MarqueeHeader title="Contact Me" headerDelay={Math.random() * 1.5}>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6 scale-[2]">
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"
-                        />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 scale-[2]">
+                        <path d="M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 00-1.032-.211 50.89 50.89 0 00-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 002.433 3.984L7.28 21.53A.75.75 0 016 21v-4.03a48.527 48.527 0 01-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979z" />
+                        <path d="M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 001.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0015.75 7.5z" />
                     </svg>
                 </MarqueeHeader>
                 <br />
@@ -324,7 +305,75 @@ export default function Home() {
                 <br />
                 <ContactForm />
             </Section>
+            <Section ref={sectionRefs.credits}>
+                <MarqueeHeader title="Credits" headerDelay={Math.random() * 1.5}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 scale-[2]">
+                        <path
+                            fillRule="evenodd"
+                            d="M1.5 6.375c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v3.026a.75.75 0 01-.375.65 2.249 2.249 0 000 3.898.75.75 0 01.375.65v3.026c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 011.5 17.625v-3.026a.75.75 0 01.374-.65 2.249 2.249 0 000-3.898.75.75 0 01-.374-.65V6.375zm15-1.125a.75.75 0 01.75.75v.75a.75.75 0 01-1.5 0V6a.75.75 0 01.75-.75zm.75 4.5a.75.75 0 00-1.5 0v.75a.75.75 0 001.5 0v-.75zm-.75 3a.75.75 0 01.75.75v.75a.75.75 0 01-1.5 0v-.75a.75.75 0 01.75-.75zm.75 4.5a.75.75 0 00-1.5 0V18a.75.75 0 001.5 0v-.75zM6 12a.75.75 0 01.75-.75H12a.75.75 0 010 1.5H6.75A.75.75 0 016 12zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
+                            clipRule="evenodd"
+                        />
+                    </svg>
+                </MarqueeHeader>
+                <br />
+                <AP>
+                    All vector images and logos were taken from
+                    <Highlight space="left">Freepik</Highlight>, <Highlight space="left">Devicon</Highlight>, and
+                    <Highlight space="left">Heroicons</Highlight>.
+                </AP>
+                <br />
+                <AP className="grid grid-cols-3 sm:w-96 w-full gap-2">
+                    <Credited
+                        title="Volleyball"
+                        artist="Freepik"
+                        link="https://www.freepik.com/free-vector/hand-drawn-volleyball-silhouette_26412322.htm#query=volleyball%20player&position=37&from_view=search&track=ais"
+                    />
+                    <Credited
+                        title="Ninja"
+                        artist="Freepik"
+                        link="https://www.freepik.com/free-vector/linear-flat-ninja-logo-template_15478197.htm#page=3&query=ninja&position=21&from_view=search&track=sph"
+                    />
+                    <Credited
+                        title="Joystick"
+                        artist="catalyststuff"
+                        onFreePik
+                        link="https://www.freepik.com/free-vector/joystick-game-sport-technology_10549680.htm#query=game&position=4&from_view=search&track=sph"
+                    />
+                    <Credited
+                        title="Laptop"
+                        artist="storyset"
+                        onFreePik
+                        link="https://www.freepik.com/free-vector/code-typing-concept-illustration_10259340.htm#query=typing&position=0&from_view=search&track=sph"
+                    />
+                    <Credited title="Logos" artist="Devicons" leadingText="Logos by " link="https://devicon.dev/" />
+                </AP>
+            </Section>
         </main>
+    );
+}
+
+function Credited({
+    title,
+    artist,
+    onFreePik,
+    leadingText,
+    link,
+}: {
+    title: string;
+    artist: string;
+    onFreePik?: true;
+    leadingText?: string;
+    link: string;
+}) {
+    return (
+        <>
+            <span className="col-span-1 text-gray-300">{title}</span>
+            <span className="col-span-2">
+                <span className="opacity-50 text-sm">{leadingText ?? <>Image by </>}</span>
+                <a href={link}>{artist}</a>
+                {onFreePik && <span className="opacity-50 text-sm"> on Freepik</span>}
+            </span>
+        </>
     );
 }
 
@@ -501,9 +550,9 @@ function MarqueeHeader({ title, headerDelay, children }: { title: string; header
             }}>
             <div
                 className={
-                    openSans.className +
+                    robotoMono.className +
                     ` pb-4 border-b-2 border-b-white/5
-                         flex gap-[--gap] overflow-hidden tracking-wider transition-opacity duration-300`
+                         flex gap-[--gap] overflow-hidden tracking-tighter transition-opacity duration-300`
                 }>
                 {Array.from({ length: 3 }).map((_, index) => (
                     <motion.ul
@@ -550,8 +599,10 @@ const SubHeader = forwardRef<HTMLParagraphElement, ComponentProps<"p"> & { title
                 ref={ref}
                 {...rest}
                 className={
-                    openSans.className +
-                    ` text-3xl font-extrabold ${isInView ? "opacity-100" : "opacity-0"} transition-opacity duration-300`
+                    robotoMono.className +
+                    ` tracking-tighter text-3xl font-extrabold ${
+                        isInView ? "opacity-100" : "opacity-0"
+                    } transition-opacity duration-300`
                 }>
                 {title}
             </p>
@@ -1124,7 +1175,7 @@ const Button = forwardRef<HTMLButtonElement, ComponentProps<"button"> & ButtonPr
                     onClick?.(e);
                 }, 125);
             }}
-            className={`btn ${secondary ? "btn-secondary" : "btn-primary"} ${className}`}>
+            className={robotoMono.className + ` btn ${secondary ? "btn-secondary" : "btn-primary"} ${className}`}>
             {children}
         </button>
     );
