@@ -1,4 +1,4 @@
-import { motion, AnimatePresence, useMotionValue, useSpring, usePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring, usePresence, useTransform, LayoutGroup } from "framer-motion";
 import { forwardRef, useEffect, useRef, useState, useContext } from "react";
 import { SectionRefs } from "./context";
 
@@ -100,7 +100,8 @@ export default function MenuDropDown() {
         <div className="relative">
             {/* Menu trigger button */}
             <button
-                className="bg-gray-800 border-2 border-gray-700/25 rounded-sm p-2"
+                className={`bg-gray-800 border-2 border-gray-700/25 rounded-sm p-2 translate-x-[2px] -translate-y-[3px] 
+                            hover:bg-gray-700 hover:text-gray-300 active:-translate-x-0 active:translate-y-0 transition-all duration-200`}
                 onKeyDown={handleKeyDown}
                 onClick={() => {
                     setIsOpen(!isOpen);
@@ -123,7 +124,7 @@ export default function MenuDropDown() {
                     <MenuWrapper mainMenu={menuSection === "main"} ref={dropdownRef} key="menu-wrapper">
                         <AnimatePresence>
                             {menuSection === "main" && (
-                                <InnerWrapper id="inner-wrapper-main" fadeTo="left" key="inner-wrapper-main">
+                                <InnerWrapper fadeTo="left" key="inner-wrapper-main" id="inner-wrapper-main">
                                     <MenuItem
                                         isFirst
                                         isActive={focusedMenuItem === "About Me"}
@@ -146,13 +147,14 @@ export default function MenuDropDown() {
                                     <MenuItem
                                         isLast
                                         isActive={focusedMenuItem === "Credits"}
-                                        giveFocus={() => giveFocus("Credits")}>
+                                        giveFocus={() => giveFocus("Credits")}
+                                        onClick={() => scrollTo(sectionRefs.credits)}>
                                         Credits
                                     </MenuItem>
                                 </InnerWrapper>
                             )}
                             {menuSection === "experience" && (
-                                <InnerWrapper key="inner-wrapper-experience">
+                                <InnerWrapper key="inner-wrapper-experience" id="inner-wrapper-experience">
                                     <MenuItem
                                         isFirst
                                         isActive={focusedMenuItem === "Skills"}
@@ -176,7 +178,7 @@ export default function MenuDropDown() {
                                 </InnerWrapper>
                             )}
                             {menuSection === "contact" && (
-                                <InnerWrapper key="inner-wrapper-contact">
+                                <InnerWrapper key="inner-wrapper-contact" id="inner-wrapper-contact">
                                     <MenuItem
                                         isFirst
                                         isActive={focusedMenuItem === "Socials"}
@@ -250,7 +252,7 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
     );
 });
 
-function InnerWrapper({ id, fadeTo, children }: { id?: string; fadeTo?: "left" | "right"; children: React.ReactNode }) {
+function InnerWrapper({ id, fadeTo, children }: { id: string; fadeTo?: "left" | "right"; children: React.ReactNode }) {
     // https://www.framer.com/motion/animate-presence/#usepresence
     const [isPresent, safeToRemove] = usePresence();
 
@@ -259,11 +261,9 @@ function InnerWrapper({ id, fadeTo, children }: { id?: string; fadeTo?: "left" |
     const xDisplacement = fadeTo === "left" ? -200 : 200;
     const xCurrentInstant = useMotionValue(xDisplacement);
     const xCurrentSmooth = useSpring(xCurrentInstant, {
-        damping: 20,
-        mass: 0.1,
-        stiffness: 200,
+        mass: 0.25,
+        stiffness: 75,
     });
-    // const pointerEvents = useTransform(xCurrentSmooth, (x) => (x < 0.05 ? "auto" : "none"));
 
     useEffect(() => {
         // Set displacement to 0 as soon as menu is loaded into DOM for slide-in animation
@@ -275,20 +275,21 @@ function InnerWrapper({ id, fadeTo, children }: { id?: string; fadeTo?: "left" |
             xCurrentInstant.set(xDisplacement);
             setTimeout(() => {
                 safeToRemove();
-            }, 300);
+            }, 250);
         }
     }, [isPresent]);
 
     return (
-        <motion.div
-            id={id}
-            style={{
-                x: xCurrentSmooth,
-                // pointerEvents,
-            }}
-            className="absolute p-2">
-            {children}
-        </motion.div>
+        <LayoutGroup id={"layout-" + id}>
+            <motion.div
+                id={id}
+                style={{
+                    x: xCurrentSmooth,
+                }}
+                className="absolute p-2">
+                {children}
+            </motion.div>
+        </LayoutGroup>
     );
 }
 
@@ -301,10 +302,20 @@ type MenuItemProps = {
 } & ({ back?: never; children: React.ReactNode } | { back: true; children?: never });
 
 function MenuItem({ isActive, onClick, giveFocus, isFirst, isLast, children, back }: MenuItemProps) {
+    const [isBeingPressed, setIsBeingPressed] = useState(false);
+
     // Handle arrow up and down to navigate menu
     const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
         // Arrow up or down to navigate menu, simulate pressing tab to achieve the same effect
         if (isActive) {
+            // If enter or space, simulate active state of button
+            if (e.key === "Enter" || e.key === " ") {
+                setIsBeingPressed(true);
+                setTimeout(() => {
+                    setIsBeingPressed(false);
+                }, 150);
+            }
+
             if (e.key === "ArrowDown" || e.key === "ArrowUp") {
                 // Prevent scrolling
                 // e.preventDefault(); Already done in parent component
@@ -340,28 +351,50 @@ function MenuItem({ isActive, onClick, giveFocus, isFirst, isLast, children, bac
     };
 
     return (
-        <button
-            onClick={onClick}
+        // Changed button -> motion.button and added layout prop to motion.button
+        // to prevent glitchy initial active/hover animation transition: https://www.framer.com/motion/component/###layoutid
+        <motion.button
+            layout
+            onClick={() => {
+                if (onClick) {
+                    // Add artificial delay to allow animation to finish for better visual feedback
+                    setTimeout(() => {
+                        onClick();
+                    }, 150);
+                }
+            }}
             // giveFocus sets the focusedMenuItem state in the parent component
             onFocus={giveFocus}
             onMouseEnter={giveFocus}
+            onMouseDown={() => setIsBeingPressed(true)}
+            onMouseUp={() => setIsBeingPressed(false)}
+            onMouseLeave={() => setIsBeingPressed(false)}
             onKeyDown={handleKeyDown}
-            className={`w-full rounded-sm focus:outline-none border-gray-600 h-[50px]
-                ${isActive ? "bg-gray-700 border-[1px]" : "border-0"}`}>
+            className={`relative w-full rounded-sm focus:outline-none border-gray-600 h-[50px]
+                        ${isBeingPressed ? "text-gray-200" : ""}`}>
             {back && (
-                <>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6 ml-3">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
-                    </svg>
-                </>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6 ml-3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                </svg>
             )}
             {!back && children}
-        </button>
+            {isActive && (
+                <motion.span
+                    transition={{
+                        type: "spring",
+                        stiffness: 100,
+                        mass: 0.1,
+                    }}
+                    className="absolute top-0 left-0 h-full w-full bg-gray-700 rounded-sm -z-10"
+                    layoutId="active-menu-item"
+                />
+            )}
+        </motion.button>
     );
 }
