@@ -44,10 +44,10 @@ export default function Home() {
             <div className="flex flex-col gap-20 justify-center items-center h-screen -mt-28 lg:-mt-24 sm:mb-[18vh] mb-[12vh]">
                 <div className="flex flex-col gap-2">
                     {headerWords.map((word, index) => (
-                        <AnimatedHeader key={word} text={word} delay={index * 0.25} />
+                        <AnimatedHeader key={word} text={word} index={index} />
                     ))}
                     <AP className="text-center" delay={0.75}>
-                        Want to bring a website to life? I could help you with that.
+                        Want to bring a website to life? I can help you with that.
                     </AP>
                 </div>
                 <Button
@@ -442,7 +442,7 @@ function ContactForm({ marginBottom }: { marginBottom?: number }) {
     );
 }
 
-function AnimatedHeader({ text, delay }: { text: string; delay?: number }) {
+function AnimatedHeader({ text, index }: { text: string; index: number }) {
     const wordItem = {
         hidden: {
             y: "100%",
@@ -455,7 +455,7 @@ function AnimatedHeader({ text, delay }: { text: string; delay?: number }) {
     };
 
     return (
-        <div className={`flex flex-row overflow-hidden px-2 justify-center`}>
+        <div className="flex flex-row overflow-hidden px-2 justify-center">
             <motion.div
                 className={
                     openSans.className +
@@ -470,13 +470,11 @@ function AnimatedHeader({ text, delay }: { text: string; delay?: number }) {
                 initial="hidden"
                 animate="visible"
                 transition={{
-                    duration: 1 + (delay ? delay * 1.5 : 0),
-                    delay: delay ?? 0,
                     type: "spring",
-                    bounce: 0.3,
+                    delay: 0.5 + index * 0.5,
+                    duration: 1 + index * 0.5,
                     color: {
-                        duration: 1.5 + (delay ? delay * 1.5 : 0),
-                        delay: delay ?? 0,
+                        duration: 2.25,
                     },
                 }}>
                 {text}

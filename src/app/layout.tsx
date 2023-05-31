@@ -6,6 +6,8 @@ import React, { forwardRef, useEffect, useRef } from "react";
 import ninjaPic from "../../public/ninja.png";
 import Image from "next/image";
 
+import { motion, useScroll, useTransform } from "framer-motion";
+
 // Menu dropdown
 import MenuDropDown from "./dropdown";
 
@@ -79,6 +81,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 
 const NavBar = forwardRef<HTMLUListElement, { children: React.ReactNode }>(function NavBar({ children }, navRef) {
+    let { scrollYProgress } = useScroll();
+    let width = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
     return (
         <nav>
             <ul
@@ -91,6 +96,8 @@ const NavBar = forwardRef<HTMLUListElement, { children: React.ReactNode }>(funct
                             transition-[height] duration-700
                             group`}>
                 {children}
+                {/* Page scroll completion bar */}
+                <motion.div className="absolute bottom-0 left-0 h-1 bg-white/20" style={{ width }} />
             </ul>
         </nav>
     );
