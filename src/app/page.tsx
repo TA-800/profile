@@ -11,6 +11,8 @@ import {
     useMotionTemplate,
     useMotionValue,
 } from "framer-motion";
+import { useMeasure } from "react-use";
+import { UseMeasureRef } from "react-use/lib/useMeasure";
 
 import Image, { StaticImageData } from "next/image";
 // All vector images (freepik)
@@ -37,6 +39,8 @@ export default function Home() {
     const aboutMeRef = sectionRefs.aboutMe;
     const experienceRef = useRef<HTMLDivElement>(null);
     const contactRef = useRef<HTMLDivElement>(null);
+
+    const [resizeRef, { height }] = useMeasure<HTMLDivElement>();
 
     return (
         <main>
@@ -185,9 +189,12 @@ export default function Home() {
                 <SubHeader ref={sectionRefs.skills} title="Tools of the Trade" />
                 <br />
                 {/* Positioner of Skill-Grid */}
-                <div className="flex justify-center ">
-                    <SkillGrid expanded={skillsExpanded} />
-                </div>
+                <span>
+                    Height of Skill Grid: <span className="font-bold">{height}</span>
+                </span>
+                <motion.div animate={{ height }}>
+                    <SkillGrid ref={resizeRef} expanded={skillsExpanded} />
+                </motion.div>
                 <br />
                 {/* Expand skills button */}
                 <Button onClick={() => setSkillsExpanded(!skillsExpanded)}>
@@ -811,7 +818,7 @@ function Card({
     );
 }
 
-function SkillGrid({ expanded }: { expanded: boolean }) {
+const SkillGrid = forwardRef<HTMLDivElement, { expanded: boolean }>(function SkillGrid({ expanded }, ref) {
     return (
         <MotionConfig
             transition={{
@@ -824,7 +831,7 @@ function SkillGrid({ expanded }: { expanded: boolean }) {
                 type: "easeOut",
             }}>
             {/* Positioner of container */}
-            <div className="flex flex-col w-full items-center border-y-4 border-y-white/5">
+            <div ref={ref} className="flex flex-col w-full items-center border-y-4 border-y-white/5">
                 <motion.div className={`flex flex-row flex-wrap justify-center py-6 gap-6 max-w-xl`}>
                     <AnimatePresence>
                         <SkillCard key={`skill-HTML`} name="HTML">
@@ -1055,7 +1062,8 @@ function SkillGrid({ expanded }: { expanded: boolean }) {
             </div>
         </MotionConfig>
     );
-}
+});
+SkillGrid.displayName = "SkillGrid";
 
 function SkillCard({ name, size, children: icon }: { name: string; size?: "large" | "small"; children: React.ReactNode }) {
     // Default the size to large

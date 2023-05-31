@@ -100,8 +100,8 @@ export default function MenuDropDown() {
         <div className="relative">
             {/* Menu trigger button */}
             <button
-                className={`bg-gray-800 border-2 border-gray-700/25 rounded-sm p-2 translate-x-[2px] -translate-y-[3px] 
-                            hover:bg-gray-700 hover:text-gray-300 active:-translate-x-0 active:translate-y-0 transition-all duration-200`}
+                className={`bg-gray-800 border-2 border-gray-700/25 rounded-sm p-2 
+                            hover:bg-gray-700 hover:text-gray-300 active:-translate-x-[2px] active:translate-y-[2px] transition-all duration-200`}
                 onKeyDown={handleKeyDown}
                 onClick={() => {
                     setIsOpen(!isOpen);
@@ -383,7 +383,7 @@ function MenuItem({ isActive, onClick, giveFocus, isFirst, isLast, children, bac
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
                 </svg>
             )}
-            {!back && children}
+            {!back && <span>{children}</span>}
             {isActive && (
                 <motion.span
                     transition={{
