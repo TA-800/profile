@@ -46,7 +46,7 @@ export default function Home() {
                     {headerWords.map((word, index) => (
                         <AnimatedHeader key={word} text={word} index={index} />
                     ))}
-                    <AP className="text-center" delay={0.75}>
+                    <AP className="text-center" delay={0.35}>
                         Want to bring a website to life? I can help you with that.
                     </AP>
                 </div>
@@ -471,9 +471,10 @@ function AnimatedHeader({ text, index }: { text: string; index: number }) {
                 animate="visible"
                 transition={{
                     type: "spring",
+                    bounce: 0.4 / (index * 0.3 + 1),
                     delay: 0.5 + index * 0.5,
-                    duration: 1 + index * 0.5,
                     color: {
+                        type: "tween",
                         duration: 2.25,
                     },
                 }}>
@@ -816,26 +817,30 @@ function SkillGrid({ expanded }: { expanded: boolean }) {
     return (
         <MotionConfig
             transition={{
+                // Layout shifting animation
                 layout: {
-                    type: "spring",
-                    mass: 0.25,
-                    stiffness: 90,
+                    type: "tween",
+                    duration: 0.45,
+                    ease: "easeInOut",
                 },
-                duration: 0.25,
-                type: "easeOut",
+                // Logo expanding animation (delay if expanding to increase container height first)
+                delay: expanded ? 0.3 : 0,
+                type: "tween",
+                duration: 0.38,
+                ease: "easeInOut",
             }}>
-            {/* Positioner of container */}
             <motion.div
+                // Container height expanding / shrinking animation
                 transition={{
-                    type: "spring",
-                    mass: 0.25,
-                    stiffness: 90,
+                    type: "tween",
+                    duration: 0.5,
+                    ease: "easeInOut",
                 }}
                 animate={{ height }}
                 className="border-y-4 border-y-white/5">
+                {/* Positioner of container */}
                 <div ref={resizeRef} className="flex flex-col w-full items-center">
-                    <motion.div
-                        className={`flex flex-row flex-wrap justify-center pt-6 ${expanded ? "pb-6" : "pb-9"} gap-6 max-w-xl`}>
+                    <motion.div className={`flex flex-row flex-wrap justify-center pt-6 pb-9 gap-6 max-w-xl`}>
                         <AnimatePresence>
                             <SkillCard key={`skill-HTML`} name="HTML">
                                 <svg viewBox="0 0 128 128">
@@ -1012,12 +1017,18 @@ function SkillGrid({ expanded }: { expanded: boolean }) {
                         </AnimatePresence>
                     </motion.div>
 
-                    {/* Other skills */}
+                    {/* More skills */}
                     <AnimatePresence>
                         {expanded && (
-                            <motion.div className="flex flex-row flex-wrap justify-center gap-3 pb-9 max-w-xl">
+                            <motion.div className="flex flex-row flex-wrap justify-center gap-3 pb-9 -mt-4 max-w-xl">
                                 {/* Give p element full width so that flex-wrap gives it its own entire column */}
-                                <p className="w-full text-sm opacity-50 mb-2">More skills</p>
+                                <motion.p
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 0.5 }}
+                                    exit={{ opacity: 0 }}
+                                    className="w-full text-sm mb-2">
+                                    More skills
+                                </motion.p>
                                 <SkillCard name="Unity" size="small">
                                     <svg viewBox="0 0 128 128">
                                         <path
@@ -1083,9 +1094,9 @@ function SkillCard({ name, size, children: icon }: { name: string; size?: "large
     return (
         <motion.div
             layout="position"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
             className={`flex flex-col justify-center items-center gap-4
                          ${size === "large" ? " h-40 w-40 " : " h-28 w-28 "} bg-gray-800 border-2 border-gray-700
                          hover:text-gray-300 hover:border-gray-600
