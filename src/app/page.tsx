@@ -401,6 +401,42 @@ function ContactForm({ marginBottom }: { marginBottom?: number }) {
         once: true,
         margin: `0px 0px ${marginBottom ?? -75}px 0px`,
     });
+    // 0 -> not submitted, 1 -> submitting, 2 -> submitted, 3 -> web3form email service error, 4 -> fetch request error
+    const [submitted, setSubmitted] = useState("blank");
+
+    function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        setSubmitted("submitting");
+
+        // https://docs.web3forms.com/how-to-guides/html-and-javascript#javascript
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+
+        fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: json,
+        })
+            .then(async (response) => {
+                let res_json = await response.json();
+                console.log(res_json);
+                if (res_json.success) setSubmitted("success");
+                else setSubmitted("error");
+            })
+            .catch((error) => {
+                console.log(error);
+                setSubmitted("error");
+            })
+            .finally(() => {
+                // Reset the form
+                form.reset();
+            });
+    }
 
     return (
         <div
@@ -424,8 +460,7 @@ function ContactForm({ marginBottom }: { marginBottom?: number }) {
             </div>
             {/* Right side */}
             <form
-                action="https://api.web3forms.com/submit"
-                method="POST"
+                onSubmit={handleFormSubmit}
                 className="grid grid-cols-1 grid-flow-row place-content-center gap-2 lg:w-1/2 w-full">
                 <input type="hidden" name="access_key" value={process.env.WEBF_PAK} />
 
@@ -442,24 +477,63 @@ function ContactForm({ marginBottom }: { marginBottom?: number }) {
                     required
                 />
 
-                {/* https://docs.web3forms.com/how-to-guides/html-and-javascript#javascript
-                for custom redirect on form submit */}
                 <div className="flex justify-end">
-                    <Button type="submit">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-6 h-6">
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
-                            />
-                        </svg>
-                        Submit
+                    <Button
+                        disabled={submitted !== "blank"}
+                        type="submit"
+                        className={submitted === "submitted" ? "!text-green-400" : submitted === "error" ? "!text-red-400" : ""}>
+                        {/* Leading icons */}
+                        {submitted === "blank" && (
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6">
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                                />
+                            </svg>
+                        )}
+                        {submitted === "submitting" && (
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                className="w-6 h-6 animate-spin">
+                                <path
+                                    fillRule="evenodd"
+                                    d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                        )}
+                        {submitted === "success" && (
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                <path
+                                    fillRule="evenodd"
+                                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                        )}
+                        {submitted === "error" && (
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                <path
+                                    fillRule="evenodd"
+                                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                        )}
+                        {/* Text */}
+                        {submitted === "blank" && <span>Submit</span>}
+                        {submitted === "submitting" && <span>Submitting...</span>}
+                        {submitted === "success" && <span>Email submitted!</span>}
+                        {submitted === "error" && <span>Error! Retry later.</span>}
                     </Button>
                 </div>
             </form>
