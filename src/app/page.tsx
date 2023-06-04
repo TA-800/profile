@@ -422,10 +422,15 @@ function ContactForm({ marginBottom }: { marginBottom?: number }) {
                 </div>
             </div>
             {/* Right side */}
-            <form className="grid grid-cols-1 grid-flow-row place-content-center gap-2 lg:w-1/2 w-full">
-                <input className="inpt" type="text" name="name" id="name" placeholder="John Doe" />
+            <form
+                action="https://api.web3forms.com/submit"
+                method="POST"
+                className="grid grid-cols-1 grid-flow-row place-content-center gap-2 lg:w-1/2 w-full">
+                <input type="hidden" name="access_key" value={process.env.WEBF_PAK} />
 
-                <input className="inpt" type="email" name="email" id="email" placeholder="johndoe2@gmail.com" />
+                <input className="inpt" type="text" name="name" id="name" required placeholder="John Doe" />
+
+                <input className="inpt" type="email" name="email" id="email" required placeholder="johndoe2@gmail.com" />
 
                 <textarea
                     className="inpt"
@@ -433,10 +438,13 @@ function ContactForm({ marginBottom }: { marginBottom?: number }) {
                     name="message"
                     id="message"
                     placeholder="I want to discuss a work opportunity!"
+                    required
                 />
 
+                {/* https://docs.web3forms.com/how-to-guides/html-and-javascript#javascript
+                for custom redirect on form submit */}
                 <div className="flex justify-end">
-                    <Button type="button">
+                    <Button type="submit">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
