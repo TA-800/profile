@@ -324,7 +324,7 @@ export default function Home() {
                 <ContactForm />
             </Section>
             <Section ref={sectionRefs.credits}>
-                <MarqueeHeader numbering={4} title="Credits" headerDelay={Math.random() * 1.5}>
+                <MarqueeHeader numbering={4} title="Attribution" headerDelay={Math.random() * 1.5}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 scale-[2]">
                         <path
                             fillRule="evenodd"

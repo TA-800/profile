@@ -149,7 +149,7 @@ export default function MenuDropDown() {
                                         isActive={focusedMenuItem === "Credits"}
                                         giveFocus={() => giveFocus("Credits")}
                                         onClick={() => scrollTo(sectionRefs.credits)}>
-                                        Credits
+                                        Attribution
                                     </MenuItem>
                                 </InnerWrapper>
                             )}
