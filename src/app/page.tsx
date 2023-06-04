@@ -21,6 +21,7 @@ import eruditionPic from "../../public/erudition.png";
 import mousemagnetPic from "../../public/mousemagnet.png";
 import rtcappPic from "../../public/rtcapp.png";
 import wordlePic from "../../public/wordle.png";
+import discordBotPic from "../../public/discord_bot.png";
 import vbreceivePic from "../../public/vb_receive.png";
 import joystickPic from "../../public/joystick.png";
 import codeTypingPic from "../../public/codeTyping.png";
@@ -784,7 +785,7 @@ function CardCarousel() {
             </Card>
             <Card
                 gitLink="https://github.com/TA-800/Techio-DiscordBot-"
-                imgSrc={mousemagnetPic}
+                imgSrc={discordBotPic}
                 title="Discord Bot"
                 isactive={activeCard === 5}
                 onClick={() => setActiveCard(5)}>
