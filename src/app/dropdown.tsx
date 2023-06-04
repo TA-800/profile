@@ -252,6 +252,7 @@ const MenuWrapper = forwardRef<HTMLDivElement, { mainMenu?: boolean; children: R
     );
 });
 
+// UPDATE: Problem of layout shifts when entering / exiting could be fixed by using mode="wait" in AnimatePresence: https://stackoverflow.com/questions/71434254/how-to-prevent-content-jumping-in-framer-motion-animation-when-transitioning-bet
 function InnerWrapper({ id, fadeTo, children }: { id: string; fadeTo?: "left" | "right"; children: React.ReactNode }) {
     // https://www.framer.com/motion/animate-presence/#usepresence
     const [isPresent, safeToRemove] = usePresence();
@@ -262,6 +263,7 @@ function InnerWrapper({ id, fadeTo, children }: { id: string; fadeTo?: "left" | 
     const xCurrentInstant = useMotionValue(xDisplacement);
     const xCurrentSmooth = useSpring(xCurrentInstant, {
         mass: 0.25,
+        // stiffness: 75,
         stiffness: 75,
     });
 
@@ -354,7 +356,7 @@ function MenuItem({ isActive, onClick, giveFocus, isFirst, isLast, children, bac
         // Changed button -> motion.button and added layout prop to motion.button
         // to prevent glitchy initial active/hover animation transition: https://www.framer.com/motion/component/###layoutid
         <motion.button
-            layout
+            layout="size"
             onClick={() => {
                 if (onClick) {
                     // Add artificial delay to allow animation to finish for better visual feedback
@@ -391,7 +393,9 @@ function MenuItem({ isActive, onClick, giveFocus, isFirst, isLast, children, bac
                         stiffness: 100,
                         mass: 0.1,
                     }}
-                    className="absolute top-0 left-0 h-full w-full bg-gray-700 rounded-sm -z-10"
+                    className={`absolute top-0 left-0 h-full w-full rounded-sm -z-10 ${
+                        isBeingPressed ? "bg-gray-600" : "bg-gray-700"
+                    }`}
                     layoutId="active-menu-item"
                 />
             )}

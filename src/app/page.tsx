@@ -10,6 +10,8 @@ import {
     useInView,
     useMotionTemplate,
     useMotionValue,
+    useScroll,
+    useTransform,
 } from "framer-motion";
 import { useMeasure } from "react-use";
 
@@ -38,10 +40,23 @@ export default function Home() {
     const aboutMeRef = sectionRefs.aboutMe;
     const experienceRef = useRef<HTMLDivElement>(null);
     const contactRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll();
+    let parallax = useTransform(scrollYProgress, [0, 1], ["0%", "150%"]);
 
     return (
         <main>
             <div className="flex flex-col gap-20 justify-center items-center h-screen -mt-28 lg:-mt-24 sm:mb-[18vh] mb-[12vh]">
+                {/* Video */}
+                <motion.video
+                    style={{ y: parallax }}
+                    autoPlay
+                    muted
+                    loop
+                    className="absolute -z-20 top-20 lg:top-24 w-screen min-h-screen object-cover opacity-[0.15]">
+                    <source src={"background_vid.mp4"} type="video/mp4" />
+                </motion.video>
+
+                {/* Header */}
                 <div className="flex flex-col gap-2">
                     {headerWords.map((word, index) => (
                         <AnimatedHeader key={word} text={word} index={index} />
@@ -50,6 +65,7 @@ export default function Home() {
                         Want to bring a website to life? I can help you with that.
                     </AP>
                 </div>
+                {/* "Let's Talk!" button */}
                 <Button
                     onClick={() => {
                         window.scrollTo({
@@ -115,7 +131,7 @@ export default function Home() {
                 <AP>
                     I started my journey into web development almost a year ago, and I have been exploring the exciting world of
                     React for the past 5-6 months. Although I have experience with both frontend and backend development, my
-                    passion lies in creating beautiful and intuitive user interfaces.
+                    passion lies in creating minimalistic and responsive frontend designs.
                 </AP>
                 <br />
                 <AP>
@@ -674,10 +690,10 @@ function CardCarousel() {
                 Magnetic mouse and buttons that follow the cursor pleasantly.
             </Card>
             <Card imgSrc={wordlePic} title="Wordle Help" isactive={activeCard === 4} onClick={() => setActiveCard(4)}>
-                An Python bot to help you solve Wordle puzzles.
+                A Python bot to help you solve Wordle puzzles.
             </Card>
             <Card imgSrc={mousemagnetPic} title="Discord Bot" isactive={activeCard === 5} onClick={() => setActiveCard(5)}>
-                A Discord bot with many random features - word game, fetch YT vids and memes, etc.
+                An old Discord Python bot with many random features - word game, fetch YT vids, Reddit memes, etc.
             </Card>
         </div>
     );
