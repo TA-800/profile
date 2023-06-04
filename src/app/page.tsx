@@ -49,11 +49,12 @@ export default function Home() {
                 {/* Video */}
                 <motion.video
                     style={{ y: parallax }}
+                    poster="bg_vid_poster.png"
                     autoPlay
                     muted
                     loop
                     className="absolute -z-20 top-20 lg:top-24 w-screen min-h-screen object-cover opacity-[0.15]">
-                    <source src={"background_vid_VP8.webm"} type="video/mp4" />
+                    <source src={"background_vid.webm"} type="video/webm" />
                 </motion.video>
 
                 {/* Header */}
