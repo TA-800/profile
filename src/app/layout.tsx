@@ -101,7 +101,7 @@ const NavBar = forwardRef<HTMLUListElement, { children: React.ReactNode }>(funct
                             group`}>
                 {children}
                 {/* Page scroll completion bar */}
-                <motion.div
+                <motion.li
                     className="absolute bottom-0 left-0 h-1 bg-white/20"
                     style={{
                         width: useMotionTemplate`${widthSmooth}%`,

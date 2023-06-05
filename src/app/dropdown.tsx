@@ -100,6 +100,7 @@ export default function MenuDropDown() {
         <div className="relative">
             {/* Menu trigger button */}
             <button
+                name="Menu"
                 className={`bg-gray-800 border-2 border-gray-700/25 rounded-sm p-2 
                             hover:bg-gray-700 hover:text-gray-300 active:-translate-x-[2px] active:translate-y-[2px] transition-all duration-200`}
                 onKeyDown={handleKeyDown}
@@ -386,6 +387,7 @@ function MenuItem({ isActive, onClick, giveFocus, isFirst, isLast, children, bac
                 </svg>
             )}
             {!back && <span>{children}</span>}
+            {/* Menu item hover effect */}
             {isActive && (
                 <motion.span
                     transition={{
