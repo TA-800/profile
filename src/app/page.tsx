@@ -51,8 +51,9 @@ export default function Home() {
                 <motion.video
                     style={{ y: parallax }}
                     poster="bg_vid_poster.webp"
-                    autoPlay
                     muted
+                    autoPlay
+                    playsInline
                     loop
                     className="absolute -z-20 top-20 lg:top-24 w-screen min-h-screen object-cover opacity-[0.15]">
                     <source src={"background_vid.webm"} type="video/webm" />
