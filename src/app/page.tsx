@@ -1270,7 +1270,7 @@ function SocialGrid() {
         <div className="flex flex-col w-full items-center border-y-4 border-y-white/5">
             <div className="flex flex-row flex-wrap justify-center items-center lg:gap-6 gap-6 p-6 w-fit">
                 <SocialCard name="TA-800" link="https://github.com/TA-800">
-                    <svg viewBox="0 0 128 128">
+                    <svg viewBox="0 0 128 128" width="96px" height="96px">
                         <g fill="#181616">
                             <path
                                 fillRule="evenodd"
@@ -1281,7 +1281,7 @@ function SocialGrid() {
                     </svg>
                 </SocialCard>
                 <SocialCard name="Taher Ali" link="https://linkedin.com/in/ta800">
-                    <svg viewBox="0 0 128 128">
+                    <svg viewBox="0 0 128 128" width="96px" height="96px">
                         <path
                             fill="#0076b2"
                             d="M116 3H12a8.91 8.91 0 00-9 8.8v104.42a8.91 8.91 0 009 8.78h104a8.93 8.93 0 009-8.81V11.77A8.93 8.93 0 00116 3z"></path>
