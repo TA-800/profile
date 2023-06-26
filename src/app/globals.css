@@ -34,11 +34,25 @@
 }
 
 /* Thin scrollbar for every scrollable */
+/* Firefox */
 * {
     /* Reference: https://css-tricks.com/almanac/properties/s/scrollbar-gutter/ */
     scrollbar-gutter: stable;
     scrollbar-width: thin;
     scrollbar-color: #374151 #1f2937;
+}
+/* Works on Chrome, Edge, and Safari. Reference: https://stackoverflow.com/questions/66286943/how-to-make-vertical-scrollbar-thinner-and-get-rid-of-the-right-bottom-empty-spa */
+*::-webkit-scrollbar {
+    width: 8px;
+}
+*::-webkit-scrollbar-track {
+    background-color: #1f2937;
+}
+*::-webkit-scrollbar-thumb {
+    background-color: #374151;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #4b5563;
 }
 
 /* https://stackoverflow.com/a/59785731/8557499 */
