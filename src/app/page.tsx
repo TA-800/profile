@@ -20,6 +20,7 @@ import Image, { StaticImageData } from "next/image";
 import eruditionPic from "../../public/erudition.png";
 import mousemagnetPic from "../../public/mousemagnet.png";
 import rtcappPic from "../../public/rtcapp.png";
+import rttt from "../../public/rttt.png";
 import wordlePic from "../../public/wordle.png";
 import discordBotPic from "../../public/discord_bot.png";
 import vbreceivePic from "../../public/vb_receive.png";
@@ -777,7 +778,7 @@ function CardCarousel() {
                 title="Erudition"
                 isactive={activeCard === 1}
                 onClick={() => setActiveCard(1)}>
-                Web app for students to manage study materials and assignments, with Django backend.
+                Web app for students to manage study materials and assignments, with React and Django.
             </Card>
             <Card
                 gitLink="https://github.com/TA-800/rtc-app"
@@ -795,7 +796,16 @@ function CardCarousel() {
                 title="Mouse Magnet"
                 isactive={activeCard === 3}
                 onClick={() => setActiveCard(3)}>
-                Magnetic mouse and buttons that follow the cursor pleasantly.
+                Custom "magnetic" mouse element & buttons that follow the cursor pleasantly.
+            </Card>
+            <Card
+                gitLink="https://github.com/TA-800/realtime-tac-toe"
+                imgSrc={rttt}
+                link="https://realtime-tac-toe.onrender.com/"
+                title="RealTime-Tac-Toe"
+                isactive={activeCard === 6}
+                onClick={() => setActiveCard(6)}>
+                Real-time multiplayer tic-tac-toe game built with Express + Socket IO (websockets), and Vite (React).
             </Card>
             <Card
                 gitLink="https://github.com/TA-800/Wordle-Assistant"
