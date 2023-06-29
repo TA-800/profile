@@ -4,6 +4,7 @@ import "./globals.css";
 import { Open_Sans } from "next/font/google";
 import React, { forwardRef, useEffect, useRef } from "react";
 import ninjaPic from "../../public/ninja.png";
+import favicon from "../../public/favicon.png";
 import Image from "next/image";
 
 import { motion, useMotionTemplate, useScroll, useSpring, useTransform } from "framer-motion";
@@ -32,6 +33,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 {/* Meta tags */}
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <meta name="description" content="Taher Ali's portfolio." />
+                <meta name="keywords" content="Taher Ali, TA-800, TheWeakNinja, Portfolio, Profile" />
+                <link rel="icon" href={favicon.src} type="image/png" />
             </head>
             <body
                 className={

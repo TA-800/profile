@@ -88,7 +88,7 @@ export default function Home() {
             </div>
             {/* About Me */}
             <Section ref={aboutMeRef} className="relative">
-                <MarqueeHeader numbering={1} title="About Me" headerDelay={0}>
+                <MarqueeHeader numbering={1} title="About Me">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 scale-[2]">
                         <path
                             fillRule="evenodd"
@@ -136,9 +136,9 @@ export default function Home() {
                 </AP>
                 <br />
                 <AP>
-                    I started my journey into web development almost a year ago, and I have been exploring the exciting world of
-                    React for the past 5-6 months. Although I have experience with both frontend and backend development, my
-                    passion lies in creating minimalistic and responsive frontend designs.
+                    It's been almost a year since I started my journey into web development, and I have been exploring the world
+                    of React for the past 5-6 months. Although I have experience with both frontend and backend development, I
+                    found that my passion lies in creating minimalistic, intuitive and responsive frontend designs.
                 </AP>
                 <br />
                 <AP>
@@ -150,15 +150,11 @@ export default function Home() {
                 </AP>
                 <br />
                 <AP>
-                    When I&apos;m not coding, I enjoy listening to music, watching anime, making 2D animations with Flash /
-                    Animate, and playing video games and volleyball 🏐. These activities help me to stay inspired and motivated in
-                    my work.
+                    The other things I enjoy doing during my free time is listening to music 🎵, watching anime 📺, making 2D
+                    animations with Flash / Animate ✏️, and playing video games 🎮 and volleyball 🏐.
                 </AP>
                 <br />
-                <AP>
-                    Thank you for taking the time to get to know me a little better. I look forward to sharing my passion for web
-                    development with you!
-                </AP>
+                <AP>Thank you for taking the time to read about me. I hope you enjoy the rest of my portfolio!</AP>
 
                 {/* Positioner of images container */}
                 <div className="flex justify-center">
@@ -189,7 +185,7 @@ export default function Home() {
             </Section>
             {/* Experience */}
             <Section ref={experienceRef}>
-                <MarqueeHeader numbering={2} title="Experience" headerDelay={Math.random() * 1.5}>
+                <MarqueeHeader numbering={2} title="Experience">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 scale-[2]">
                         <path
                             fillRule="evenodd"
@@ -200,10 +196,10 @@ export default function Home() {
                 </MarqueeHeader>
                 <br />
                 <AP>
-                    As a web developer, I love to explore the possibilities that different software and frameworks offer to build
-                    a variety of projects. I&apos;m constantly on the lookout for new and creative ways to use these tools to
-                    create beautiful and functional web applications. Dive into this section of tools that I&apos;ve become
-                    proficient in, and the exciting projects I&apos;ve built with them.
+                    I love the variety of frameworks and tools out there that can be used to make web applications that one can
+                    envision. I&apos;m constantly on the lookout for new and creative ways to use these tools to create beautiful
+                    and functional websites. Here below is a section of tools that I&apos;ve become proficient in, and some
+                    exciting projects I&apos;ve built with them.
                 </AP>
                 <br />
                 <SubHeader ref={sectionRefs.skills} title="Tools of the Trade" />
@@ -279,7 +275,7 @@ export default function Home() {
                 </div>
                 <br />
                 <AP>
-                    I&apos;m always on the lookout for new web technologies to learn and master. Currently, I&apos;m diving into
+                    There will always be new web technologies for me to learn and master. Currently, I&apos;m diving into
                     <Highlight space="left">Docker</Highlight>,<Highlight space="left">Prisma</Highlight>, and CI/CD best
                     practices to streamline my development workflow and create more robust web applications.
                 </AP>
@@ -302,7 +298,7 @@ export default function Home() {
             </Section>
             {/* Contact */}
             <Section ref={contactRef}>
-                <MarqueeHeader numbering={3} title="Contact Me" headerDelay={Math.random() * 1.5}>
+                <MarqueeHeader numbering={3} title="Contact Me">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 scale-[2]">
                         <path d="M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 00-1.032-.211 50.89 50.89 0 00-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 002.433 3.984L7.28 21.53A.75.75 0 016 21v-4.03a48.527 48.527 0 01-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979z" />
                         <path d="M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 001.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0015.75 7.5z" />
@@ -310,17 +306,16 @@ export default function Home() {
                 </MarqueeHeader>
                 <br />
                 <AP>
-                    Do you have a project you want to collaborate on? Or maybe you just want to chat? Either way, I&apos;m always
-                    open to new opportunities and meeting new people. Feel free to reach out to me via any of my socials or
-                    through the contact form below.
+                    Do you have a project you want to collaborate with me on? Or maybe you just want to chat? Either way, please
+                    feel free to reach out to me via any of my socials or through the contact form below.
                 </AP>
                 <br />
                 <SubHeader ref={sectionRefs.socials} title="My Socials" />
                 <br />
                 <AP>
-                    Don&apos;t hesitate to reach out to me on any of my socials below for any work inquiries or project ideas. And
-                    if you just wanna say hi, feel free to hit me up on
-                    <Highlight space="left">Discord</Highlight>. You can{" "}
+                    Don&apos;t hesitate to contact me through any of my socials below for work inquiries or project ideas. If you
+                    just wanna say hi, you are welcome to message me on
+                    <Highlight space="left">Discord</Highlight>! You can{" "}
                     <span className="font-black uppercase underline">click</span> on the icons below to visit my social media
                     profiles.
                 </AP>
@@ -336,7 +331,7 @@ export default function Home() {
                 <ContactForm />
             </Section>
             <Section ref={sectionRefs.credits}>
-                <MarqueeHeader numbering={4} title="Attribution" headerDelay={Math.random() * 1.5}>
+                <MarqueeHeader numbering={4} title="Attribution">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 scale-[2]">
                         <path
                             fillRule="evenodd"
@@ -362,6 +357,11 @@ export default function Home() {
                         title="Ninja"
                         artist="Freepik"
                         link="https://www.freepik.com/free-vector/linear-flat-ninja-logo-template_15478197.htm#page=3&query=ninja&position=21&from_view=search&track=sph"
+                    />
+                    <Credited
+                        title="Shuriken"
+                        artist="Freepik"
+                        link="https://www.freepik.com/free-vector/traditional-ninja-star-collection-with-flat-design_2755362.htm#query=shuriken&position=40&from_view=search&track=sph"
                     />
                     <Credited
                         title="Joystick"
@@ -664,12 +664,11 @@ AP.displayName = "AP";
 function MarqueeHeader({
     title,
     numbering,
-    headerDelay,
+
     children,
 }: {
     title: string;
     numbering: number;
-    headerDelay: number;
     children?: React.ReactNode;
 }) {
     return (
@@ -678,7 +677,6 @@ function MarqueeHeader({
                 duration: 10,
                 repeat: Infinity,
                 ease: "linear",
-                delay: headerDelay,
             }}>
             <div
                 className={
@@ -698,10 +696,10 @@ function MarqueeHeader({
                             <li
                                 key={index}
                                 className="flex flex-row items-baseline gap-8 shrink-0 font-black text-gray-300 select-none debug-">
-                                <span>
+                                <h1>
                                     <span className="text-2xl text-blue-300 tracking-[-0.25rem]">{numbering}. </span>
                                     <span className="text-5xl">{title}</span>
-                                </span>
+                                </h1>
                                 <span className="-translate-y-1">{children}</span>
                             </li>
                         ))}
@@ -796,7 +794,7 @@ function CardCarousel() {
                 title="Mouse Magnet"
                 isactive={activeCard === 3}
                 onClick={() => setActiveCard(3)}>
-                Custom "magnetic" mouse element & buttons that follow the cursor pleasantly.
+                Custom &quot;magnetic&quot; mouse element & buttons that follow the cursor pleasantly.
             </Card>
             <Card
                 gitLink="https://github.com/TA-800/realtime-tac-toe"
