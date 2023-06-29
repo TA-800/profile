@@ -136,9 +136,9 @@ export default function Home() {
                 </AP>
                 <br />
                 <AP>
-                    It's been almost a year since I started my journey into web development, and I have been exploring the world
-                    of React for the past 5-6 months. Although I have experience with both frontend and backend development, I
-                    found that my passion lies in creating minimalistic, intuitive and responsive frontend designs.
+                    It&apos;s been almost a year since I started my journey into web development, and I have been exploring the
+                    world of React for the past 5-6 months. Although I have experience with both frontend and backend development,
+                    I found that my passion lies in creating minimalistic, intuitive and responsive frontend designs.
                 </AP>
                 <br />
                 <AP>
