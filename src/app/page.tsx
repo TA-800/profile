@@ -18,6 +18,7 @@ import { useMeasure } from "react-use";
 import Image, { StaticImageData } from "next/image";
 // All vector images (freepik)
 import eruditionPic from "../../public/erudition.png";
+import elementaryPic from "../../public/elementary.png";
 import mousemagnetPic from "../../public/mousemagnet.png";
 import rtcappPic from "../../public/rtcapp.png";
 import rttt from "../../public/rttt.png";
@@ -130,15 +131,13 @@ export default function Home() {
                 <br />
                 <AP>
                     Hello! My name is
-                    <Highlight space="left">Taher Ali</Highlight>, and I am an aspiring full-stack web developer currently
-                    studying in my second year at
+                    <Highlight space="left">Taher Ali</Highlight>, and I am an aspiring software developer currently
+                    studying in my third year at
                     <Highlight space="left">Wilfrid Laurier University</Highlight>.
                 </AP>
                 <br />
                 <AP>
-                    It&apos;s been almost a year since I started my journey into web development, and I have been exploring the
-                    world of React for the past 5-6 months. Although I have experience with both frontend and backend development,
-                    I found that my passion lies in creating minimalistic, intuitive and responsive frontend designs.
+                    I am an aspiring student in the field of software development. My initial focus was on web development, spending nearly a year delving into it. However, I have recently begun to explore the realm of C# and the .NET framework, eagerly building software applications and expanding my skill set. Despite my extensive experience, I find myself drawn towards the creation of minimalistic, intuitive, and responsive frontend designs, which I believe is where my true passion lies.
                 </AP>
                 <br />
                 <AP>
@@ -775,6 +774,15 @@ function CardCarousel() {
                 isactive={activeCard === 1}
                 onClick={() => setActiveCard(1)}>
                 Web app for students to manage study materials and assignments, with React and Django.
+            </Card>
+            <Card
+                gitLink="https://github.com/TA-800/Elementary"
+                imgSrc={elementaryPic}
+                link="https://github.com/TA-800/Elementary/releases/tag/v1.0.0"
+                title="Elementary"
+                isactive={activeCard === 7}
+                onClick={() => setActiveCard(7)}>
+                Desktop GUI app built in C# with .NET that displays elements of the periodic table, serving as a reference for students.
             </Card>
             <Card
                 gitLink="https://github.com/TA-800/rtc-app"
