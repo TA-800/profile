@@ -17,6 +17,7 @@ import { useMeasure } from "react-use";
 
 import Image, { StaticImageData } from "next/image";
 // All vector images (freepik)
+import loxppPic from "../../public/loxpp.png";
 import eruditionPic from "../../public/erudition.png";
 import elementaryPic from "../../public/elementary.png";
 import mousemagnetPic from "../../public/mousemagnet.png";
@@ -137,7 +138,7 @@ export default function Home() {
                 </AP>
                 <br />
                 <AP>
-                    I am an aspiring student in the field of software development. My initial focus was on web development, spending nearly a year delving into it. However, I have recently begun to explore the realm of C# and the .NET framework, eagerly building software applications and expanding my skill set. Despite my extensive experience, I find myself drawn towards the creation of minimalistic, intuitive, and responsive frontend designs, which I believe is where my true passion lies.
+                    I am an aspiring student in the field of software development. My initial focus was on web development, spending nearly a year delving into it. However, I have recently begun to explore the realm of C# and the .NET framework, eagerly building software applications and expanding my skill set. As I learn and explore, I realize that I find myself drawn towards software engineering - development of tools and libraries that serve as platforms on which other apps and results can be produced - which I believe is where my true passion lies.
                 </AP>
                 <br />
                 <AP>
@@ -767,6 +768,15 @@ function CardCarousel() {
             w-full
             border-y-4 border-y-white/5`}>
             <Card
+                gitLink="https://github.com/TA-800/Loxpp"
+                imgSrc={loxppPic}
+                link="https://github.com/TA-800/Loxpp/releases/tag/v1.0.0"
+                title="Lox++ Interpreter"
+                isactive={activeCard === 8}
+                onClick={() => setActiveCard(8)}>
+                Interpreter for a custom programming language built from scratch in C++. Scanning, parsing and generation of ASTs, code interpretation.
+            </Card>
+            <Card
                 gitLink="https://github.com/TA-800/Erudition-2"
                 imgSrc={eruditionPic}
                 link="https://eruditionh.vercel.app/"
@@ -794,6 +804,15 @@ function CardCarousel() {
                 Real-time chat web app built with React and Supabase.
             </Card>
             <Card
+                gitLink="https://github.com/TA-800/realtime-tac-toe"
+                imgSrc={rttt}
+                link="https://realtime-tac-toe.onrender.com/"
+                title="Realtime Tac Toe"
+                isactive={activeCard === 6}
+                onClick={() => setActiveCard(6)}>
+                Real-time multiplayer tic-tac-toe game built with Express + Socket IO (websockets), and Vite (React).
+            </Card>
+            <Card
                 gitLink="https://github.com/TA-800/Mouse-Magnet-Style-Chasing-Jutsu"
                 imgSrc={mousemagnetPic}
                 link="https://magnetic-mouse.vercel.app/"
@@ -803,18 +822,9 @@ function CardCarousel() {
                 Custom &quot;magnetic&quot; mouse element & buttons that follow the cursor pleasantly.
             </Card>
             <Card
-                gitLink="https://github.com/TA-800/realtime-tac-toe"
-                imgSrc={rttt}
-                link="https://realtime-tac-toe.onrender.com/"
-                title="RealTime-Tac-Toe"
-                isactive={activeCard === 6}
-                onClick={() => setActiveCard(6)}>
-                Real-time multiplayer tic-tac-toe game built with Express + Socket IO (websockets), and Vite (React).
-            </Card>
-            <Card
                 gitLink="https://github.com/TA-800/Wordle-Assistant"
                 imgSrc={wordlePic}
-                title="Wordle Help"
+                title="Wordle Helper"
                 isactive={activeCard === 4}
                 onClick={() => setActiveCard(4)}>
                 A Python bot to help you solve Wordle puzzles.
